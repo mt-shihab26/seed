@@ -1,33 +1,25 @@
-import HeadingSmall from '@/components/heading-small';
-import AppLayout from '@/components/layouts/app-layout';
-import TwoFactorRecoveryCodes from '@/components/two-factor-recovery-codes';
-import TwoFactorSetupModal from '@/components/two-factor-setup-modal';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { useTwoFactorAuth } from '@/hooks/use-two-factor-auth';
-import SettingsLayout from '@/layouts/settings/layout';
-import { disable, enable, show } from '@/routes/two-factor';
-import { type TBreadcrumb } from '@/types/props';
-import { Form, Head } from '@inertiajs/react';
-import { ShieldBan, ShieldCheck } from 'lucide-react';
+import { disable, enable } from '@/routes/settings/two-factor';
 import { useState } from 'react';
 
-interface TwoFactorProps {
-    requiresConfirmation?: boolean;
-    twoFactorEnabled?: boolean;
-}
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Form, Head } from '@inertiajs/react';
+import { ShieldBan, ShieldCheck } from 'lucide-react';
 
-const breadcrumbs: TBreadcrumb[] = [
-    {
-        title: 'Two-Factor Authentication',
-        href: show.url(),
-    },
-];
+import { HeadingSmall } from '@/components/elements/heading-small';
+import { TwoFactorRecoveryCodes } from '@/components/elements/two-factor-recovery-codes';
+import { TwoFactorSetupModal } from '@/components/elements/two-factor-setup-modal';
+import { AppLayout } from '@/components/layouts/app-layout';
+import { SettingsLayout } from '@/components/layouts/settings-layout';
 
-export default function TwoFactor({
+const TwoFactor = ({
     requiresConfirmation = false,
     twoFactorEnabled = false,
-}: TwoFactorProps) {
+}: {
+    requiresConfirmation?: boolean;
+    twoFactorEnabled?: boolean;
+}) => {
     const {
         qrCodeSvg,
         hasSetupData,
@@ -38,10 +30,22 @@ export default function TwoFactor({
         fetchRecoveryCodes,
         errors,
     } = useTwoFactorAuth();
+
     const [showSetupModal, setShowSetupModal] = useState<boolean>(false);
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
+        <AppLayout
+            breadcrumbs={[
+                {
+                    title: 'Settings',
+                    href: 'settings.redirect',
+                },
+                {
+                    title: 'Two-Factor Authentication',
+                    href: 'settings.two-factor.show',
+                },
+            ]}
+        >
             <Head title="Two-Factor Authentication" />
             <SettingsLayout>
                 <div className="space-y-6">
@@ -125,4 +129,6 @@ export default function TwoFactor({
             </SettingsLayout>
         </AppLayout>
     );
-}
+};
+
+export default TwoFactor;

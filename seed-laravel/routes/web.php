@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\TwoFactorAuthenticationController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
@@ -17,7 +18,7 @@ Route::prefix('/settings')->middleware('auth')->group(function () {
     Route::get('/password', [SettingController::class, 'editPassword'])->name('settings.password.edit');
     Route::put('/password', [SettingController::class, 'updatePassword'])->middleware('throttle:6,1')->name('settings.password.update');
 
-    Route::get('/two-factor', [SettingController::class, 'twoFactorShow'])->middleware('two-factor.password.confirm')->name('settings.two-factor.show');
+    Route::get('/two-factor', [TwoFactorAuthenticationController::class, 'show'])->name('settings.two-factor.show');
 
     Route::get('/appearance', [SettingController::class, 'editAppearance'])->name('settings.appearance.edit');
 });
