@@ -108,8 +108,7 @@ export default function NotesPage() {
 
         const matchesFolder = !selectedFolder || note.folder === selectedFolder;
         const matchesTags =
-            selectedTags.length === 0 ||
-            selectedTags.some((tag) => note.tags.includes(tag));
+            selectedTags.length === 0 || selectedTags.some((tag) => note.tags.includes(tag));
         const matchesFavorite = !showFavorites || note.favorited;
         const matchesArchived = showArchived ? note.archived : !note.archived;
         const matchesTrashed = showTrashed ? note.trashed : !note.trashed;
@@ -130,11 +129,7 @@ export default function NotesPage() {
     };
 
     const handleUpdateNote = (updatedNote: TNote) => {
-        setNotes(
-            notes.map((note) =>
-                note.id === updatedNote.id ? updatedNote : note,
-            ),
-        );
+        setNotes(notes.map((note) => (note.id === updatedNote.id ? updatedNote : note)));
         setSelectedNote(updatedNote);
     };
 
@@ -144,26 +139,18 @@ export default function NotesPage() {
     };
 
     const handleDelete = (id: string) => {
-        setNotes(
-            notes.map((note) =>
-                note.id === id ? { ...note, trashed: true } : note,
-            ),
-        );
+        setNotes(notes.map((note) => (note.id === id ? { ...note, trashed: true } : note)));
     };
 
     const toggleFavorite = (id: string) => {
         setNotes(
-            notes.map((note) =>
-                note.id === id ? { ...note, favorited: !note.favorited } : note,
-            ),
+            notes.map((note) => (note.id === id ? { ...note, favorited: !note.favorited } : note)),
         );
     };
 
     const toggleArchive = (id: string) => {
         setNotes(
-            notes.map((note) =>
-                note.id === id ? { ...note, archived: !note.archived } : note,
-            ),
+            notes.map((note) => (note.id === id ? { ...note, archived: !note.archived } : note)),
         );
     };
 
@@ -180,9 +167,7 @@ export default function NotesPage() {
                     <div className="flex h-16 items-center justify-between">
                         <Link href="/notes" className="flex items-center gap-2">
                             <Sprout className="h-6 w-6 text-accent" />
-                            <span className="text-xl font-semibold text-foreground">
-                                Seed
-                            </span>
+                            <span className="text-xl font-semibold text-foreground">Seed</span>
                         </Link>
                         <UserNav />
                     </div>
@@ -199,11 +184,7 @@ export default function NotesPage() {
                             </h3>
                             <div className="space-y-1">
                                 <Button
-                                    variant={
-                                        selectedFolder === null
-                                            ? 'secondary'
-                                            : 'ghost'
-                                    }
+                                    variant={selectedFolder === null ? 'secondary' : 'ghost'}
                                     className="w-full justify-start"
                                     onClick={() => setSelectedFolder(null)}
                                 >
@@ -212,15 +193,9 @@ export default function NotesPage() {
                                 {folders.map((folder) => (
                                     <Button
                                         key={folder}
-                                        variant={
-                                            selectedFolder === folder
-                                                ? 'secondary'
-                                                : 'ghost'
-                                        }
+                                        variant={selectedFolder === folder ? 'secondary' : 'ghost'}
                                         className="w-full justify-start"
-                                        onClick={() =>
-                                            setSelectedFolder(folder)
-                                        }
+                                        onClick={() => setSelectedFolder(folder)}
                                     >
                                         {folder}
                                     </Button>
@@ -237,11 +212,7 @@ export default function NotesPage() {
                                 {allTags.map((tag) => (
                                     <Badge
                                         key={tag}
-                                        variant={
-                                            selectedTags.includes(tag)
-                                                ? 'default'
-                                                : 'outline'
-                                        }
+                                        variant={selectedTags.includes(tag) ? 'default' : 'outline'}
                                         className="cursor-pointer"
                                         onClick={() => toggleTagFilter(tag)}
                                     >
@@ -257,33 +228,23 @@ export default function NotesPage() {
                             </h3>
                             <div className="space-y-1">
                                 <Button
-                                    variant={
-                                        showFavorites ? 'secondary' : 'ghost'
-                                    }
+                                    variant={showFavorites ? 'secondary' : 'ghost'}
                                     className="w-full justify-start"
-                                    onClick={() =>
-                                        setShowFavorites(!showFavorites)
-                                    }
+                                    onClick={() => setShowFavorites(!showFavorites)}
                                 >
                                     <Star className="mr-2 h-4 w-4" />
                                     Favorites
                                 </Button>
                                 <Button
-                                    variant={
-                                        showArchived ? 'secondary' : 'ghost'
-                                    }
+                                    variant={showArchived ? 'secondary' : 'ghost'}
                                     className="w-full justify-start"
-                                    onClick={() =>
-                                        setShowArchived(!showArchived)
-                                    }
+                                    onClick={() => setShowArchived(!showArchived)}
                                 >
                                     <Archive className="mr-2 h-4 w-4" />
                                     Archived
                                 </Button>
                                 <Button
-                                    variant={
-                                        showTrashed ? 'secondary' : 'ghost'
-                                    }
+                                    variant={showTrashed ? 'secondary' : 'ghost'}
                                     className="w-full justify-start"
                                     onClick={() => setShowTrashed(!showTrashed)}
                                 >
@@ -309,18 +270,12 @@ export default function NotesPage() {
                         </div>
                         <div className="flex gap-2">
                             <DropdownMenu>
-                                <DropdownMenuTrigger
-                                    asChild
-                                    className="lg:hidden"
-                                >
+                                <DropdownMenuTrigger asChild className="lg:hidden">
                                     <Button variant="outline" size="icon">
                                         <Filter className="h-4 w-4" />
                                     </Button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent
-                                    align="end"
-                                    className="w-56"
-                                >
+                                <DropdownMenuContent align="end" className="w-56">
                                     <DropdownMenuCheckboxItem
                                         checked={showFavorites}
                                         onCheckedChange={setShowFavorites}
@@ -346,9 +301,7 @@ export default function NotesPage() {
                                     {folders.map((folder) => (
                                         <DropdownMenuItem
                                             key={folder}
-                                            onClick={() =>
-                                                setSelectedFolder(folder)
-                                            }
+                                            onClick={() => setSelectedFolder(folder)}
                                         >
                                             <Folder className="mr-2 h-4 w-4" />
                                             {folder}
@@ -356,9 +309,7 @@ export default function NotesPage() {
                                     ))}
                                 </DropdownMenuContent>
                             </DropdownMenu>
-                            <Button
-                                onClick={() => setIsNewNoteDialogOpen(true)}
-                            >
+                            <Button onClick={() => setIsNewNoteDialogOpen(true)}>
                                 <Plus className="mr-2 h-4 w-4" />
                                 New Note
                             </Button>
@@ -379,9 +330,7 @@ export default function NotesPage() {
                                     : 'Start by creating your first note'}
                             </p>
                             {!searchQuery && (
-                                <Button
-                                    onClick={() => setIsNewNoteDialogOpen(true)}
-                                >
+                                <Button onClick={() => setIsNewNoteDialogOpen(true)}>
                                     <Plus className="mr-2 h-4 w-4" />
                                     Create Note
                                 </Button>
@@ -421,9 +370,7 @@ export default function NotesPage() {
 
                                     <div className="flex items-center justify-between">
                                         <span className="text-xs text-muted-foreground">
-                                            {new Date(
-                                                note.updated_at,
-                                            ).toLocaleDateString()}
+                                            {new Date(note.updated_at).toLocaleDateString()}
                                         </span>
                                         <div className="flex gap-1 opacity-0 transition-opacity group-hover:opacity-100">
                                             <Button

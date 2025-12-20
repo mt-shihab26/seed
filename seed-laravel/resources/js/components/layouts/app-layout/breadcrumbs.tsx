@@ -12,11 +12,7 @@ import type { TBreadcrumb } from '@/types/utils';
 import { Link } from '@inertiajs/react';
 import { Fragment } from 'react';
 
-export const Breadcrumbs = ({
-    breadcrumbs,
-}: {
-    breadcrumbs: TBreadcrumb[];
-}) => {
+export const Breadcrumbs = ({ breadcrumbs }: { breadcrumbs: TBreadcrumb[] }) => {
     return (
         <>
             {breadcrumbs.length > 0 && (
@@ -28,14 +24,10 @@ export const Breadcrumbs = ({
                                 <Fragment key={index}>
                                     <BreadcrumbItem>
                                         {isLast ? (
-                                            <BreadcrumbPage>
-                                                {item.title}
-                                            </BreadcrumbPage>
+                                            <BreadcrumbPage>{item.title}</BreadcrumbPage>
                                         ) : (
                                             <BreadcrumbLink asChild>
-                                                <Link href={item.href}>
-                                                    {item.title}
-                                                </Link>
+                                                <Link href={item.href}>{item.title}</Link>
                                             </BreadcrumbLink>
                                         )}
                                     </BreadcrumbItem>

@@ -10,20 +10,9 @@ import {
     NavigationMenuList,
 } from '@/components/ui/navigation-menu';
 
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
-import {
-    Sheet,
-    SheetContent,
-    SheetHeader,
-    SheetTitle,
-    SheetTrigger,
-} from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 
 import type { TShared } from '@/types/props';
 import type { TBreadcrumb, TLink } from '@/types/utils';
@@ -65,14 +54,9 @@ const rightLinks: TLink[] = [
     },
 ];
 
-const activeLinkClassName =
-    'text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100';
+const activeLinkClassName = 'text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100';
 
-export const Header = ({
-    breadcrumbs = [],
-}: {
-    breadcrumbs?: TBreadcrumb[];
-}) => {
+export const Header = ({ breadcrumbs = [] }: { breadcrumbs?: TBreadcrumb[] }) => {
     const { url, props } = usePage<TShared>();
 
     return (
@@ -95,9 +79,7 @@ export const Header = ({
                                 side="left"
                                 className="flex h-full w-64 flex-col items-stretch justify-between bg-sidebar"
                             >
-                                <SheetTitle className="sr-only">
-                                    Navigation Menu
-                                </SheetTitle>
+                                <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
                                 <SheetHeader className="flex justify-start text-left">
                                     <AppLogoIcon className="h-6 w-6 fill-current text-black dark:text-white" />
                                 </SheetHeader>
@@ -146,11 +128,7 @@ export const Header = ({
                         </Sheet>
                     </div>
 
-                    <Link
-                        href={dashboard()}
-                        prefetch
-                        className="flex items-center space-x-2"
-                    >
+                    <Link href={dashboard()} prefetch className="flex items-center space-x-2">
                         <AppLogo />
                     </Link>
 
@@ -167,18 +145,13 @@ export const Header = ({
                                             href={item.href}
                                             className={cn(
                                                 navigationMenuTriggerStyle(),
-                                                isSameUrl(
-                                                    page.url,
-                                                    item.href,
-                                                ) && activeLinkClassName,
+                                                isSameUrl(page.url, item.href) &&
+                                                    activeLinkClassName,
                                                 'h-9 cursor-pointer px-3',
                                             )}
                                         >
                                             {item.icon && (
-                                                <Icon
-                                                    node={item.icon}
-                                                    className="mr-2 h-4 w-4"
-                                                />
+                                                <Icon node={item.icon} className="mr-2 h-4 w-4" />
                                             )}
                                             {item.title}
                                         </Link>
@@ -202,10 +175,7 @@ export const Header = ({
                             </Button>
                             <div className="hidden lg:flex">
                                 {rightLinks.map((item) => (
-                                    <TooltipProvider
-                                        key={item.title}
-                                        delayDuration={0}
-                                    >
+                                    <TooltipProvider key={item.title} delayDuration={0}>
                                         <Tooltip>
                                             <TooltipTrigger>
                                                 <a
@@ -214,9 +184,7 @@ export const Header = ({
                                                     rel="noopener noreferrer"
                                                     className="group ml-1 inline-flex h-9 w-9 items-center justify-center rounded-md bg-transparent p-0 text-sm font-medium text-accent-foreground ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
                                                 >
-                                                    <span className="sr-only">
-                                                        {item.title}
-                                                    </span>
+                                                    <span className="sr-only">{item.title}</span>
                                                     {item.icon && (
                                                         <Icon
                                                             node={item.icon}
@@ -235,15 +203,9 @@ export const Header = ({
                         </div>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button
-                                    variant="ghost"
-                                    className="size-10 rounded-full p-1"
-                                >
+                                <Button variant="ghost" className="size-10 rounded-full p-1">
                                     <Avatar className="size-8 overflow-hidden rounded-full">
-                                        <AvatarImage
-                                            src={auth.user.avatar}
-                                            alt={auth.user.name}
-                                        />
+                                        <AvatarImage src={auth.user.avatar} alt={auth.user.name} />
                                         <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
                                             {getInitials(auth.user.name)}
                                         </AvatarFallback>

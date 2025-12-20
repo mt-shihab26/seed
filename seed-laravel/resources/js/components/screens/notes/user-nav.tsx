@@ -24,25 +24,15 @@ interface UserNavProps {
     };
 }
 
-export function UserNav({
-    user = { name: 'John Doe', email: 'john@example.com' },
-}: UserNavProps) {
+export function UserNav({ user = { name: 'John Doe', email: 'john@example.com' } }: UserNavProps) {
     const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
     useEffect(() => {
-        const savedTheme = localStorage.getItem('theme') as
-            | 'light'
-            | 'dark'
-            | null;
-        const prefersDark = window.matchMedia(
-            '(prefers-color-scheme: dark)',
-        ).matches;
+        const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
         setTheme(initialTheme);
-        document.documentElement.classList.toggle(
-            'dark',
-            initialTheme === 'dark',
-        );
+        document.documentElement.classList.toggle('dark', initialTheme === 'dark');
     }, []);
 
     const toggleTheme = () => {
@@ -68,15 +58,9 @@ export function UserNav({
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button
-                    variant="ghost"
-                    className="relative h-9 w-9 rounded-full"
-                >
+                <Button variant="ghost" className="relative h-9 w-9 rounded-full">
                     <Avatar className="h-9 w-9 border-2 border-accent/20">
-                        <AvatarImage
-                            src={user.avatar || '/placeholder.svg'}
-                            alt={user.name}
-                        />
+                        <AvatarImage src={user.avatar || '/placeholder.svg'} alt={user.name} />
                         <AvatarFallback className="bg-accent text-accent-foreground">
                             {getInitials(user.name)}
                         </AvatarFallback>
@@ -86,12 +70,8 @@ export function UserNav({
             <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
-                        <p className="text-sm leading-none font-medium">
-                            {user.name}
-                        </p>
-                        <p className="text-xs leading-none text-muted-foreground">
-                            {user.email}
-                        </p>
+                        <p className="text-sm leading-none font-medium">{user.name}</p>
+                        <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
                     </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
@@ -108,18 +88,13 @@ export function UserNav({
                             <span>Settings</span>
                         </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem
-                        onClick={toggleTheme}
-                        className="cursor-pointer"
-                    >
+                    <DropdownMenuItem onClick={toggleTheme} className="cursor-pointer">
                         {theme === 'light' ? (
                             <Moon className="mr-2 h-4 w-4" />
                         ) : (
                             <Sun className="mr-2 h-4 w-4" />
                         )}
-                        <span>
-                            {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
-                        </span>
+                        <span>{theme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />

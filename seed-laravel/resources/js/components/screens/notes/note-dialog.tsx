@@ -175,9 +175,7 @@ export function NoteDialog({
         }
     };
 
-    const wordCount = (isEditing ? editedContent : note?.content || '')
-        .trim()
-        .split(/\s+/).length;
+    const wordCount = (isEditing ? editedContent : note?.content || '').trim().split(/\s+/).length;
     const charCount = (isEditing ? editedContent : note?.content || '').length;
 
     return (
@@ -189,9 +187,7 @@ export function NoteDialog({
                             {isEditing || isNewNote ? (
                                 <Input
                                     value={editedTitle}
-                                    onChange={(e) =>
-                                        setEditedTitle(e.target.value)
-                                    }
+                                    onChange={(e) => setEditedTitle(e.target.value)}
                                     className="border-none px-0 text-2xl font-semibold focus-visible:ring-0"
                                     placeholder="Note title"
                                 />
@@ -207,18 +203,14 @@ export function NoteDialog({
                                     <>
                                         <span>
                                             Updated{' '}
-                                            {new Date(
-                                                note?.updated_at || '',
-                                            ).toLocaleDateString()}
+                                            {new Date(note?.updated_at || '').toLocaleDateString()}
                                         </span>
                                         {!isEditing && (
                                             <>
                                                 <span>•</span>
                                                 <span>{wordCount} words</span>
                                                 <span>•</span>
-                                                <span>
-                                                    {charCount} characters
-                                                </span>
+                                                <span>{charCount} characters</span>
                                             </>
                                         )}
                                     </>
@@ -232,22 +224,14 @@ export function NoteDialog({
                                         <Save className="mr-2 h-4 w-4" />
                                         {isNewNote ? 'Create' : 'Save'}
                                     </Button>
-                                    <Button
-                                        onClick={handleCancel}
-                                        variant="ghost"
-                                        size="sm"
-                                    >
+                                    <Button onClick={handleCancel} variant="ghost" size="sm">
                                         <X className="mr-2 h-4 w-4" />
                                         Cancel
                                     </Button>
                                 </>
                             ) : (
                                 <>
-                                    <Button
-                                        onClick={handleEditStart}
-                                        variant="outline"
-                                        size="sm"
-                                    >
+                                    <Button onClick={handleEditStart} variant="outline" size="sm">
                                         <Edit className="mr-2 h-4 w-4" />
                                         Edit
                                     </Button>
@@ -259,10 +243,7 @@ export function NoteDialog({
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent align="end">
                                             <DropdownMenuItem
-                                                onClick={() =>
-                                                    note &&
-                                                    onToggleFavorite?.(note.id)
-                                                }
+                                                onClick={() => note && onToggleFavorite?.(note.id)}
                                             >
                                                 <Star
                                                     className={`mr-2 h-4 w-4 ${note?.favorited ? 'fill-current' : ''}`}
@@ -272,26 +253,17 @@ export function NoteDialog({
                                                     : 'Add to favorites'}
                                             </DropdownMenuItem>
                                             <DropdownMenuItem
-                                                onClick={() =>
-                                                    note &&
-                                                    onToggleArchive?.(note.id)
-                                                }
+                                                onClick={() => note && onToggleArchive?.(note.id)}
                                             >
                                                 <Archive className="mr-2 h-4 w-4" />
-                                                {note?.archived
-                                                    ? 'Unarchive'
-                                                    : 'Archive'}
+                                                {note?.archived ? 'Unarchive' : 'Archive'}
                                             </DropdownMenuItem>
                                             <DropdownMenuSeparator />
-                                            <DropdownMenuItem
-                                                onClick={handleExport}
-                                            >
+                                            <DropdownMenuItem onClick={handleExport}>
                                                 <Download className="mr-2 h-4 w-4" />
                                                 Export as Markdown
                                             </DropdownMenuItem>
-                                            <DropdownMenuItem
-                                                onClick={handleCopy}
-                                            >
+                                            <DropdownMenuItem onClick={handleCopy}>
                                                 <Copy className="mr-2 h-4 w-4" />
                                                 Copy content
                                             </DropdownMenuItem>
@@ -325,9 +297,7 @@ export function NoteDialog({
                         <div className="space-y-6 py-4">
                             <Tabs
                                 value={activeTab}
-                                onValueChange={(v) =>
-                                    setActiveTab(v as 'write' | 'preview')
-                                }
+                                onValueChange={(v) => setActiveTab(v as 'write' | 'preview')}
                             >
                                 <TabsList className="grid w-full grid-cols-2">
                                     <TabsTrigger value="write">
@@ -342,34 +312,23 @@ export function NoteDialog({
                                 <TabsContent value="write" className="mt-4">
                                     <Textarea
                                         value={editedContent}
-                                        onChange={(e) =>
-                                            setEditedContent(e.target.value)
-                                        }
+                                        onChange={(e) => setEditedContent(e.target.value)}
                                         placeholder="Start writing your note..."
                                         className="min-h-[400px] resize-none font-mono text-sm leading-relaxed"
                                     />
                                     <div className="mt-2 text-xs text-muted-foreground">
-                                        {
-                                            editedContent.trim().split(/\s+/)
-                                                .length
-                                        }{' '}
-                                        words • {editedContent.length}{' '}
-                                        characters
+                                        {editedContent.trim().split(/\s+/).length} words •{' '}
+                                        {editedContent.length} characters
                                     </div>
                                 </TabsContent>
                                 <TabsContent value="preview" className="mt-4">
                                     <div className="min-h-[400px] rounded-md border border-border bg-muted/30 p-4">
                                         <div className="prose prose-sm dark:prose-invert max-w-none">
-                                            {editedContent
-                                                .split('\n')
-                                                .map((line, i) => (
-                                                    <p
-                                                        key={i}
-                                                        className="leading-relaxed"
-                                                    >
-                                                        {line || <br />}
-                                                    </p>
-                                                ))}
+                                            {editedContent.split('\n').map((line, i) => (
+                                                <p key={i} className="leading-relaxed">
+                                                    {line || <br />}
+                                                </p>
+                                            ))}
                                         </div>
                                     </div>
                                 </TabsContent>
@@ -387,17 +346,14 @@ export function NoteDialog({
                                                 variant="outline"
                                                 className="w-full justify-start bg-transparent"
                                             >
-                                                {editedFolder ||
-                                                    'Select folder'}
+                                                {editedFolder || 'Select folder'}
                                             </Button>
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent className="w-56">
                                             {folders.map((folder) => (
                                                 <DropdownMenuItem
                                                     key={folder}
-                                                    onClick={() =>
-                                                        setEditedFolder(folder)
-                                                    }
+                                                    onClick={() => setEditedFolder(folder)}
                                                 >
                                                     {folder}
                                                 </DropdownMenuItem>
@@ -414,35 +370,23 @@ export function NoteDialog({
                                     <div className="flex gap-2">
                                         <Input
                                             value={tagInput}
-                                            onChange={(e) =>
-                                                setTagInput(e.target.value)
-                                            }
+                                            onChange={(e) => setTagInput(e.target.value)}
                                             onKeyDown={(e) =>
                                                 e.key === 'Enter' &&
-                                                (e.preventDefault(),
-                                                handleAddTag())
+                                                (e.preventDefault(), handleAddTag())
                                             }
                                             placeholder="Add tag..."
                                         />
-                                        <Button
-                                            onClick={handleAddTag}
-                                            variant="secondary"
-                                        >
+                                        <Button onClick={handleAddTag} variant="secondary">
                                             Add
                                         </Button>
                                     </div>
                                     <div className="flex flex-wrap gap-2 pt-2">
                                         {editedTags.map((tag) => (
-                                            <Badge
-                                                key={tag}
-                                                variant="secondary"
-                                                className="gap-1"
-                                            >
+                                            <Badge key={tag} variant="secondary" className="gap-1">
                                                 {tag}
                                                 <button
-                                                    onClick={() =>
-                                                        handleRemoveTag(tag)
-                                                    }
+                                                    onClick={() => handleRemoveTag(tag)}
                                                     className="ml-1 hover:text-destructive"
                                                 >
                                                     <X className="h-3 w-3" />
@@ -468,10 +412,7 @@ export function NoteDialog({
                                     {note.tags.length > 0 && (
                                         <div className="flex flex-wrap gap-2">
                                             {note.tags.map((tag) => (
-                                                <Badge
-                                                    key={tag}
-                                                    variant="secondary"
-                                                >
+                                                <Badge key={tag} variant="secondary">
                                                     {tag}
                                                 </Badge>
                                             ))}
@@ -482,10 +423,7 @@ export function NoteDialog({
 
                             <div className="prose prose-sm dark:prose-invert max-w-none">
                                 {note?.content.split('\n').map((line, i) => (
-                                    <p
-                                        key={i}
-                                        className="leading-relaxed text-foreground"
-                                    >
+                                    <p key={i} className="leading-relaxed text-foreground">
                                         {line || <br />}
                                     </p>
                                 ))}

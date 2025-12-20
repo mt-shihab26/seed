@@ -1,10 +1,4 @@
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Calendar, Mail, Upload } from 'lucide-react';
 
 import {
@@ -94,10 +88,7 @@ export default function Profile({
                         <CardContent className="pt-6">
                             <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-start">
                                 <Avatar className="h-24 w-24 border-4 border-accent/20">
-                                    <AvatarImage
-                                        src="/placeholder.svg"
-                                        alt={name}
-                                    />
+                                    <AvatarImage src="/placeholder.svg" alt={name} />
                                     <AvatarFallback className="bg-accent text-2xl text-accent-foreground">
                                         {name
                                             .split(' ')
@@ -144,10 +135,7 @@ export default function Profile({
                                         placeholder="Full name"
                                     />
 
-                                    <InputError
-                                        className="mt-2"
-                                        message={errors.name}
-                                    />
+                                    <InputError className="mt-2" message={errors.name} />
                                 </div>
 
                                 <div className="grid gap-2">
@@ -164,10 +152,7 @@ export default function Profile({
                                         placeholder="Email address"
                                     />
 
-                                    <InputError
-                                        className="mt-2"
-                                        message={errors.email}
-                                    />
+                                    <InputError className="mt-2" message={errors.email} />
                                 </div>
 
                                 <div className="space-y-2">
@@ -182,55 +167,43 @@ export default function Profile({
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label htmlFor="profile-location">
-                                        Location
-                                    </Label>
+                                    <Label htmlFor="profile-location">Location</Label>
                                     <div className="relative">
                                         <MapPin className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                                         <Input
                                             id="profile-location"
                                             value={location}
-                                            onChange={(e) =>
-                                                setLocation(e.target.value)
-                                            }
+                                            onChange={(e) => setLocation(e.target.value)}
                                             className="pl-10"
                                             placeholder="City, Country"
                                         />
                                     </div>
                                 </div>
 
-                                {mustVerifyEmail &&
-                                    auth.user.email_verified_at === null && (
-                                        <div>
-                                            <p className="-mt-4 text-sm text-muted-foreground">
-                                                Your email address is
-                                                unverified.{' '}
-                                                <Link
-                                                    href={send()}
-                                                    as="button"
-                                                    className="text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"
-                                                >
-                                                    Click here to resend the
-                                                    verification email.
-                                                </Link>
-                                            </p>
+                                {mustVerifyEmail && auth.user.email_verified_at === null && (
+                                    <div>
+                                        <p className="-mt-4 text-sm text-muted-foreground">
+                                            Your email address is unverified.{' '}
+                                            <Link
+                                                href={send()}
+                                                as="button"
+                                                className="text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"
+                                            >
+                                                Click here to resend the verification email.
+                                            </Link>
+                                        </p>
 
-                                            {status ===
-                                                'verification-link-sent' && (
-                                                <div className="mt-2 text-sm font-medium text-green-600">
-                                                    A new verification link has
-                                                    been sent to your email
-                                                    address.
-                                                </div>
-                                            )}
-                                        </div>
-                                    )}
+                                        {status === 'verification-link-sent' && (
+                                            <div className="mt-2 text-sm font-medium text-green-600">
+                                                A new verification link has been sent to your email
+                                                address.
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
 
                                 <div className="flex items-center gap-4">
-                                    <Button
-                                        disabled={processing}
-                                        data-test="update-profile-button"
-                                    >
+                                    <Button disabled={processing} data-test="update-profile-button">
                                         Save
                                     </Button>
 
@@ -241,9 +214,7 @@ export default function Profile({
                                         leave="transition ease-in-out"
                                         leaveTo="opacity-0"
                                     >
-                                        <p className="text-sm text-neutral-600">
-                                            Saved
-                                        </p>
+                                        <p className="text-sm text-neutral-600">Saved</p>
                                     </Transition>
                                 </div>
                             </>
@@ -255,15 +226,11 @@ export default function Profile({
                 <div className="grid gap-4 rounded-lg border border-border bg-muted/30 p-4 sm:grid-cols-3">
                     <div className="text-center">
                         <p className="text-2xl font-bold text-foreground">47</p>
-                        <p className="text-sm text-muted-foreground">
-                            Total Notes
-                        </p>
+                        <p className="text-sm text-muted-foreground">Total Notes</p>
                     </div>
                     <div className="text-center">
                         <p className="text-2xl font-bold text-foreground">8</p>
-                        <p className="text-sm text-muted-foreground">
-                            Favorites
-                        </p>
+                        <p className="text-sm text-muted-foreground">Favorites</p>
                     </div>
                     <div className="text-center">
                         <p className="text-2xl font-bold text-foreground">12</p>
@@ -276,9 +243,7 @@ export default function Profile({
                     <div className="flex items-center gap-3 text-sm">
                         <Mail className="h-4 w-4 text-muted-foreground" />
                         <span className="text-muted-foreground">Email:</span>
-                        <span className="text-foreground">
-                            john@example.com
-                        </span>
+                        <span className="text-foreground">john@example.com</span>
                     </div>
                     <div className="flex items-center gap-3 text-sm">
                         <Calendar className="h-4 w-4 text-muted-foreground" />
@@ -299,9 +264,7 @@ export default function Profile({
                         <CardContent className="space-y-4">
                             <div className="flex items-center justify-between">
                                 <div className="space-y-0.5">
-                                    <Label htmlFor="email-notifications">
-                                        Email Notifications
-                                    </Label>
+                                    <Label htmlFor="email-notifications">Email Notifications</Label>
                                     <p className="text-sm text-muted-foreground">
                                         Receive email updates about your notes
                                     </p>
@@ -340,9 +303,7 @@ export default function Profile({
                         <CardContent className="space-y-4">
                             <div className="flex items-center justify-between">
                                 <div className="space-y-0.5">
-                                    <Label htmlFor="compact-view">
-                                        Compact View
-                                    </Label>
+                                    <Label htmlFor="compact-view">Compact View</Label>
                                     <p className="text-sm text-muted-foreground">
                                         Show more notes per page
                                     </p>
@@ -355,26 +316,15 @@ export default function Profile({
                             </div>
                             <Separator />
                             <div className="space-y-2">
-                                <Label htmlFor="default-folder">
-                                    Default Folder
-                                </Label>
-                                <Select
-                                    value={defaultFolder}
-                                    onValueChange={setDefaultFolder}
-                                >
+                                <Label htmlFor="default-folder">Default Folder</Label>
+                                <Select value={defaultFolder} onValueChange={setDefaultFolder}>
                                     <SelectTrigger id="default-folder">
                                         <SelectValue />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="Learning">
-                                            Learning
-                                        </SelectItem>
-                                        <SelectItem value="Work">
-                                            Work
-                                        </SelectItem>
-                                        <SelectItem value="Personal">
-                                            Personal
-                                        </SelectItem>
+                                        <SelectItem value="Learning">Learning</SelectItem>
+                                        <SelectItem value="Work">Work</SelectItem>
+                                        <SelectItem value="Personal">Personal</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -385,16 +335,12 @@ export default function Profile({
                     <Card>
                         <CardHeader>
                             <CardTitle>Data Management</CardTitle>
-                            <CardDescription>
-                                Export or delete your data
-                            </CardDescription>
+                            <CardDescription>Export or delete your data</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <div className="flex items-center justify-between">
                                 <div className="space-y-0.5">
-                                    <p className="text-sm font-medium">
-                                        Export Notes
-                                    </p>
+                                    <p className="text-sm font-medium">Export Notes</p>
                                     <p className="text-sm text-muted-foreground">
                                         Download all your notes as JSON
                                     </p>
@@ -404,12 +350,9 @@ export default function Profile({
                             <Separator />
                             <div className="flex items-center justify-between">
                                 <div className="space-y-0.5">
-                                    <p className="text-sm font-medium">
-                                        Delete Account
-                                    </p>
+                                    <p className="text-sm font-medium">Delete Account</p>
                                     <p className="text-sm text-muted-foreground">
-                                        Permanently delete your account and all
-                                        data
+                                        Permanently delete your account and all data
                                     </p>
                                 </div>
                                 <Button variant="destructive">Delete</Button>

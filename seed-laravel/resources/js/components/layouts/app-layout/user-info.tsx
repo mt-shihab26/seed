@@ -4,13 +4,7 @@ import { formatInitials } from '@/lib/format';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-export const UserInfo = ({
-    user,
-    showEmail,
-}: {
-    user: TUser;
-    showEmail?: boolean;
-}) => {
+export const UserInfo = ({ user, showEmail }: { user: TUser; showEmail?: boolean }) => {
     return (
         <>
             <Avatar className="h-8 w-8 overflow-hidden rounded-full">
@@ -22,9 +16,7 @@ export const UserInfo = ({
             <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.name}</span>
                 {showEmail && (
-                    <span className="truncate text-xs text-muted-foreground">
-                        {user.email}
-                    </span>
+                    <span className="truncate text-xs text-muted-foreground">{user.email}</span>
                 )}
             </div>
         </>
