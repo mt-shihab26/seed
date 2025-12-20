@@ -1,13 +1,31 @@
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card';
 import { Calendar, Mail, Upload } from 'lucide-react';
+
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 
 import { toast } from '@/lib/toast';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
+import { Switch } from '@/components/ui/switch';
 import { Link } from '@inertiajs/react';
+import { Save } from 'lucide-react';
+
+import { Input } from '@/components/ui/input';
 
 import { MapPin } from 'lucide-react';
 
@@ -50,9 +68,14 @@ export default function Profile({
     );
     const [location, setLocation] = useState('San Francisco, CA');
 
-    const handleSaveProfile = () => {
-        toast('Profile updated', {
-            description: 'Your profile has been saved successfully.',
+    const [emailNotifications, setEmailNotifications] = useState(true);
+    const [autoSave, setAutoSave] = useState(true);
+    const [compactView, setCompactView] = useState(false);
+    const [defaultFolder, setDefaultFolder] = useState('Learning');
+
+    const handleSaveSettings = () => {
+        toast('Settings saved', {
+            description: 'Your preferences have been updated successfully.',
         });
     };
 
@@ -261,6 +284,145 @@ export default function Profile({
                         <Calendar className="h-4 w-4 text-muted-foreground" />
                         <span className="text-muted-foreground">Joined:</span>
                         <span className="text-foreground">January 2024</span>
+                    </div>
+                </div>
+
+                <div className="space-y-6">
+                    {/* Notification Settings */}
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Notifications</CardTitle>
+                            <CardDescription>
+                                Configure how you receive notifications
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            <div className="flex items-center justify-between">
+                                <div className="space-y-0.5">
+                                    <Label htmlFor="email-notifications">
+                                        Email Notifications
+                                    </Label>
+                                    <p className="text-sm text-muted-foreground">
+                                        Receive email updates about your notes
+                                    </p>
+                                </div>
+                                <Switch
+                                    id="email-notifications"
+                                    checked={emailNotifications}
+                                    onCheckedChange={setEmailNotifications}
+                                />
+                            </div>
+                            <Separator />
+                            <div className="flex items-center justify-between">
+                                <div className="space-y-0.5">
+                                    <Label htmlFor="auto-save">Auto-save</Label>
+                                    <p className="text-sm text-muted-foreground">
+                                        Automatically save notes as you type
+                                    </p>
+                                </div>
+                                <Switch
+                                    id="auto-save"
+                                    checked={autoSave}
+                                    onCheckedChange={setAutoSave}
+                                />
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    {/* Display Settings */}
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Display Preferences</CardTitle>
+                            <CardDescription>
+                                Customize how your notes are displayed
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            <div className="flex items-center justify-between">
+                                <div className="space-y-0.5">
+                                    <Label htmlFor="compact-view">
+                                        Compact View
+                                    </Label>
+                                    <p className="text-sm text-muted-foreground">
+                                        Show more notes per page
+                                    </p>
+                                </div>
+                                <Switch
+                                    id="compact-view"
+                                    checked={compactView}
+                                    onCheckedChange={setCompactView}
+                                />
+                            </div>
+                            <Separator />
+                            <div className="space-y-2">
+                                <Label htmlFor="default-folder">
+                                    Default Folder
+                                </Label>
+                                <Select
+                                    value={defaultFolder}
+                                    onValueChange={setDefaultFolder}
+                                >
+                                    <SelectTrigger id="default-folder">
+                                        <SelectValue />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="Learning">
+                                            Learning
+                                        </SelectItem>
+                                        <SelectItem value="Work">
+                                            Work
+                                        </SelectItem>
+                                        <SelectItem value="Personal">
+                                            Personal
+                                        </SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    {/* Export & Data */}
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Data Management</CardTitle>
+                            <CardDescription>
+                                Export or delete your data
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            <div className="flex items-center justify-between">
+                                <div className="space-y-0.5">
+                                    <p className="text-sm font-medium">
+                                        Export Notes
+                                    </p>
+                                    <p className="text-sm text-muted-foreground">
+                                        Download all your notes as JSON
+                                    </p>
+                                </div>
+                                <Button variant="outline">Export</Button>
+                            </div>
+                            <Separator />
+                            <div className="flex items-center justify-between">
+                                <div className="space-y-0.5">
+                                    <p className="text-sm font-medium">
+                                        Delete Account
+                                    </p>
+                                    <p className="text-sm text-muted-foreground">
+                                        Permanently delete your account and all
+                                        data
+                                    </p>
+                                </div>
+                                <Button variant="destructive">Delete</Button>
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    {/* Save Button */}
+                    <div className="flex justify-end">
+                        <Button onClick={handleSaveSettings} size="lg">
+                            <Save className="mr-2 h-4 w-4" />
+                            Save Changes
+                        </Button>
                     </div>
                 </div>
 
