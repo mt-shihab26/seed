@@ -1,6 +1,3 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Calendar, Mail, Upload } from 'lucide-react';
-
 import {
     Select,
     SelectContent,
@@ -9,58 +6,35 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 
+import type { TShared } from '@/types/props';
+
+import { formatInitials } from '@/lib/format';
 import { toast } from '@/lib/toast';
+import { send } from '@/routes/verification';
+import { usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
-import { Link } from '@inertiajs/react';
-import { Save } from 'lucide-react';
-
-import { Input } from '@/components/ui/input';
-
-import { MapPin } from 'lucide-react';
-
 import { Textarea } from '@/components/ui/textarea';
-
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-
-import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
-import { send } from '@/routes/verification';
-import { type TBreadcrumb, type TShared } from '@/types/props';
 import { Transition } from '@headlessui/react';
-import { Form, Head, usePage } from '@inertiajs/react';
+import { Form, Head, Link } from '@inertiajs/react';
+import { Calendar, Mail, MapPin, Save, Upload } from 'lucide-react';
 
-import DeleteUser from '@/components/delete-user';
-import HeadingSmall from '@/components/heading-small';
-import InputError from '@/components/input-error';
-import AppLayout from '@/components/layouts/app-layout';
-import SettingsLayout from '@/layouts/settings/layout';
-import { edit } from '@/routes/profile';
+import { HeadingSmall } from '@/components/elements/heading-small';
+import { InputError } from '@/components/elements/input-error';
+import { AppLayout } from '@/components/layouts/app-layout';
+import { SettingsLayout } from '@/components/layouts/settings-layout';
 
-const breadcrumbs: TBreadcrumb[] = [
-    {
-        title: 'Profile settings',
-        href: edit().url,
-    },
-];
+import SettingController from '@/actions/App/Http/Controllers/SettingController';
 
-export default function Profile({
-    mustVerifyEmail,
-    status,
-}: {
-    mustVerifyEmail: boolean;
-    status?: string;
-}) {
-    const { auth } = usePage<TShared>().props;
-
-    const [name, setName] = useState('John Doe');
-    const [bio, setBio] = useState(
-        'Passionate developer learning web frameworks through building projects.',
-    );
-    const [location, setLocation] = useState('San Francisco, CA');
+const Profile = ({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status?: string }) => {
+    const { props } = usePage<TShared>();
 
     const [emailNotifications, setEmailNotifications] = useState(true);
     const [autoSave, setAutoSave] = useState(true);
@@ -74,35 +48,43 @@ export default function Profile({
     };
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
+        <AppLayout
+            breadcrumbs={[
+                {
+                    title: 'Settings',
+                    href: 'settings.redirect',
+                },
+                {
+                    title: 'Password',
+                    href: 'settings.profile.edit',
+                },
+            ]}
+        >
             <Head title="Profile settings" />
-
             <SettingsLayout>
                 <div className="space-y-6">
                     <HeadingSmall
                         title="Profile information"
                         description="Update your name and email address"
                     />
-
                     <Card>
                         <CardContent className="pt-6">
                             <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-start">
                                 <Avatar className="h-24 w-24 border-4 border-accent/20">
-                                    <AvatarImage src="/placeholder.svg" alt={name} />
+                                    <AvatarImage
+                                        src={props.auth.user?.avatar || ''}
+                                        alt={props.auth.user?.name}
+                                    />
                                     <AvatarFallback className="bg-accent text-2xl text-accent-foreground">
-                                        {name
-                                            .split(' ')
-                                            .map((n) => n[0])
-                                            .join('')
-                                            .toUpperCase()}
+                                        {formatInitials(props.auth.user?.name)}
                                     </AvatarFallback>
                                 </Avatar>
                                 <div className="flex-1 text-center sm:text-left">
                                     <h3 className="mb-1 text-lg font-semibold text-foreground">
-                                        {name}
+                                        {props.auth.user?.name}
                                     </h3>
                                     <p className="mb-4 text-sm text-muted-foreground">
-                                        john@example.com
+                                        {props.auth.user?.email}
                                     </p>
                                     <Button variant="outline" size="sm">
                                         <Upload className="mr-2 h-4 w-4" />
@@ -114,73 +96,63 @@ export default function Profile({
                     </Card>
 
                     <Form
-                        {...ProfileController.update.form()}
-                        options={{
-                            preserveScroll: true,
-                        }}
+                        {...SettingController.updateProfile.form()}
+                        options={{ preserveScroll: true }}
                         className="space-y-6"
                     >
                         {({ processing, recentlySuccessful, errors }) => (
                             <>
                                 <div className="grid gap-2">
                                     <Label htmlFor="name">Name</Label>
-
                                     <Input
                                         id="name"
                                         className="mt-1 block w-full"
-                                        defaultValue={auth.user.name}
+                                        defaultValue={props.auth.user.name}
                                         name="name"
                                         required
                                         autoComplete="name"
                                         placeholder="Full name"
                                     />
-
                                     <InputError className="mt-2" message={errors.name} />
                                 </div>
-
                                 <div className="grid gap-2">
                                     <Label htmlFor="email">Email address</Label>
-
                                     <Input
                                         id="email"
                                         type="email"
                                         className="mt-1 block w-full"
-                                        defaultValue={auth.user.email}
+                                        defaultValue={props.auth.user.email}
                                         name="email"
                                         required
                                         autoComplete="username"
                                         placeholder="Email address"
                                     />
-
                                     <InputError className="mt-2" message={errors.email} />
                                 </div>
 
                                 <div className="space-y-2">
                                     <Label htmlFor="profile-bio">Bio</Label>
                                     <Textarea
-                                        id="profile-bio"
-                                        value={bio}
-                                        onChange={(e) => setBio(e.target.value)}
+                                        id="bio"
+                                        defaultValue={props.auth.user.bio || ''}
                                         rows={4}
                                         placeholder="Tell others about yourself..."
                                     />
                                 </div>
-
                                 <div className="space-y-2">
                                     <Label htmlFor="profile-location">Location</Label>
                                     <div className="relative">
                                         <MapPin className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                                         <Input
-                                            id="profile-location"
-                                            value={location}
-                                            onChange={(e) => setLocation(e.target.value)}
+                                            id="location"
+                                            defaultValue={props.auth.user.location || ''}
                                             className="pl-10"
                                             placeholder="City, Country"
                                         />
                                     </div>
                                 </div>
 
-                                {mustVerifyEmail && auth.user.email_verified_at === null && (
+                                {mustVerifyEmail && props.auth.user.email_verified_at === null && (
                                     <div>
                                         <p className="-mt-4 text-sm text-muted-foreground">
                                             Your email address is unverified.{' '}
@@ -373,4 +345,6 @@ export default function Profile({
             </SettingsLayout>
         </AppLayout>
     );
-}
+};
+
+export default Profile;

@@ -1,25 +1,26 @@
 import { Head } from '@inertiajs/react';
 
-import AppearanceTabs from '@/components/appearance-tabs';
-import HeadingSmall from '@/components/heading-small';
-import { type TBreadcrumb } from '@/types/props';
+import { AppearanceTabs } from '@/components/elements/appearance-tabs';
+import { HeadingSmall } from '@/components/elements/heading-small';
 
-import AppLayout from '@/components/layouts/app-layout';
-import SettingsLayout from '@/layouts/settings/layout';
-import { edit as editAppearance } from '@/routes/appearance';
+import { AppLayout } from '@/components/layouts/app-layout';
+import { SettingsLayout } from '@/components/layouts/settings-layout';
 
-const breadcrumbs: TBreadcrumb[] = [
-    {
-        title: 'Appearance settings',
-        href: editAppearance().url,
-    },
-];
-
-export default function Appearance() {
+const Appearance = () => {
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
+        <AppLayout
+            breadcrumbs={[
+                {
+                    title: 'Settings',
+                    href: 'settings.redirect',
+                },
+                {
+                    title: 'Appearance',
+                    href: 'settings.appearance.edit',
+                },
+            ]}
+        >
             <Head title="Appearance settings" />
-
             <SettingsLayout>
                 <div className="space-y-6">
                     <HeadingSmall
@@ -31,4 +32,6 @@ export default function Appearance() {
             </SettingsLayout>
         </AppLayout>
     );
-}
+};
+
+export default Appearance;

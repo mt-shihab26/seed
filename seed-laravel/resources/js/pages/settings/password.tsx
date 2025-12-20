@@ -1,31 +1,35 @@
-import PasswordController from '@/actions/App/Http/Controllers/Settings/PasswordController';
-import InputError from '@/components/input-error';
-import AppLayout from '@/components/layouts/app-layout';
-import SettingsLayout from '@/layouts/settings/layout';
-import { type TBreadcrumb } from '@/types/props';
-import { Transition } from '@headlessui/react';
-import { Form, Head } from '@inertiajs/react';
 import { useRef } from 'react';
 
-import HeadingSmall from '@/components/heading-small';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { edit } from '@/routes/user-password';
+import { Transition } from '@headlessui/react';
+import { Form, Head } from '@inertiajs/react';
 
-const breadcrumbs: TBreadcrumb[] = [
-    {
-        title: 'Password settings',
-        href: edit().url,
-    },
-];
+import { HeadingSmall } from '@/components/elements/heading-small';
+import { InputError } from '@/components/elements/input-error';
+import { AppLayout } from '@/components/layouts/app-layout';
+import { SettingsLayout } from '@/components/layouts/settings-layout';
 
-export default function Password() {
+import SettingController from '@/actions/App/Http/Controllers/SettingController';
+
+function Password() {
     const passwordInput = useRef<HTMLInputElement>(null);
     const currentPasswordInput = useRef<HTMLInputElement>(null);
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
+        <AppLayout
+            breadcrumbs={[
+                {
+                    title: 'Settings',
+                    href: 'settings.redirect',
+                },
+                {
+                    title: 'Password',
+                    href: 'settings.password.edit',
+                },
+            ]}
+        >
             <Head title="Password settings" />
 
             <SettingsLayout>
@@ -36,7 +40,7 @@ export default function Password() {
                     />
 
                     <Form
-                        {...PasswordController.update.form()}
+                        {...SettingController.updatePassword.form()}
                         options={{
                             preserveScroll: true,
                         }}
@@ -128,3 +132,5 @@ export default function Password() {
         </AppLayout>
     );
 }
+
+export default Password;
