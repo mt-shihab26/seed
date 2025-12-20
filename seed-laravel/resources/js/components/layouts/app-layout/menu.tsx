@@ -20,17 +20,23 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import type { TShared } from '@/types/props';
+import type { TLink } from '@/types/utils';
 
 import { APP_NAME } from '@/lib/env';
-import { usePage } from '@inertiajs/react';
+import { router, usePage } from '@inertiajs/react';
+import { mainLinks } from './links';
 
 import { AppLogoIcon } from '@/components/icons/app-logo-icon';
 import { Button } from '@/components/ui/button';
+import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import { ChevronDownIcon } from 'lucide-react';
 
 export const Menu = () => {
-    const { user } = usePage<TShared>().props.auth;
+    const { url, props } = usePage<TShared>();
+
+    const getHref = (l: TLink): string => (l.route ? route(l.route) : l.href || '');
+    const isActive = (l: TLink): boolean => (l.route ? route().current(l.route) : l.href === url);
 
     return (
         <DropdownMenu>
@@ -44,16 +50,16 @@ export const Menu = () => {
                             {APP_NAME}
                         </span>
                     </div>
-                    <ChevronDownIcon className="size-6" />
+                    <ChevronDownIcon className="size-5" />
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
-                className="w-120 space-y-2 rounded-4xl p-6"
+                className="w-120 space-y-3 rounded-4xl p-6"
                 align="center"
                 sideOffset={-44}
             >
                 <div className="text-center text-xl font-bold">
-                    <h2>{user.name}'s Notes</h2>
+                    <h2>{props.auth.user.name}'s Notes</h2>
                 </div>
                 <div>
                     <Input
@@ -62,7 +68,48 @@ export const Menu = () => {
                         className="focus-visible:ring-primary"
                     />
                 </div>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                    {mainLinks.map((link) => (
+                        <DropdownMenuItem onClick={() => router.visit(getHref(link))}>
+                            <Icon iconNode={link.icon} />
+                            {link.title}
+                            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                        </DropdownMenuItem>
+                    ))}
+                    <DropdownMenuItem>
+                        <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                        Settings
+                        <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                        Keyboard shortcuts
+                        <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
                 <div>
+                    <DropdownMenuGroup>
+                        <DropdownMenuItem>
+                            Profile
+                            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                            Billing
+                            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                            Settings
+                            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                            Keyboard shortcuts
+                            <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+                        </DropdownMenuItem>
+                    </DropdownMenuGroup>
+
                     <Accordion type="multiple" className="w-full">
                         <AccordionItem value="item-1">
                             <AccordionTrigger>Product Information</AccordionTrigger>
@@ -110,25 +157,7 @@ export const Menu = () => {
                         </AccordionItem>
                     </Accordion>
                 </div>
-                <DropdownMenuGroup>
-                    <DropdownMenuItem>
-                        Profile
-                        <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                        Billing
-                        <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                        Settings
-                        <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                        Keyboard shortcuts
-                        <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
+
                 <DropdownMenuGroup>
                     <DropdownMenuItem>Team</DropdownMenuItem>
                     <DropdownMenuSub>
