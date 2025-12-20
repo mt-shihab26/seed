@@ -8,7 +8,7 @@ use Laravel\Fortify\Features;
 Route::get('/', fn () => inertia('welcome', ['canRegister' => Features::enabled(Features::registration())]))->name('home');
 
 Route::prefix('/settings')->middleware('auth')->group(function () {
-    Route::redirect('/', '/settings/profile')->name('settings.redirect');
+    Route::redirect('/', '/settings/statistics')->name('settings.redirect');
 
     Route::get('/statistics', [SettingController::class, 'editStatistics'])->name('settings.statistics.edit');
 

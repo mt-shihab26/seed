@@ -7,9 +7,14 @@ import { Heading } from '@/components/elements/heading';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Link } from '@inertiajs/react';
-import { KeyRound, Palette, ShieldCheck, UserCircle } from 'lucide-react';
+import { ChartBar, KeyRound, Palette, ShieldCheck, UserCircle } from 'lucide-react';
 
 const links: { title: string; route: string; icon?: LucideIcon }[] = [
+    {
+        title: 'Statistics',
+        route: 'settings.statistics.edit',
+        icon: ChartBar,
+    },
     {
         title: 'Profile',
         route: 'settings.profile.edit',
