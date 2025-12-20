@@ -34,6 +34,11 @@ export const Menu = () => {
     const { url, props } = usePage<TShared>();
     const { openAccordionItems, setOpenAccordionItems } = useApplicationStore();
 
+    const links = accordionLinks;
+
+    links?.push({ key: 'folders', title: 'Folders', links: [] });
+    links?.push({ key: 'tags', title: 'Tags', links: [] });
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -93,7 +98,7 @@ export const Menu = () => {
                     value={openAccordionItems}
                     onValueChange={setOpenAccordionItems}
                 >
-                    {accordionLinks.map((accordionLink) => (
+                    {links.map((accordionLink) => (
                         <AccordionItem key={accordionLink.key} value={accordionLink.key}>
                             <AccordionTrigger>{accordionLink.title}</AccordionTrigger>
                             <AccordionContent>
@@ -118,9 +123,8 @@ export const Menu = () => {
                                             )}
                                         </DropdownMenuItem>
                                     ))}
-                                </DropdownMenuGroup>{' '}
+                                </DropdownMenuGroup>
                             </AccordionContent>
-                            <DropdownMenuSeparator />
                         </AccordionItem>
                     ))}
                 </Accordion>

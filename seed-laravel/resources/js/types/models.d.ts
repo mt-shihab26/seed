@@ -9,6 +9,9 @@ export type TUser = {
     two_factor_enabled?: boolean;
     created_at: string;
     updated_at: string;
+
+    folders?: TFolder[];
+    tags?: TTag[];
 };
 
 export type TFolder = {
