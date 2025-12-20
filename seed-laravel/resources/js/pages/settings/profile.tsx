@@ -26,8 +26,10 @@ import { Transition } from '@headlessui/react';
 import { Form, Head, Link } from '@inertiajs/react';
 import { Calendar, Mail, MapPin, Save, Upload } from 'lucide-react';
 
+import { DeleteUser } from '@/components/elements/delete-user';
 import { HeadingSmall } from '@/components/elements/heading-small';
 import { InputError } from '@/components/elements/input-error';
+
 import { AppLayout } from '@/components/layouts/app-layout';
 import { SettingsLayout } from '@/components/layouts/settings-layout';
 
