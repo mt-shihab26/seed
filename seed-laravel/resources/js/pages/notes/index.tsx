@@ -24,13 +24,13 @@ import type { TNote } from '@/types/models';
 
 import { useState } from 'react';
 
+import { AppLayout } from '@/components/layouts/app-layout';
 import { NoteDialog } from '@/components/screens/notes/note-dialog';
-import { UserNav } from '@/components/screens/notes/user-nav';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 
 const Index = () => {
     const [selectedNote, setSelectedNote] = useState<TNote | null>(null);
@@ -161,294 +161,290 @@ const Index = () => {
     };
 
     return (
-        <div className="min-h-screen bg-background">
-            <header className="border-b border-border bg-card">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="flex h-16 items-center justify-between">
-                        <Link href="/notes" className="flex items-center gap-2">
-                            <Sprout className="h-6 w-6 text-accent" />
-                            <span className="text-xl font-semibold text-foreground">Seed</span>
-                        </Link>
-                        <UserNav />
-                    </div>
-                </div>
-            </header>
+        <AppLayout>
+            <Head title="Notes" />
 
-            <div className="mx-auto flex max-w-7xl">
-                <aside className="hidden w-64 border-r border-border bg-card/50 p-6 lg:block">
-                    <div className="space-y-6">
-                        <div>
-                            <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground">
-                                <Folder className="h-4 w-4" />
-                                Folders
-                            </h3>
-                            <div className="space-y-1">
-                                <Button
-                                    variant={selectedFolder === null ? 'secondary' : 'ghost'}
-                                    className="w-full justify-start"
-                                    onClick={() => setSelectedFolder(null)}
-                                >
-                                    All Notes
-                                </Button>
-                                {folders.map((folder) => (
+            <div className="min-h-screen bg-background">
+                <div className="mx-auto flex max-w-7xl">
+                    <aside className="hidden w-64 border-r border-border bg-card/50 p-6 lg:block">
+                        <div className="space-y-6">
+                            <div>
+                                <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground">
+                                    <Folder className="h-4 w-4" />
+                                    Folders
+                                </h3>
+                                <div className="space-y-1">
                                     <Button
-                                        key={folder}
-                                        variant={selectedFolder === folder ? 'secondary' : 'ghost'}
+                                        variant={selectedFolder === null ? 'secondary' : 'ghost'}
                                         className="w-full justify-start"
-                                        onClick={() => setSelectedFolder(folder)}
+                                        onClick={() => setSelectedFolder(null)}
                                     >
-                                        {folder}
+                                        All Notes
                                     </Button>
-                                ))}
+                                    {folders.map((folder) => (
+                                        <Button
+                                            key={folder}
+                                            variant={
+                                                selectedFolder === folder ? 'secondary' : 'ghost'
+                                            }
+                                            className="w-full justify-start"
+                                            onClick={() => setSelectedFolder(folder)}
+                                        >
+                                            {folder}
+                                        </Button>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
 
-                        <div>
-                            <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground">
-                                <Tag className="h-4 w-4" />
-                                Tags
-                            </h3>
-                            <div className="flex flex-wrap gap-2">
-                                {allTags.map((tag) => (
-                                    <Badge
-                                        key={tag}
-                                        variant={selectedTags.includes(tag) ? 'default' : 'outline'}
-                                        className="cursor-pointer"
-                                        onClick={() => toggleTagFilter(tag)}
-                                    >
-                                        {tag}
-                                    </Badge>
-                                ))}
+                            <div>
+                                <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground">
+                                    <Tag className="h-4 w-4" />
+                                    Tags
+                                </h3>
+                                <div className="flex flex-wrap gap-2">
+                                    {allTags.map((tag) => (
+                                        <Badge
+                                            key={tag}
+                                            variant={
+                                                selectedTags.includes(tag) ? 'default' : 'outline'
+                                            }
+                                            className="cursor-pointer"
+                                            onClick={() => toggleTagFilter(tag)}
+                                        >
+                                            {tag}
+                                        </Badge>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
 
-                        <div>
-                            <h3 className="mb-3 text-sm font-semibold text-foreground">
-                                Quick Filters
-                            </h3>
-                            <div className="space-y-1">
-                                <Button
-                                    variant={showFavorites ? 'secondary' : 'ghost'}
-                                    className="w-full justify-start"
-                                    onClick={() => setShowFavorites(!showFavorites)}
-                                >
-                                    <Star className="mr-2 h-4 w-4" />
-                                    Favorites
-                                </Button>
-                                <Button
-                                    variant={showArchived ? 'secondary' : 'ghost'}
-                                    className="w-full justify-start"
-                                    onClick={() => setShowArchived(!showArchived)}
-                                >
-                                    <Archive className="mr-2 h-4 w-4" />
-                                    Archived
-                                </Button>
-                                <Button
-                                    variant={showTrashed ? 'secondary' : 'ghost'}
-                                    className="w-full justify-start"
-                                    onClick={() => setShowTrashed(!showTrashed)}
-                                >
-                                    <Trash2 className="mr-2 h-4 w-4" />
-                                    Trash
-                                </Button>
-                            </div>
-                        </div>
-                    </div>
-                </aside>
-
-                <main className="flex-1 px-4 py-8 sm:px-6 lg:px-8">
-                    <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                        <div className="relative flex-1 sm:max-w-md">
-                            <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                            <Input
-                                type="search"
-                                placeholder="Search notes..."
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                className="pl-10"
-                            />
-                        </div>
-                        <div className="flex gap-2">
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild className="lg:hidden">
-                                    <Button variant="outline" size="icon">
-                                        <Filter className="h-4 w-4" />
-                                    </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end" className="w-56">
-                                    <DropdownMenuCheckboxItem
-                                        checked={showFavorites}
-                                        onCheckedChange={setShowFavorites}
+                            <div>
+                                <h3 className="mb-3 text-sm font-semibold text-foreground">
+                                    Quick Filters
+                                </h3>
+                                <div className="space-y-1">
+                                    <Button
+                                        variant={showFavorites ? 'secondary' : 'ghost'}
+                                        className="w-full justify-start"
+                                        onClick={() => setShowFavorites(!showFavorites)}
                                     >
                                         <Star className="mr-2 h-4 w-4" />
                                         Favorites
-                                    </DropdownMenuCheckboxItem>
-                                    <DropdownMenuCheckboxItem
-                                        checked={showArchived}
-                                        onCheckedChange={setShowArchived}
+                                    </Button>
+                                    <Button
+                                        variant={showArchived ? 'secondary' : 'ghost'}
+                                        className="w-full justify-start"
+                                        onClick={() => setShowArchived(!showArchived)}
                                     >
                                         <Archive className="mr-2 h-4 w-4" />
                                         Archived
-                                    </DropdownMenuCheckboxItem>
-                                    <DropdownMenuCheckboxItem
-                                        checked={showTrashed}
-                                        onCheckedChange={setShowTrashed}
+                                    </Button>
+                                    <Button
+                                        variant={showTrashed ? 'secondary' : 'ghost'}
+                                        className="w-full justify-start"
+                                        onClick={() => setShowTrashed(!showTrashed)}
                                     >
                                         <Trash2 className="mr-2 h-4 w-4" />
                                         Trash
-                                    </DropdownMenuCheckboxItem>
-                                    <DropdownMenuSeparator />
-                                    {folders.map((folder) => (
-                                        <DropdownMenuItem
-                                            key={folder}
-                                            onClick={() => setSelectedFolder(folder)}
-                                        >
-                                            <Folder className="mr-2 h-4 w-4" />
-                                            {folder}
-                                        </DropdownMenuItem>
-                                    ))}
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                            <Button onClick={() => setIsNewNoteDialogOpen(true)}>
-                                <Plus className="mr-2 h-4 w-4" />
-                                New Note
-                            </Button>
-                        </div>
-                    </div>
-
-                    {filteredNotes.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center py-16 text-center">
-                            <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted">
-                                <Sprout className="h-8 w-8 text-muted-foreground" />
+                                    </Button>
+                                </div>
                             </div>
-                            <h3 className="mb-2 text-lg font-semibold text-foreground">
-                                No notes found
-                            </h3>
-                            <p className="mb-6 text-muted-foreground">
-                                {searchQuery
-                                    ? 'Try adjusting your search query'
-                                    : 'Start by creating your first note'}
-                            </p>
-                            {!searchQuery && (
+                        </div>
+                    </aside>
+
+                    <main className="flex-1 px-4 py-8 sm:px-6 lg:px-8">
+                        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                            <div className="relative flex-1 sm:max-w-md">
+                                <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                                <Input
+                                    type="search"
+                                    placeholder="Search notes..."
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    className="pl-10"
+                                />
+                            </div>
+                            <div className="flex gap-2">
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild className="lg:hidden">
+                                        <Button variant="outline" size="icon">
+                                            <Filter className="h-4 w-4" />
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent align="end" className="w-56">
+                                        <DropdownMenuCheckboxItem
+                                            checked={showFavorites}
+                                            onCheckedChange={setShowFavorites}
+                                        >
+                                            <Star className="mr-2 h-4 w-4" />
+                                            Favorites
+                                        </DropdownMenuCheckboxItem>
+                                        <DropdownMenuCheckboxItem
+                                            checked={showArchived}
+                                            onCheckedChange={setShowArchived}
+                                        >
+                                            <Archive className="mr-2 h-4 w-4" />
+                                            Archived
+                                        </DropdownMenuCheckboxItem>
+                                        <DropdownMenuCheckboxItem
+                                            checked={showTrashed}
+                                            onCheckedChange={setShowTrashed}
+                                        >
+                                            <Trash2 className="mr-2 h-4 w-4" />
+                                            Trash
+                                        </DropdownMenuCheckboxItem>
+                                        <DropdownMenuSeparator />
+                                        {folders.map((folder) => (
+                                            <DropdownMenuItem
+                                                key={folder}
+                                                onClick={() => setSelectedFolder(folder)}
+                                            >
+                                                <Folder className="mr-2 h-4 w-4" />
+                                                {folder}
+                                            </DropdownMenuItem>
+                                        ))}
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
                                 <Button onClick={() => setIsNewNoteDialogOpen(true)}>
                                     <Plus className="mr-2 h-4 w-4" />
-                                    Create Note
+                                    New Note
                                 </Button>
-                            )}
+                            </div>
                         </div>
-                    ) : (
-                        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-                            {filteredNotes.map((note) => (
-                                <Card
-                                    key={note.id}
-                                    className="group relative cursor-pointer border-border bg-card p-6 transition-all hover:shadow-md"
-                                    onClick={() => handleNoteClick(note)}
-                                >
-                                    {note.favorited && (
-                                        <Star className="absolute top-4 right-4 h-4 w-4 fill-accent text-accent" />
-                                    )}
-                                    <h3 className="mb-2 text-lg font-semibold text-balance text-card-foreground">
-                                        {note.title}
-                                    </h3>
-                                    <p className="mb-4 line-clamp-3 text-sm leading-relaxed text-pretty text-muted-foreground">
-                                        {note.content}
-                                    </p>
 
-                                    {note.tags.length > 0 && (
-                                        <div className="mb-4 flex flex-wrap gap-1">
-                                            {note.tags.map((tag) => (
-                                                <Badge
-                                                    key={tag}
-                                                    variant="secondary"
-                                                    className="text-xs"
+                        {filteredNotes.length === 0 ? (
+                            <div className="flex flex-col items-center justify-center py-16 text-center">
+                                <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted">
+                                    <Sprout className="h-8 w-8 text-muted-foreground" />
+                                </div>
+                                <h3 className="mb-2 text-lg font-semibold text-foreground">
+                                    No notes found
+                                </h3>
+                                <p className="mb-6 text-muted-foreground">
+                                    {searchQuery
+                                        ? 'Try adjusting your search query'
+                                        : 'Start by creating your first note'}
+                                </p>
+                                {!searchQuery && (
+                                    <Button onClick={() => setIsNewNoteDialogOpen(true)}>
+                                        <Plus className="mr-2 h-4 w-4" />
+                                        Create Note
+                                    </Button>
+                                )}
+                            </div>
+                        ) : (
+                            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                                {filteredNotes.map((note) => (
+                                    <Card
+                                        key={note.id}
+                                        className="group relative cursor-pointer border-border bg-card p-6 transition-all hover:shadow-md"
+                                        onClick={() => handleNoteClick(note)}
+                                    >
+                                        {note.favorited && (
+                                            <Star className="absolute top-4 right-4 h-4 w-4 fill-accent text-accent" />
+                                        )}
+                                        <h3 className="mb-2 text-lg font-semibold text-balance text-card-foreground">
+                                            {note.title}
+                                        </h3>
+                                        <p className="mb-4 line-clamp-3 text-sm leading-relaxed text-pretty text-muted-foreground">
+                                            {note.content}
+                                        </p>
+
+                                        {note.tags.length > 0 && (
+                                            <div className="mb-4 flex flex-wrap gap-1">
+                                                {note.tags.map((tag) => (
+                                                    <Badge
+                                                        key={tag}
+                                                        variant="secondary"
+                                                        className="text-xs"
+                                                    >
+                                                        {tag}
+                                                    </Badge>
+                                                ))}
+                                            </div>
+                                        )}
+
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-xs text-muted-foreground">
+                                                {new Date(note.updated_at).toLocaleDateString()}
+                                            </span>
+                                            <div className="flex gap-1 opacity-0 transition-opacity group-hover:opacity-100">
+                                                <Button
+                                                    size="icon"
+                                                    variant="ghost"
+                                                    className="h-8 w-8"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        toggleFavorite(note.id);
+                                                    }}
                                                 >
-                                                    {tag}
-                                                </Badge>
-                                            ))}
+                                                    <Star
+                                                        className={`h-4 w-4 ${note.favorited ? 'fill-accent text-accent' : ''}`}
+                                                    />
+                                                </Button>
+                                                <Button
+                                                    size="icon"
+                                                    variant="ghost"
+                                                    className="h-8 w-8"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleNoteClick(note);
+                                                    }}
+                                                >
+                                                    <Edit className="h-4 w-4" />
+                                                </Button>
+                                                <Button
+                                                    size="icon"
+                                                    variant="ghost"
+                                                    className="h-8 w-8"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        toggleArchive(note.id);
+                                                    }}
+                                                >
+                                                    <Archive className="h-4 w-4" />
+                                                </Button>
+                                                <Button
+                                                    size="icon"
+                                                    variant="ghost"
+                                                    className="h-8 w-8 text-destructive hover:bg-destructive/10"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleDelete(note.id);
+                                                    }}
+                                                >
+                                                    <Trash2 className="h-4 w-4" />
+                                                </Button>
+                                            </div>
                                         </div>
-                                    )}
+                                    </Card>
+                                ))}
+                            </div>
+                        )}
+                    </main>
+                </div>
 
-                                    <div className="flex items-center justify-between">
-                                        <span className="text-xs text-muted-foreground">
-                                            {new Date(note.updated_at).toLocaleDateString()}
-                                        </span>
-                                        <div className="flex gap-1 opacity-0 transition-opacity group-hover:opacity-100">
-                                            <Button
-                                                size="icon"
-                                                variant="ghost"
-                                                className="h-8 w-8"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    toggleFavorite(note.id);
-                                                }}
-                                            >
-                                                <Star
-                                                    className={`h-4 w-4 ${note.favorited ? 'fill-accent text-accent' : ''}`}
-                                                />
-                                            </Button>
-                                            <Button
-                                                size="icon"
-                                                variant="ghost"
-                                                className="h-8 w-8"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    handleNoteClick(note);
-                                                }}
-                                            >
-                                                <Edit className="h-4 w-4" />
-                                            </Button>
-                                            <Button
-                                                size="icon"
-                                                variant="ghost"
-                                                className="h-8 w-8"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    toggleArchive(note.id);
-                                                }}
-                                            >
-                                                <Archive className="h-4 w-4" />
-                                            </Button>
-                                            <Button
-                                                size="icon"
-                                                variant="ghost"
-                                                className="h-8 w-8 text-destructive hover:bg-destructive/10"
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    handleDelete(note.id);
-                                                }}
-                                            >
-                                                <Trash2 className="h-4 w-4" />
-                                            </Button>
-                                        </div>
-                                    </div>
-                                </Card>
-                            ))}
-                        </div>
-                    )}
-                </main>
+                <NoteDialog
+                    note={selectedNote}
+                    open={isDialogOpen}
+                    onOpenChange={setIsDialogOpen}
+                    onUpdate={handleUpdateNote}
+                    onDelete={handleDelete}
+                    onToggleFavorite={toggleFavorite}
+                    onToggleArchive={toggleArchive}
+                    folders={folders}
+                    allTags={allTags}
+                />
+
+                <NoteDialog
+                    note={null}
+                    open={isNewNoteDialogOpen}
+                    onOpenChange={setIsNewNoteDialogOpen}
+                    onCreate={handleCreateNote}
+                    folders={folders}
+                    allTags={allTags}
+                />
             </div>
-
-            <NoteDialog
-                note={selectedNote}
-                open={isDialogOpen}
-                onOpenChange={setIsDialogOpen}
-                onUpdate={handleUpdateNote}
-                onDelete={handleDelete}
-                onToggleFavorite={toggleFavorite}
-                onToggleArchive={toggleArchive}
-                folders={folders}
-                allTags={allTags}
-            />
-
-            <NoteDialog
-                note={null}
-                open={isNewNoteDialogOpen}
-                onOpenChange={setIsNewNoteDialogOpen}
-                onCreate={handleCreateNote}
-                folders={folders}
-                allTags={allTags}
-            />
-        </div>
+        </AppLayout>
     );
 };
 
