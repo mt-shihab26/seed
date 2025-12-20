@@ -1,12 +1,17 @@
 import type { TLink } from '@/types/utils';
 
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import { BookOpen, Folder, LayoutGrid, StickyNote } from 'lucide-react';
 
 export const mainLinks: TLink[] = [
     {
         title: 'Dashboard',
         route: 'dashboard',
         icon: LayoutGrid,
+    },
+    {
+        title: 'Notes',
+        route: 'notes.index',
+        icon: StickyNote,
     },
 ];
 
