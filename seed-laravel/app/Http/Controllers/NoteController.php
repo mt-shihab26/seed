@@ -8,11 +8,35 @@ use Illuminate\Http\Request;
 class NoteController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the notes.
      */
     public function index()
     {
-        //
+        return inertia('notes/index');
+    }
+
+    /**
+     * Display a listing of the favorites notes.
+     */
+    public function favorites()
+    {
+        return inertia('notes/index');
+    }
+
+    /**
+     * Display a listing of the archived notes.
+     */
+    public function archived()
+    {
+        return inertia('notes/index');
+    }
+
+    /**
+     * Display a listing of the trashed notes.
+     */
+    public function trashed()
+    {
+        return inertia('notes/index');
     }
 
     /**

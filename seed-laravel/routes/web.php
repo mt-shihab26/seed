@@ -1,11 +1,11 @@
 <?php
 
+use App\Http\Controllers\NoteController;
 use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
-use Laravel\Fortify\Features;
 
-Route::get('/', fn () => inertia('welcome', ['canRegister' => Features::enabled(Features::registration())]))->name('home');
+Route::redirect('/', '/notes')->name('home');
+Route::redirect('/dashboard', '/notes')->name('dashboard');
 
 Route::prefix('/settings')->middleware('auth')->group(function () {
     Route::redirect('/', '/settings/statistics')->name('settings.redirect');
@@ -24,14 +24,9 @@ Route::prefix('/settings')->middleware('auth')->group(function () {
     Route::get('/appearance', [SettingController::class, 'editAppearance'])->name('settings.appearance.edit');
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
-    })->name('dashboard');
-});
-
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('notes', function () {
-        return Inertia::render('notes/index');
-    })->name('notes.index');
+Route::prefix('/notes')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/', [NoteController::class, 'index'])->name('notes.index');
+    Route::get('/favorites', [NoteController::class, 'favorites'])->name('notes.favorites');
+    Route::get('/archived', [NoteController::class, 'archived'])->name('notes.archived');
+    Route::get('/trashed', [NoteController::class, 'trashed'])->name('notes.trashed');
 });

@@ -10,17 +10,17 @@ export const mainLinks: TLink[] = [
     },
     {
         title: 'Favorites',
-        route: 'notes.index',
+        route: 'notes.favorites',
         icon: Star,
     },
     {
         title: 'Archived',
-        route: 'notes.index',
+        route: 'notes.archived',
         icon: Archive,
     },
     {
         title: 'Trash',
-        route: 'notes.index',
+        route: 'notes.trashed',
         icon: Trash2,
     },
 ];
