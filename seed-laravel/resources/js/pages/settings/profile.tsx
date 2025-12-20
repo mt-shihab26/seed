@@ -136,9 +136,11 @@ const Profile = ({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status
                                     <Label htmlFor="profile-bio">Bio</Label>
                                     <Textarea
                                         id="bio"
+                                        name="bio"
                                         defaultValue={props.auth.user.bio || ''}
                                         rows={4}
                                         placeholder="Tell others about yourself..."
+                                        autoComplete="off"
                                     />
                                 </div>
                                 <div className="space-y-2">
@@ -147,9 +149,11 @@ const Profile = ({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status
                                         <MapPin className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                                         <Input
                                             id="location"
+                                            name="location"
                                             defaultValue={props.auth.user.location || ''}
                                             className="pl-10"
                                             placeholder="City, Country"
+                                            autoComplete="address-level2"
                                         />
                                     </div>
                                 </div>
