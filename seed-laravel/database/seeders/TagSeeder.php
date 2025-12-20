@@ -2,7 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Note;
+use App\Models\Tag;
 use Illuminate\Database\Seeder;
 
 class TagSeeder extends Seeder
@@ -12,6 +13,13 @@ class TagSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Tag::factory(10)->create();
+
+        $notes = Note::all();
+        $tags = Tag::all();
+
+        $notes->each(function ($note) use ($tags) {
+            $note->tags()->attach($tags->random(rand(1, 3)));
+        });
     }
 }

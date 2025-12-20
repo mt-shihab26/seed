@@ -19,7 +19,7 @@ class TagFactory extends Factory
     {
         return [
             'user_id' => User::inRandomOrder()->first()?->id,
-            'name' => fake()->name(),
+            'name' => fake()->unique()->word(),
         ];
     }
 }
