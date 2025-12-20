@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignUuid('folder_id')->constrained('folders')->cascadeOnDelete()->cascadeOnUpdate();
 
             $table->string('title');
-            $table->string('content');
+            $table->text('content');
 
             $table->boolean('favorited')->default(false);
             $table->boolean('archived')->default(false);

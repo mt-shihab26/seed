@@ -19,7 +19,7 @@ class FolderFactory extends Factory
     {
         return [
             'user_id' => User::inRandomOrder()->first()?->id,
-            'name' => fake()->name(),
+            'name' => fake()->words(2, true),
         ];
     }
 }

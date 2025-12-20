@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Folder;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,9 +19,10 @@ class NoteFactory extends Factory
     public function definition(): array
     {
         return [
-            'folder_id' => Folder::inRandomOrder()?->first()?->id,
-            'title' => fake()->title(),
-            'content' => fake()->text(),
+            'user_id' => User::inRandomOrder()->first()?->id,
+            'folder_id' => Folder::inRandomOrder()->first()?->id,
+            'title' => fake()->sentence(),
+            'content' => fake()->paragraphs(3, true),
             'favorited' => fake()->boolean(25),
             'archived' => fake()->boolean(25),
         ];
@@ -42,12 +44,12 @@ class NoteFactory extends Factory
     public function archived(): static
     {
         return $this->state(fn (array $attributes) => [
-            'favorited' => true,
+            'archived' => true,
         ]);
     }
 
     /**
-     * Make the note archived for the user.
+     * Make the note deleted for the user.
      */
     public function deleted(): static
     {
