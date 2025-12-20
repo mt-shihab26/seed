@@ -16,3 +16,13 @@ export const getTagsFromNotes = (notes: TNote[]): TTag[] => {
         new Map(notes.flatMap((note) => note.tags).map((tag) => [tag.id, tag])).values(),
     );
 };
+
+export const getFilteredNotes = (
+    notes: TNote[],
+    options: {
+        selectedFolderID: string | null;
+        selectedTagIDs: string[] | null;
+    },
+): TNote[] => {
+    return notes;
+};

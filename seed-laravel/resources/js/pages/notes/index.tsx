@@ -23,7 +23,7 @@ import {
 import type { TNote } from '@/types/models';
 
 import { href } from '@/lib/href';
-import { getFoldersFromNotes, getTagsFromNotes } from '@/lib/notes';
+import { getFilteredNotes, getFoldersFromNotes, getTagsFromNotes } from '@/lib/notes';
 import { router, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
@@ -38,8 +38,12 @@ import { Head } from '@inertiajs/react';
 const Index = ({ notes, selectedTagIds }: { notes: TNote[]; selectedTagIds: string[] | null }) => {
     const { url } = usePage();
 
+    const [selectedFolderID, setSelectedFolderID] = useState<string | null>(null);
+    const [selectedTagIDs, setSelectedTagIDs] = useState<string[] | null>(null);
+
     const folders = getFoldersFromNotes(notes);
     const tags = getTagsFromNotes(notes);
+    const filteredNotes = getFilteredNotes(notes, { selectedFolderID, selectedTagIDs });
 
     const [selectedNote, setSelectedNote] = useState<TNote | null>(null);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -48,32 +52,6 @@ const Index = ({ notes, selectedTagIds }: { notes: TNote[]; selectedTagIds: stri
     const [showFavorites, setShowFavorites] = useState(false);
     const [showArchived, setShowArchived] = useState(false);
     const [showTrashed, setShowTrashed] = useState(false);
-
-    const filteredNotes = notes.filter((note) => {
-        const matchesSearch =
-            note.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            note.content.toLowerCase().includes(searchQuery.toLowerCase());
-
-        const matchesFolder = matchesSearch;
-        const matchesTags = matchesSearch;
-        const matchesFavorite = matchesSearch;
-        const matchesArchived = matchesSearch;
-        const matchesTrashed = matchesSearch;
-
-        return (
-            matchesSearch &&
-            matchesFolder &&
-            matchesTags &&
-            matchesFavorite &&
-            matchesArchived &&
-            matchesTrashed
-        );
-    });
-
-    const handleNoteClick = (note: TNote) => {
-        setSelectedNote(note);
-        setIsDialogOpen(true);
-    };
 
     return (
         <AppLayout>
