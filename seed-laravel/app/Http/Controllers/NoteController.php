@@ -8,11 +8,19 @@ use Illuminate\Http\Request;
 class NoteController extends Controller
 {
     /**
+     * Build query notes with folder and tags
+     */
+    private function notesQuery(Request $request)
+    {
+        return $request->user()->notes()->with(['folder', 'tags']);
+    }
+
+    /**
      * Display a listing of the notes.
      */
     public function index(Request $request)
     {
-        $notes = $request->user()->notes()->with(['folder', 'tags'])->get();
+        $notes = $this->notesQuery($request)->get();
 
         return inertia('notes/index', [
             'notes' => $notes,
@@ -24,7 +32,7 @@ class NoteController extends Controller
      */
     public function favorites(Request $request)
     {
-        $notes = $request->user()->notes()->with(['folder', 'tags'])->whereNotNull('favorited_at')->get();
+        $notes = $this->notesQuery($request)->whereNotNull('favorited_at')->get();
 
         return inertia('notes/index', [
             'notes' => $notes,
@@ -36,7 +44,7 @@ class NoteController extends Controller
      */
     public function archived(Request $request)
     {
-        $notes = $request->user()->notes()->with(['folder', 'tags'])->whereNotNull('archived_at')->get();
+        $notes = $this->notesQuery($request)->whereNotNull('archived_at')->get();
 
         return inertia('notes/index', [
             'notes' => $notes,
@@ -48,7 +56,7 @@ class NoteController extends Controller
      */
     public function trashed(Request $request)
     {
-        $notes = $request->user()->notes()->with(['folder', 'tags'])->withTrashed()->get();
+        $notes = $this->notesQuery($request)->withTrashed()->get();
 
         return inertia('notes/index', [
             'notes' => $notes,
