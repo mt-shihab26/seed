@@ -7,23 +7,28 @@ import { Heading } from '@/components/elements/heading';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Link } from '@inertiajs/react';
+import { KeyRound, Palette, ShieldCheck, UserCircle } from 'lucide-react';
 
 const links: { title: string; route: string; icon?: LucideIcon }[] = [
     {
         title: 'Profile',
         route: 'settings.profile.edit',
+        icon: UserCircle,
     },
     {
         title: 'Password',
         route: 'settings.password.edit',
+        icon: KeyRound,
     },
     {
         title: 'Two-Factor Auth',
         route: 'settings.two-factor.show',
+        icon: ShieldCheck,
     },
     {
         title: 'Appearance',
         route: 'settings.appearance.edit',
+        icon: Palette,
     },
 ];
 
