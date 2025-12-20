@@ -21,11 +21,12 @@ import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu';
 import { formatInitials } from '@/lib/format';
 import { cn } from '@/lib/utils';
 import { usePage } from '@inertiajs/react';
+import { mainLinks, rightLinks } from './links';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid, Menu, Search } from 'lucide-react';
+import { Menu, Search } from 'lucide-react';
 
 import { AppLogoIcon } from '@/components/elements/app-logo-icon';
 import { Icon } from '@/components/elements/icon';
@@ -33,27 +34,6 @@ import { Icon } from '@/components/elements/icon';
 import { AppLogo } from './app-logo';
 import { Breadcrumbs } from './breadcrumbs';
 import { UserMenuContent } from './user-menu-content';
-
-const mainLinks: TLink[] = [
-    {
-        title: 'Dashboard',
-        route: 'dashboard',
-        icon: LayoutGrid,
-    },
-];
-
-const rightLinks: TLink[] = [
-    {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: Folder,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#react',
-        icon: BookOpen,
-    },
-];
 
 const activeLinkClassName = 'text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100';
 
@@ -143,7 +123,7 @@ export const Header = ({ breadcrumbs = [] }: { breadcrumbs?: TBreadcrumb[] }) =>
                                         className="relative flex h-full items-center"
                                     >
                                         <Link
-                                            href={link.href}
+                                            href={getHref(link)}
                                             className={cn(
                                                 navigationMenuTriggerStyle(),
                                                 isActive(link) && activeLinkClassName,
