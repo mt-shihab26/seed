@@ -23,8 +23,6 @@ class NoteFactory extends Factory
             'folder_id' => Folder::inRandomOrder()->first()?->id,
             'title' => fake()->sentence(),
             'content' => fake()->paragraphs(3, true),
-            'favorited' => fake()->boolean(25),
-            'archived' => fake()->boolean(25),
         ];
     }
 
@@ -34,7 +32,7 @@ class NoteFactory extends Factory
     public function favorited(): static
     {
         return $this->state(fn (array $attributes) => [
-            'favorited' => true,
+            'favorited_at' => now(),
         ]);
     }
 
@@ -44,7 +42,7 @@ class NoteFactory extends Factory
     public function archived(): static
     {
         return $this->state(fn (array $attributes) => [
-            'archived' => true,
+            'archived_at' => now(),
         ]);
     }
 

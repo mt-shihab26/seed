@@ -53,8 +53,8 @@ const Index = () => {
             updated_at: '2024-01-15',
             tags: ['react', 'javascript'],
             folder: 'Learning',
-            favorited: true,
-            archived: false,
+            favorited_at: true,
+            archived_at: false,
             trashed: false,
         },
         {
@@ -66,8 +66,8 @@ const Index = () => {
             updated_at: '2024-01-14',
             tags: ['laravel', 'php'],
             folder: 'Learning',
-            favorited: false,
-            archived: false,
+            favorited_at: false,
+            archived_at: false,
             trashed: false,
         },
         {
@@ -79,8 +79,8 @@ const Index = () => {
             updated_at: '2024-01-13',
             tags: ['rails', 'ruby'],
             folder: 'Learning',
-            favorited: false,
-            archived: false,
+            favorited_at: false,
+            archived_at: false,
             trashed: false,
         },
         {
@@ -92,8 +92,8 @@ const Index = () => {
             updated_at: '2024-01-12',
             tags: ['meeting', 'planning'],
             folder: 'Work',
-            favorited: false,
-            archived: false,
+            favorited_at: false,
+            archived_at: false,
             trashed: false,
         },
     ]);
@@ -109,8 +109,8 @@ const Index = () => {
         const matchesFolder = !selectedFolder || note.folder === selectedFolder;
         const matchesTags =
             selectedTags.length === 0 || selectedTags.some((tag) => note.tags.includes(tag));
-        const matchesFavorite = !showFavorites || note.favorited;
-        const matchesArchived = showArchived ? note.archived : !note.archived;
+        const matchesFavorite = !showFavorites || note.favorited_at;
+        const matchesArchived = showArchived ? note.archived_at : !note.archived_at;
         const matchesTrashed = showTrashed ? note.trashed : !note.trashed;
 
         return (
@@ -144,13 +144,17 @@ const Index = () => {
 
     const toggleFavorite = (id: string) => {
         setNotes(
-            notes.map((note) => (note.id === id ? { ...note, favorited: !note.favorited } : note)),
+            notes.map((note) =>
+                note.id === id ? { ...note, favorited_at: !note.favorited_at } : note,
+            ),
         );
     };
 
     const toggleArchive = (id: string) => {
         setNotes(
-            notes.map((note) => (note.id === id ? { ...note, archived: !note.archived } : note)),
+            notes.map((note) =>
+                note.id === id ? { ...note, archived_at: !note.archived_at } : note,
+            ),
         );
     };
 
@@ -339,7 +343,7 @@ const Index = () => {
                                         className="group relative cursor-pointer border-border bg-card p-6 transition-all hover:shadow-md"
                                         onClick={() => handleNoteClick(note)}
                                     >
-                                        {note.favorited && (
+                                        {note.favorited_at && (
                                             <Star className="absolute top-4 right-4 h-4 w-4 fill-accent text-accent" />
                                         )}
                                         <h3 className="mb-2 text-lg font-semibold text-balance text-card-foreground">
@@ -378,7 +382,7 @@ const Index = () => {
                                                     }}
                                                 >
                                                     <Star
-                                                        className={`h-4 w-4 ${note.favorited ? 'fill-accent text-accent' : ''}`}
+                                                        className={`h-4 w-4 ${note.favorited_at ? 'fill-accent text-accent' : ''}`}
                                                     />
                                                 </Button>
                                                 <Button

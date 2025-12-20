@@ -15,6 +15,28 @@ class Note extends Model
     use HasFactory, HasUuids, SoftDeletes;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        //
+    ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'favorited_at' => 'datetime',
+            'archived_at' => 'datetime',
+        ];
+    }
+
+    /**
      * Get the user that owns the note.
      */
     public function user(): BelongsTo

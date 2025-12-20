@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('title');
             $table->text('content');
 
-            $table->boolean('favorited')->default(false);
-            $table->boolean('archived')->default(false);
+            $table->timestamp('favorited_at')->nullable();
+            $table->timestamp('archived_at')->nullable();
 
             $table->softDeletes();
             $table->timestamps();

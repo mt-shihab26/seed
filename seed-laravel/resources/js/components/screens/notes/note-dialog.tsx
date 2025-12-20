@@ -113,8 +113,8 @@ export function NoteDialog({
                 content: editedContent,
                 tags: editedTags,
                 folder: editedFolder || folders[0] || 'General',
-                favorited: false,
-                archived: false,
+                favorited_at: false,
+                archived_at: false,
                 trashed: false,
                 created_at: new Date().toISOString(),
                 updated_at: new Date().toISOString(),
@@ -246,9 +246,9 @@ export function NoteDialog({
                                                 onClick={() => note && onToggleFavorite?.(note.id)}
                                             >
                                                 <Star
-                                                    className={`mr-2 h-4 w-4 ${note?.favorited ? 'fill-current' : ''}`}
+                                                    className={`mr-2 h-4 w-4 ${note?.favorited_at ? 'fill-current' : ''}`}
                                                 />
-                                                {note?.favorited
+                                                {note?.favorited_at
                                                     ? 'Remove from favorites'
                                                     : 'Add to favorites'}
                                             </DropdownMenuItem>
@@ -256,7 +256,7 @@ export function NoteDialog({
                                                 onClick={() => note && onToggleArchive?.(note.id)}
                                             >
                                                 <Archive className="mr-2 h-4 w-4" />
-                                                {note?.archived ? 'Unarchive' : 'Archive'}
+                                                {note?.archived_at ? 'Unarchive' : 'Archive'}
                                             </DropdownMenuItem>
                                             <DropdownMenuSeparator />
                                             <DropdownMenuItem onClick={handleExport}>
