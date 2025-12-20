@@ -31,6 +31,8 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
+import type { TNote } from '@/types/models';
+
 import { useEffect, useState } from 'react';
 
 import { Badge } from '@/components/ui/badge';
@@ -40,25 +42,12 @@ import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
 
-interface Note {
-    id: string;
-    title: string;
-    content: string;
-    createdAt: string;
-    updatedAt: string;
-    tags: string[];
-    folder: string;
-    isFavorite: boolean;
-    isArchived: boolean;
-    isTrashed: boolean;
-}
-
 interface NoteDialogProps {
-    note: Note | null;
+    note: TNote | null;
     open: boolean;
     onOpenChange: (open: boolean) => void;
-    onUpdate?: (note: Note) => void;
-    onCreate?: (note: Note) => void;
+    onUpdate?: (note: TNote) => void;
+    onCreate?: (note: TNote) => void;
     onDelete?: (id: string) => void;
     onToggleFavorite?: (id: string) => void;
     onToggleArchive?: (id: string) => void;
@@ -118,17 +107,17 @@ export function NoteDialog({
 
     const handleSave = () => {
         if (isNewNote && onCreate) {
-            const newNote: Note = {
+            const newNote: TNote = {
                 id: Date.now().toString(),
                 title: editedTitle || 'Untitled Note',
                 content: editedContent,
                 tags: editedTags,
                 folder: editedFolder || folders[0] || 'General',
-                isFavorite: false,
-                isArchived: false,
-                isTrashed: false,
-                createdAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString(),
+                favorited: false,
+                archived: false,
+                trashed: false,
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString(),
             };
             onCreate(newNote);
             onOpenChange(false);
@@ -139,7 +128,7 @@ export function NoteDialog({
                 content: editedContent,
                 tags: editedTags,
                 folder: editedFolder,
-                updatedAt: new Date().toISOString(),
+                updated_at: new Date().toISOString(),
             });
             setIsEditing(false);
         }
@@ -219,7 +208,7 @@ export function NoteDialog({
                                         <span>
                                             Updated{' '}
                                             {new Date(
-                                                note?.updatedAt || '',
+                                                note?.updated_at || '',
                                             ).toLocaleDateString()}
                                         </span>
                                         {!isEditing && (
@@ -276,9 +265,9 @@ export function NoteDialog({
                                                 }
                                             >
                                                 <Star
-                                                    className={`mr-2 h-4 w-4 ${note?.isFavorite ? 'fill-current' : ''}`}
+                                                    className={`mr-2 h-4 w-4 ${note?.favorited ? 'fill-current' : ''}`}
                                                 />
-                                                {note?.isFavorite
+                                                {note?.favorited
                                                     ? 'Remove from favorites'
                                                     : 'Add to favorites'}
                                             </DropdownMenuItem>
@@ -289,7 +278,7 @@ export function NoteDialog({
                                                 }
                                             >
                                                 <Archive className="mr-2 h-4 w-4" />
-                                                {note?.isArchived
+                                                {note?.archived
                                                     ? 'Unarchive'
                                                     : 'Archive'}
                                             </DropdownMenuItem>

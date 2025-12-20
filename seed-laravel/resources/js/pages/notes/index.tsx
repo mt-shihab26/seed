@@ -20,6 +20,8 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
+import type { TNote } from '@/types/models';
+
 import { useState } from 'react';
 
 import { NoteDialog } from '@/components/screens/notes/note-dialog';
@@ -30,21 +32,8 @@ import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Link } from '@inertiajs/react';
 
-interface Note {
-    id: string;
-    title: string;
-    content: string;
-    createdAt: string;
-    updatedAt: string;
-    tags: string[];
-    folder: string;
-    isFavorite: boolean;
-    isArchived: boolean;
-    isTrashed: boolean;
-}
-
 export default function NotesPage() {
-    const [selectedNote, setSelectedNote] = useState<Note | null>(null);
+    const [selectedNote, setSelectedNote] = useState<TNote | null>(null);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [isNewNoteDialogOpen, setIsNewNoteDialogOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
@@ -54,58 +43,58 @@ export default function NotesPage() {
     const [showArchived, setShowArchived] = useState(false);
     const [showTrashed, setShowTrashed] = useState(false);
 
-    const [notes, setNotes] = useState<Note[]>([
+    const [notes, setNotes] = useState<TNote[]>([
         {
             id: '1',
             title: 'Understanding React Hooks',
             content:
                 'useState and useEffect are fundamental hooks that every React developer should master...',
-            createdAt: '2024-01-15',
-            updatedAt: '2024-01-15',
+            created_at: '2024-01-15',
+            updated_at: '2024-01-15',
             tags: ['react', 'javascript'],
             folder: 'Learning',
-            isFavorite: true,
-            isArchived: false,
-            isTrashed: false,
+            favorited: true,
+            archived: false,
+            trashed: false,
         },
         {
             id: '2',
             title: 'Laravel Routing Basics',
             content:
                 'Routes in Laravel are defined in the routes directory. The most common file is web.php...',
-            createdAt: '2024-01-14',
-            updatedAt: '2024-01-14',
+            created_at: '2024-01-14',
+            updated_at: '2024-01-14',
             tags: ['laravel', 'php'],
             folder: 'Learning',
-            isFavorite: false,
-            isArchived: false,
-            isTrashed: false,
+            favorited: false,
+            archived: false,
+            trashed: false,
         },
         {
             id: '3',
             title: 'Ruby on Rails MVC Pattern',
             content:
                 'Rails follows the Model-View-Controller pattern strictly. Models handle data logic...',
-            createdAt: '2024-01-13',
-            updatedAt: '2024-01-13',
+            created_at: '2024-01-13',
+            updated_at: '2024-01-13',
             tags: ['rails', 'ruby'],
             folder: 'Learning',
-            isFavorite: false,
-            isArchived: false,
-            isTrashed: false,
+            favorited: false,
+            archived: false,
+            trashed: false,
         },
         {
             id: '4',
             title: 'Meeting Notes - Project Planning',
             content:
                 'Discussed timeline, milestones, and team responsibilities for the upcoming quarter...',
-            createdAt: '2024-01-12',
-            updatedAt: '2024-01-12',
+            created_at: '2024-01-12',
+            updated_at: '2024-01-12',
             tags: ['meeting', 'planning'],
             folder: 'Work',
-            isFavorite: false,
-            isArchived: false,
-            isTrashed: false,
+            favorited: false,
+            archived: false,
+            trashed: false,
         },
     ]);
 
@@ -121,11 +110,9 @@ export default function NotesPage() {
         const matchesTags =
             selectedTags.length === 0 ||
             selectedTags.some((tag) => note.tags.includes(tag));
-        const matchesFavorite = !showFavorites || note.isFavorite;
-        const matchesArchived = showArchived
-            ? note.isArchived
-            : !note.isArchived;
-        const matchesTrashed = showTrashed ? note.isTrashed : !note.isTrashed;
+        const matchesFavorite = !showFavorites || note.favorited;
+        const matchesArchived = showArchived ? note.archived : !note.archived;
+        const matchesTrashed = showTrashed ? note.trashed : !note.trashed;
 
         return (
             matchesSearch &&
@@ -137,12 +124,12 @@ export default function NotesPage() {
         );
     });
 
-    const handleNoteClick = (note: Note) => {
+    const handleNoteClick = (note: TNote) => {
         setSelectedNote(note);
         setIsDialogOpen(true);
     };
 
-    const handleUpdateNote = (updatedNote: Note) => {
+    const handleUpdateNote = (updatedNote: TNote) => {
         setNotes(
             notes.map((note) =>
                 note.id === updatedNote.id ? updatedNote : note,
@@ -151,7 +138,7 @@ export default function NotesPage() {
         setSelectedNote(updatedNote);
     };
 
-    const handleCreateNote = (newNote: Note) => {
+    const handleCreateNote = (newNote: TNote) => {
         setNotes([newNote, ...notes]);
         setIsNewNoteDialogOpen(false);
     };
@@ -159,7 +146,7 @@ export default function NotesPage() {
     const handleDelete = (id: string) => {
         setNotes(
             notes.map((note) =>
-                note.id === id ? { ...note, isTrashed: true } : note,
+                note.id === id ? { ...note, trashed: true } : note,
             ),
         );
     };
@@ -167,9 +154,7 @@ export default function NotesPage() {
     const toggleFavorite = (id: string) => {
         setNotes(
             notes.map((note) =>
-                note.id === id
-                    ? { ...note, isFavorite: !note.isFavorite }
-                    : note,
+                note.id === id ? { ...note, favorited: !note.favorited } : note,
             ),
         );
     };
@@ -177,9 +162,7 @@ export default function NotesPage() {
     const toggleArchive = (id: string) => {
         setNotes(
             notes.map((note) =>
-                note.id === id
-                    ? { ...note, isArchived: !note.isArchived }
-                    : note,
+                note.id === id ? { ...note, archived: !note.archived } : note,
             ),
         );
     };
@@ -412,7 +395,7 @@ export default function NotesPage() {
                                     className="group relative cursor-pointer border-border bg-card p-6 transition-all hover:shadow-md"
                                     onClick={() => handleNoteClick(note)}
                                 >
-                                    {note.isFavorite && (
+                                    {note.favorited && (
                                         <Star className="absolute top-4 right-4 h-4 w-4 fill-accent text-accent" />
                                     )}
                                     <h3 className="mb-2 text-lg font-semibold text-balance text-card-foreground">
@@ -439,7 +422,7 @@ export default function NotesPage() {
                                     <div className="flex items-center justify-between">
                                         <span className="text-xs text-muted-foreground">
                                             {new Date(
-                                                note.updatedAt,
+                                                note.updated_at,
                                             ).toLocaleDateString()}
                                         </span>
                                         <div className="flex gap-1 opacity-0 transition-opacity group-hover:opacity-100">
@@ -453,7 +436,7 @@ export default function NotesPage() {
                                                 }}
                                             >
                                                 <Star
-                                                    className={`h-4 w-4 ${note.isFavorite ? 'fill-accent text-accent' : ''}`}
+                                                    className={`h-4 w-4 ${note.favorited ? 'fill-accent text-accent' : ''}`}
                                                 />
                                             </Button>
                                             <Button
