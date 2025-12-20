@@ -42,7 +42,6 @@ const TwoFactor = ({
                 },
                 {
                     title: 'Two-Factor Authentication',
-                    route: 'settings.two-factor.show',
                 },
             ]}
         >

@@ -26,7 +26,6 @@ function Password() {
                 },
                 {
                     title: 'Password',
-                    route: 'settings.password.edit',
                 },
             ]}
         >

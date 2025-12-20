@@ -1,18 +1,9 @@
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
-
 import type { TShared } from '@/types/props';
 
 import { formatInitials } from '@/lib/format';
 import { toast } from '@/lib/toast';
 import { send } from '@/routes/verification';
 import { usePage } from '@inertiajs/react';
-import { useState } from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -20,11 +11,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
-import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { Transition } from '@headlessui/react';
 import { Form, Head, Link } from '@inertiajs/react';
-import { Calendar, Mail, MapPin, Save } from 'lucide-react';
+import { MapPin, Save } from 'lucide-react';
 
 import { DeleteUser } from '@/components/elements/delete-user';
 import { HeadingSmall } from '@/components/elements/heading-small';
@@ -37,11 +27,6 @@ import SettingController from '@/actions/App/Http/Controllers/SettingController'
 
 const Profile = ({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status?: string }) => {
     const { props } = usePage<TShared>();
-
-    const [emailNotifications, setEmailNotifications] = useState(true);
-    const [autoSave, setAutoSave] = useState(true);
-    const [compactView, setCompactView] = useState(false);
-    const [defaultFolder, setDefaultFolder] = useState('Learning');
 
     const handleSaveSettings = () => {
         toast('Settings saved', {
@@ -58,7 +43,6 @@ const Profile = ({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status
                 },
                 {
                     title: 'Profile',
-                    route: 'settings.profile.edit',
                 },
             ]}
         >
@@ -179,116 +163,7 @@ const Profile = ({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status
                     </Form>
                 </div>
 
-                {/* Account Stats */}
-                <div className="grid gap-4 rounded-lg border border-border bg-muted/30 p-4 sm:grid-cols-3">
-                    <div className="text-center">
-                        <p className="text-2xl font-bold text-foreground">47</p>
-                        <p className="text-sm text-muted-foreground">Total Notes</p>
-                    </div>
-                    <div className="text-center">
-                        <p className="text-2xl font-bold text-foreground">8</p>
-                        <p className="text-sm text-muted-foreground">Favorites</p>
-                    </div>
-                    <div className="text-center">
-                        <p className="text-2xl font-bold text-foreground">12</p>
-                        <p className="text-sm text-muted-foreground">Folders</p>
-                    </div>
-                </div>
-
-                {/* Account Details */}
-                <div className="space-y-3 rounded-lg border border-border p-4">
-                    <div className="flex items-center gap-3 text-sm">
-                        <Mail className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-muted-foreground">Email:</span>
-                        <span className="text-foreground">john@example.com</span>
-                    </div>
-                    <div className="flex items-center gap-3 text-sm">
-                        <Calendar className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-muted-foreground">Joined:</span>
-                        <span className="text-foreground">January 2024</span>
-                    </div>
-                </div>
-
                 <div className="space-y-6">
-                    {/* Notification Settings */}
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Notifications</CardTitle>
-                            <CardDescription>
-                                Configure how you receive notifications
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            <div className="flex items-center justify-between">
-                                <div className="space-y-0.5">
-                                    <Label htmlFor="email-notifications">Email Notifications</Label>
-                                    <p className="text-sm text-muted-foreground">
-                                        Receive email updates about your notes
-                                    </p>
-                                </div>
-                                <Switch
-                                    id="email-notifications"
-                                    checked={emailNotifications}
-                                    onCheckedChange={setEmailNotifications}
-                                />
-                            </div>
-                            <Separator />
-                            <div className="flex items-center justify-between">
-                                <div className="space-y-0.5">
-                                    <Label htmlFor="auto-save">Auto-save</Label>
-                                    <p className="text-sm text-muted-foreground">
-                                        Automatically save notes as you type
-                                    </p>
-                                </div>
-                                <Switch
-                                    id="auto-save"
-                                    checked={autoSave}
-                                    onCheckedChange={setAutoSave}
-                                />
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                    {/* Display Settings */}
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Display Preferences</CardTitle>
-                            <CardDescription>
-                                Customize how your notes are displayed
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            <div className="flex items-center justify-between">
-                                <div className="space-y-0.5">
-                                    <Label htmlFor="compact-view">Compact View</Label>
-                                    <p className="text-sm text-muted-foreground">
-                                        Show more notes per page
-                                    </p>
-                                </div>
-                                <Switch
-                                    id="compact-view"
-                                    checked={compactView}
-                                    onCheckedChange={setCompactView}
-                                />
-                            </div>
-                            <Separator />
-                            <div className="space-y-2">
-                                <Label htmlFor="default-folder">Default Folder</Label>
-                                <Select value={defaultFolder} onValueChange={setDefaultFolder}>
-                                    <SelectTrigger id="default-folder">
-                                        <SelectValue />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="Learning">Learning</SelectItem>
-                                        <SelectItem value="Work">Work</SelectItem>
-                                        <SelectItem value="Personal">Personal</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                    {/* Export & Data */}
                     <Card>
                         <CardHeader>
                             <CardTitle>Data Management</CardTitle>
@@ -316,8 +191,6 @@ const Profile = ({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status
                             </div>
                         </CardContent>
                     </Card>
-
-                    {/* Save Button */}
                     <div className="flex justify-end">
                         <Button onClick={handleSaveSettings} size="lg">
                             <Save className="mr-2 h-4 w-4" />

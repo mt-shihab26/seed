@@ -16,7 +16,6 @@ const Appearance = () => {
                 },
                 {
                     title: 'Appearance',
-                    route: 'settings.appearance.edit',
                 },
             ]}
         >
