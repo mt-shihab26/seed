@@ -24,7 +24,7 @@ import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { Transition } from '@headlessui/react';
 import { Form, Head, Link } from '@inertiajs/react';
-import { Calendar, Mail, MapPin, Save, Upload } from 'lucide-react';
+import { Calendar, Mail, MapPin, Save } from 'lucide-react';
 
 import { DeleteUser } from '@/components/elements/delete-user';
 import { HeadingSmall } from '@/components/elements/heading-small';
@@ -69,34 +69,17 @@ const Profile = ({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status
                         title="Profile information"
                         description="Update your name and email address"
                     />
-                    <Card>
-                        <CardContent className="pt-6">
-                            <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-start">
-                                <Avatar className="h-24 w-24 border-4 border-accent/20">
-                                    <AvatarImage
-                                        src={props.auth.user?.avatar || ''}
-                                        alt={props.auth.user?.name}
-                                    />
-                                    <AvatarFallback className="bg-accent text-2xl text-accent-foreground">
-                                        {formatInitials(props.auth.user?.name)}
-                                    </AvatarFallback>
-                                </Avatar>
-                                <div className="flex-1 text-center sm:text-left">
-                                    <h3 className="mb-1 text-lg font-semibold text-foreground">
-                                        {props.auth.user?.name}
-                                    </h3>
-                                    <p className="mb-4 text-sm text-muted-foreground">
-                                        {props.auth.user?.email}
-                                    </p>
-                                    <Button variant="outline" size="sm">
-                                        <Upload className="mr-2 h-4 w-4" />
-                                        Upload Photo
-                                    </Button>
-                                </div>
-                            </div>
-                        </CardContent>
-                    </Card>
-
+                    <div>
+                        <Avatar className="size-40 border-4 border-accent/20">
+                            <AvatarImage
+                                src={props.auth.user?.avatar || ''}
+                                alt={props.auth.user?.name}
+                            />
+                            <AvatarFallback className="bg-accent text-2xl text-accent-foreground">
+                                {formatInitials(props.auth.user?.name)}
+                            </AvatarFallback>
+                        </Avatar>
+                    </div>
                     <Form
                         {...SettingController.updateProfile.form()}
                         options={{ preserveScroll: true }}
@@ -131,7 +114,6 @@ const Profile = ({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status
                                     />
                                     <InputError className="mt-2" message={errors.email} />
                                 </div>
-
                                 <div className="space-y-2">
                                     <Label htmlFor="profile-bio">Bio</Label>
                                     <Textarea
@@ -157,7 +139,6 @@ const Profile = ({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status
                                         />
                                     </div>
                                 </div>
-
                                 {mustVerifyEmail && props.auth.user.email_verified_at === null && (
                                     <div>
                                         <p className="-mt-4 text-sm text-muted-foreground">
@@ -179,12 +160,10 @@ const Profile = ({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status
                                         )}
                                     </div>
                                 )}
-
                                 <div className="flex items-center gap-4">
                                     <Button disabled={processing} data-test="update-profile-button">
                                         Save
                                     </Button>
-
                                     <Transition
                                         show={recentlySuccessful}
                                         enter="transition ease-in-out"
