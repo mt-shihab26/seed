@@ -12,7 +12,11 @@ class NoteController extends Controller
      */
     public function index()
     {
-        return inertia('notes/index');
+        $notes = Note::query()->with([''])->get();
+
+        return inertia('notes/index', [
+            'notes' => $notes,
+        ]);
     }
 
     /**
