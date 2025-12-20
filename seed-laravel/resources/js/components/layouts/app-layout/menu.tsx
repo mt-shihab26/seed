@@ -27,6 +27,7 @@ import { usePage } from '@inertiajs/react';
 import { AppLogoIcon } from '@/components/icons/app-logo-icon';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { ChevronDownIcon } from 'lucide-react';
 
 export const Menu = () => {
     const { user } = usePage<TShared>().props.auth;
@@ -34,7 +35,7 @@ export const Menu = () => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="lg" className="h-12 rounded-full">
+                <Button variant="ghost" size="lg" className="h-14 rounded-full">
                     <div className="flex aspect-square size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
                         <AppLogoIcon className="size-5 fill-current text-white dark:text-black" />
                     </div>
@@ -43,12 +44,13 @@ export const Menu = () => {
                             {APP_NAME}
                         </span>
                     </div>
+                    <ChevronDownIcon className="size-6" />
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
                 className="w-120 space-y-2 rounded-4xl p-6"
                 align="center"
-                sideOffset={-40}
+                sideOffset={-44}
             >
                 <div className="text-center text-xl font-bold">
                     <h2>{user.name}'s Notes</h2>
