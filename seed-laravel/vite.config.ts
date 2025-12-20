@@ -1,5 +1,4 @@
 import { wayfinder } from '@laravel/vite-plugin-wayfinder';
-import { resolve } from 'path';
 import { defineConfig } from 'vite';
 
 import tailwindcss from '@tailwindcss/vite';
@@ -25,10 +24,5 @@ export default defineConfig({
     ],
     esbuild: {
         jsx: 'automatic',
-    },
-    resolve: {
-        alias: {
-            'ziggy-js': resolve(__dirname, 'vendor/tightenco/ziggy'),
-        },
     },
 });

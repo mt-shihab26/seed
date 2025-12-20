@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Settings\ProfileUpdateRequest;
+use App\Http\Requests\Settings\TwoFactorAuthenticationRequest;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
 use Inertia\Inertia;
 use Inertia\Response;
+use Laravel\Fortify\Features;
 
 class SettingController extends Controller
 {
@@ -37,7 +39,7 @@ class SettingController extends Controller
 
         $request->user()->save();
 
-        return to_route('profile.edit');
+        return to_route('settings.profile.edit');
     }
 
     /**
@@ -84,5 +86,26 @@ class SettingController extends Controller
         ]);
 
         return back();
+    }
+
+    /**
+     * Show the user's two-factor authentication settings page.
+     */
+    public function twoFactorShow(TwoFactorAuthenticationRequest $request): Response
+    {
+        $request->ensureStateIsValid();
+
+        return Inertia::render('settings/two-factor', [
+            'twoFactorEnabled' => $request->user()->hasEnabledTwoFactorAuthentication(),
+            'requiresConfirmation' => Features::optionEnabled(Features::twoFactorAuthentication(), 'confirm'),
+        ]);
+    }
+
+    /**
+     * Show appearance settings page
+     */
+    public function editAppearance()
+    {
+        return Inertia::render('settings/appearance');
     }
 }
