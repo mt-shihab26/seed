@@ -1,5 +1,5 @@
 import { useTwoFactorAuth } from '@/hooks/use-two-factor-auth';
-import { disable, enable } from '@/routes/settings/two-factor';
+import { disable, enable } from '@/routes/two-factor';
 import { useState } from 'react';
 
 import { Badge } from '@/components/ui/badge';
