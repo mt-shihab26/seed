@@ -1,3 +1,5 @@
+import type { TLink } from '@/types/utils';
+
 const toURL = (href: string): URL => {
     return new URL(href, window.location.origin);
 };
@@ -32,4 +34,12 @@ export const href = {
     redirect: (url: string): void => {
         window.location.href = url;
     },
+};
+
+export const getHref = (link: TLink): string => {
+    return link.route ? route(link.route) : link.href || '';
+};
+
+export const isActiveHref = (url: string, link: TLink): boolean => {
+    return link.route ? route().current(link.route) : link.href === url;
 };

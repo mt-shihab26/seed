@@ -10,21 +10,18 @@ import {
     DropdownMenuContent,
     DropdownMenuGroup,
     DropdownMenuItem,
-    DropdownMenuPortal,
     DropdownMenuSeparator,
     DropdownMenuShortcut,
-    DropdownMenuSub,
-    DropdownMenuSubContent,
-    DropdownMenuSubTrigger,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
 import type { TShared } from '@/types/props';
-import type { TLink } from '@/types/utils';
 
 import { APP_NAME } from '@/lib/env';
+import { formatShortcut } from '@/lib/format';
+import { getHref } from '@/lib/href';
+import { pagesLinks, settingsLinks } from '@/lib/links';
 import { router, usePage } from '@inertiajs/react';
-import { mainLinks } from './links';
 
 import { AppLogoIcon } from '@/components/icons/app-logo-icon';
 import { Button } from '@/components/ui/button';
@@ -34,9 +31,6 @@ import { ChevronDownIcon } from 'lucide-react';
 
 export const Menu = () => {
     const { url, props } = usePage<TShared>();
-
-    const getHref = (l: TLink): string => (l.route ? route(l.route) : l.href || '');
-    const isActive = (l: TLink): boolean => (l.route ? route().current(l.route) : l.href === url);
 
     return (
         <DropdownMenu>
@@ -69,122 +63,49 @@ export const Menu = () => {
                     />
                 </div>
                 <DropdownMenuSeparator />
+
                 <DropdownMenuGroup>
-                    {mainLinks.map((link) => (
-                        <DropdownMenuItem onClick={() => router.visit(getHref(link))}>
+                    {pagesLinks.map((link) => (
+                        <DropdownMenuItem
+                            key={link.route || link.href}
+                            onClick={() => router.visit(getHref(link))}
+                        >
                             <Icon iconNode={link.icon} />
                             {link.title}
-                            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                            {link.shortcut && (
+                                <DropdownMenuShortcut>
+                                    {formatShortcut(link.shortcut)}
+                                </DropdownMenuShortcut>
+                            )}
                         </DropdownMenuItem>
                     ))}
-                    <DropdownMenuItem>
-                        <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                        Settings
-                        <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                        Keyboard shortcuts
-                        <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
-                    </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <div>
-                    <DropdownMenuGroup>
-                        <DropdownMenuItem>
-                            Profile
-                            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                            Billing
-                            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                            Settings
-                            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                            Keyboard shortcuts
-                            <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
-                        </DropdownMenuItem>
-                    </DropdownMenuGroup>
 
-                    <Accordion type="multiple" className="w-full">
-                        <AccordionItem value="item-1">
-                            <AccordionTrigger>Product Information</AccordionTrigger>
-                            <AccordionContent className="flex flex-col gap-4 text-balance">
-                                <p>
-                                    Our flagship product combines cutting-edge technology with sleek
-                                    design. Built with premium materials, it offers unparalleled
-                                    performance and reliability.
-                                </p>
-                                <p>
-                                    Key features include advanced processing capabilities, and an
-                                    intuitive user interface designed for both beginners and
-                                    experts.
-                                </p>
-                            </AccordionContent>
-                        </AccordionItem>
-                        <AccordionItem value="item-2">
-                            <AccordionTrigger>Shipping Details</AccordionTrigger>
-                            <AccordionContent className="flex flex-col gap-4 text-balance">
-                                <p>
-                                    We offer worldwide shipping through trusted courier partners.
-                                    Standard delivery takes 3-5 business days, while express
-                                    shipping ensures delivery within 1-2 business days.
-                                </p>
-                                <p>
-                                    All orders are carefully packaged and fully insured. Track your
-                                    shipment in real-time through our dedicated tracking portal.
-                                </p>
-                            </AccordionContent>
-                        </AccordionItem>
-                        <AccordionItem value="item-3">
-                            <AccordionTrigger>Return Policy</AccordionTrigger>
-                            <AccordionContent className="flex flex-col gap-4 text-balance">
-                                <p>
-                                    We stand behind our products with a comprehensive 30-day return
-                                    policy. If you&apos;re not completely satisfied, simply return
-                                    the item in its original condition.
-                                </p>
-                                <p>
-                                    Our hassle-free return process includes free return shipping and
-                                    full refunds processed within 48 hours of receiving the returned
-                                    item.
-                                </p>
-                            </AccordionContent>
-                        </AccordionItem>
-                    </Accordion>
-                </div>
-
-                <DropdownMenuGroup>
-                    <DropdownMenuItem>Team</DropdownMenuItem>
-                    <DropdownMenuSub>
-                        <DropdownMenuSubTrigger>Invite users</DropdownMenuSubTrigger>
-                        <DropdownMenuPortal>
-                            <DropdownMenuSubContent>
-                                <DropdownMenuItem>Email</DropdownMenuItem>
-                                <DropdownMenuItem>Message</DropdownMenuItem>
-                                <DropdownMenuSeparator />
-                                <DropdownMenuItem>More...</DropdownMenuItem>
-                            </DropdownMenuSubContent>
-                        </DropdownMenuPortal>
-                    </DropdownMenuSub>
-                    <DropdownMenuItem>
-                        New Team
-                        <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                </DropdownMenuGroup>
+                <Accordion type="multiple">
+                    <AccordionItem value="settings">
+                        <AccordionTrigger>Settings</AccordionTrigger>
+                        <AccordionContent>
+                            <DropdownMenuGroup>
+                                {settingsLinks.map((link) => (
+                                    <DropdownMenuItem
+                                        key={link.route || link.href}
+                                        onClick={() => router.visit(getHref(link))}
+                                    >
+                                        <Icon iconNode={link.icon} />
+                                        {link.title}
+                                        {link.shortcut && (
+                                            <DropdownMenuShortcut>
+                                                {formatShortcut(link.shortcut)}
+                                            </DropdownMenuShortcut>
+                                        )}
+                                    </DropdownMenuItem>
+                                ))}
+                            </DropdownMenuGroup>{' '}
+                        </AccordionContent>
+                    </AccordionItem>
+                </Accordion>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>GitHub</DropdownMenuItem>
-                <DropdownMenuItem>Support</DropdownMenuItem>
-                <DropdownMenuItem disabled>API</DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                    Log out
-                    <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-                </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
     );

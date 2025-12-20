@@ -15,9 +15,9 @@ import type { TBreadcrumb, TLink } from '@/types/utils';
 
 import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu';
 import { formatInitials } from '@/lib/format';
+import { pagesLinks, rightLinks } from '@/lib/links';
 import { cn } from '@/lib/utils';
 import { usePage } from '@inertiajs/react';
-import { mainLinks, rightLinks } from './links';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -63,7 +63,7 @@ export const Header = ({ breadcrumbs = [] }: { breadcrumbs?: TBreadcrumb[] }) =>
                                 <div className="flex h-full flex-1 flex-col space-y-4 p-4">
                                     <div className="flex h-full flex-col justify-between text-sm">
                                         <div className="flex flex-col space-y-4">
-                                            {mainLinks.map((link) => (
+                                            {pagesLinks.map((link) => (
                                                 <Link
                                                     key={link.title}
                                                     href={getHref(link)}
@@ -115,7 +115,7 @@ export const Header = ({ breadcrumbs = [] }: { breadcrumbs?: TBreadcrumb[] }) =>
                     <div className="ml-6 hidden h-full items-center space-x-6 lg:flex">
                         <NavigationMenu className="flex h-full items-stretch">
                             <NavigationMenuList className="flex h-full items-stretch space-x-2">
-                                {mainLinks.map((link, index) => (
+                                {pagesLinks.map((link, index) => (
                                     <NavigationMenuItem
                                         key={index}
                                         className="relative flex h-full items-center"

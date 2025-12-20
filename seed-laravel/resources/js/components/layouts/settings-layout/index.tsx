@@ -1,60 +1,34 @@
-import type { LucideIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
 
+import { getHref, isActiveHref } from '@/lib/href';
+import { settingsLinks } from '@/lib/links';
 import { cn } from '@/lib/utils';
+import { usePage } from '@inertiajs/react';
 
 import { Heading } from '@/components/elements/heading';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Link } from '@inertiajs/react';
-import { ChartBar, KeyRound, Palette, ShieldCheck, UserCircle } from 'lucide-react';
-
-const links: { title: string; route: string; icon?: LucideIcon }[] = [
-    {
-        title: 'Statistics',
-        route: 'settings.statistics.edit',
-        icon: ChartBar,
-    },
-    {
-        title: 'Profile',
-        route: 'settings.profile.edit',
-        icon: UserCircle,
-    },
-    {
-        title: 'Password',
-        route: 'settings.password.edit',
-        icon: KeyRound,
-    },
-    {
-        title: 'Two-Factor Auth',
-        route: 'settings.two-factor.show',
-        icon: ShieldCheck,
-    },
-    {
-        title: 'Appearance',
-        route: 'settings.appearance.edit',
-        icon: Palette,
-    },
-];
 
 export const SettingsLayout = ({ children }: { children: ReactNode }) => {
+    const { url } = usePage();
     return (
         <div className="px-4 py-6">
             <Heading title="Settings" description="Manage your profile and account settings" />
             <div className="flex flex-col lg:flex-row lg:space-x-12">
                 <aside className="w-full max-w-xl lg:w-48">
                     <nav className="flex flex-col space-y-1 space-x-0">
-                        {links.map((link) => (
+                        {settingsLinks.map((link) => (
                             <Button
                                 key={link.route}
                                 size="sm"
                                 variant="ghost"
                                 asChild
                                 className={cn('w-full justify-start', {
-                                    'bg-muted': route().current(link.route),
+                                    'bg-muted': isActiveHref(url, link),
                                 })}
                             >
-                                <Link href={route(link.route)}>
+                                <Link href={getHref(link)}>
                                     {link.icon && <link.icon className="h-4 w-4" />}
                                     {link.title}
                                 </Link>

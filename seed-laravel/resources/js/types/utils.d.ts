@@ -6,4 +6,5 @@ export type TBreadcrumb = {
 export type TLink = {
     title: string;
     icon?: LucideIcon | null;
+    shortcut?: string;
 } & ({ route: string; href?: never } | { route?: never; href: string });
