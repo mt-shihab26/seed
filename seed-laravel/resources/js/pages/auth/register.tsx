@@ -1,22 +1,24 @@
 import { login } from '@/routes';
 import { store } from '@/routes/register';
-import { Form, Head } from '@inertiajs/react';
 
-import InputError from '@/components/input-error';
-import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
-import AuthLayout from '@/layouts/auth-layout';
+import { Form, Head } from '@inertiajs/react';
 
-export default function Register() {
+import { InputError } from '@/components/elements/input-error';
+import { TextLink } from '@/components/elements/text-link';
+import { AuthLayout } from '@/components/layouts/auth-layout';
+
+const Register = () => {
     return (
         <AuthLayout
             title="Create an account"
             description="Enter your details below to create your account"
         >
             <Head title="Register" />
+
             <Form
                 {...store.form()}
                 resetOnSuccess={['password', 'password_confirmation']}
@@ -105,4 +107,6 @@ export default function Register() {
             </Form>
         </AuthLayout>
     );
-}
+};
+
+export default Register;

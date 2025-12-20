@@ -32,7 +32,7 @@ import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Link } from '@inertiajs/react';
 
-export default function NotesPage() {
+const Index = () => {
     const [selectedNote, setSelectedNote] = useState<TNote | null>(null);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [isNewNoteDialogOpen, setIsNewNoteDialogOpen] = useState(false);
@@ -450,4 +450,6 @@ export default function NotesPage() {
             />
         </div>
     );
-}
+};
+
+export default Index;
