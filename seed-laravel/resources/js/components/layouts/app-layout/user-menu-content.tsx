@@ -5,26 +5,19 @@ import {
     DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 
-import { UserInfo } from '@/components/user-info';
+import type { TUser } from '@/types/models';
 
+import { useAuthUtils } from '@/hooks/use-auth-utils';
 import { useMobileNavigation } from '@/hooks/use-mobile-navigation';
-import { logout } from '@/routes';
-import { edit } from '@/routes/profile';
-import { type TUser } from '@/types/props';
-import { Link, router } from '@inertiajs/react';
+
+import { Link } from '@inertiajs/react';
 import { LogOut, Settings } from 'lucide-react';
 
-interface UserMenuContentProps {
-    user: TUser;
-}
+import { UserInfo } from './user-info';
 
-export function UserMenuContent({ user }: UserMenuContentProps) {
-    const cleanup = useMobileNavigation();
-
-    const handleLogout = () => {
-        cleanup();
-        router.flushAll();
-    };
+export const UserMenuContent = ({ user }: { user: TUser }) => {
+    const { cleanup } = useMobileNavigation();
+    const { logout } = useAuthUtils();
 
     return (
         <>
@@ -38,7 +31,7 @@ export function UserMenuContent({ user }: UserMenuContentProps) {
                 <DropdownMenuItem asChild>
                     <Link
                         className="block w-full"
-                        href={edit()}
+                        href={route('settings.redirect')}
                         as="button"
                         prefetch
                         onClick={cleanup}
@@ -52,9 +45,8 @@ export function UserMenuContent({ user }: UserMenuContentProps) {
             <DropdownMenuItem asChild>
                 <Link
                     className="block w-full"
-                    href={logout()}
                     as="button"
-                    onClick={handleLogout}
+                    onClick={logout}
                     data-test="logout-button"
                 >
                     <LogOut className="mr-2" />
@@ -63,4 +55,4 @@ export function UserMenuContent({ user }: UserMenuContentProps) {
             </DropdownMenuItem>
         </>
     );
-}
+};

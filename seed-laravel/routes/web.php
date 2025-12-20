@@ -8,7 +8,7 @@ use Laravel\Fortify\Features;
 Route::get('/', fn () => inertia('welcome', ['canRegister' => Features::enabled(Features::registration())]))->name('home');
 
 Route::prefix('/settings')->middleware('auth')->group(function () {
-    Route::redirect('/', '/settings/profile');
+    Route::redirect('/', '/settings/profile')->name('settings.redirect');
 
     Route::get('/profile', [SettingController::class, 'editProfile'])->name('settings.profile.edit');
     Route::patch('/profile', [SettingController::class, 'updateProfile'])->name('settings.profile.update');
