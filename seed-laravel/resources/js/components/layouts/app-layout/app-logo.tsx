@@ -1,6 +1,6 @@
 import { APP_NAME } from '@/lib/env';
 
-import { AppLogoIcon } from '@/components/elements/app-logo-icon';
+import { AppLogoIcon } from '@/components/icons/app-logo-icon';
 
 export const AppLogo = () => {
     return (

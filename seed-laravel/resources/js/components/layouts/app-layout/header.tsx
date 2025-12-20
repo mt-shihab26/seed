@@ -26,8 +26,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { Link } from '@inertiajs/react';
 import { Menu, Search } from 'lucide-react';
 
-import { AppLogoIcon } from '@/components/elements/app-logo-icon';
 import { Icon } from '@/components/elements/icon';
+import { AppLogoIcon } from '@/components/icons/app-logo-icon';
 
 import { AppLogo } from './app-logo';
 import { Breadcrumbs } from './breadcrumbs';
