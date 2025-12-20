@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\Settings\PasswordController;
-use App\Http\Controllers\Settings\ProfileController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\Settings\TwoFactorAuthenticationController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -12,12 +11,12 @@ Route::get('/', fn () => inertia('welcome', ['canRegister' => Features::enabled(
 Route::prefix('/settings')->middleware('auth')->group(function () {
     Route::redirect('/', '/settings/profile');
 
-    Route::get('/profile', [ProfileController::class, 'editProfile'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'updateProfile'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroyProfile'])->name('profile.destroy');
+    Route::get('/profile', [SettingController::class, 'editProfile'])->name('profile.edit');
+    Route::patch('/profile', [SettingController::class, 'updateProfile'])->name('profile.update');
+    Route::delete('/profile', [SettingController::class, 'destroyProfile'])->name('profile.destroy');
 
-    Route::get('/password', [PasswordController::class, 'editPassword'])->name('user-password.edit');
-    Route::put('/password', [PasswordController::class, 'updatePassword'])->middleware('throttle:6,1')->name('user-password.update');
+    Route::get('/password', [SettingController::class, 'editPassword'])->name('user-password.edit');
+    Route::put('/password', [SettingController::class, 'updatePassword'])->middleware('throttle:6,1')->name('user-password.update');
 
     Route::get('two-factor', [TwoFactorAuthenticationController::class, 'twoFactorShow'])->name('two-factor.show');
 

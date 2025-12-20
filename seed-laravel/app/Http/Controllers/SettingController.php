@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Settings;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Settings\ProfileUpdateRequest;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\Password;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class ProfileController extends Controller
+class SettingController extends Controller
 {
     /**
      * Show the user's profile settings page.
@@ -59,5 +59,30 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
+    }
+
+    /**
+     * Show the user's password settings page.
+     */
+    public function editPassword(): Response
+    {
+        return Inertia::render('settings/password');
+    }
+
+    /**
+     * Update the user's password.
+     */
+    public function updatePassword(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'current_password' => ['required', 'current_password'],
+            'password' => ['required', Password::defaults(), 'confirmed'],
+        ]);
+
+        $request->user()->update([
+            'password' => $validated['password'],
+        ]);
+
+        return back();
     }
 }
