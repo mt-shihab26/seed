@@ -25,7 +25,7 @@ class TwoFactorAuthenticationController extends Controller implements HasMiddlew
     /**
      * Show the user's two-factor authentication settings page.
      */
-    public function show(TwoFactorAuthenticationRequest $request): Response
+    public function twoFactorShow(TwoFactorAuthenticationRequest $request): Response
     {
         $request->ensureStateIsValid();
 
