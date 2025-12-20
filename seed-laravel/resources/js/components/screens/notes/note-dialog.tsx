@@ -31,7 +31,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import type { TNote } from '@/types/models';
+import type { TFolder, TNote } from '@/types/models';
 
 import { useEffect, useState } from 'react';
 
@@ -41,19 +41,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
-
-interface NoteDialogProps {
-    note: TNote | null;
-    open: boolean;
-    onOpenChange: (open: boolean) => void;
-    onUpdate?: (note: TNote) => void;
-    onCreate?: (note: TNote) => void;
-    onDelete?: (id: string) => void;
-    onToggleFavorite?: (id: string) => void;
-    onToggleArchive?: (id: string) => void;
-    folders: string[];
-    allTags: string[];
-}
 
 export function NoteDialog({
     note,
@@ -65,8 +52,17 @@ export function NoteDialog({
     onToggleFavorite,
     onToggleArchive,
     folders,
-    allTags,
-}: NoteDialogProps) {
+}: {
+    note: TNote | null;
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+    onUpdate?: (note: TNote) => void;
+    onCreate?: (note: TNote) => void;
+    onDelete?: (id: string) => void;
+    onToggleFavorite?: (id: string) => void;
+    onToggleArchive?: (id: string) => void;
+    folders: TFolder[];
+}) {
     const isNewNote = note === null;
     const [isEditing, setIsEditing] = useState(isNewNote);
     const [editedTitle, setEditedTitle] = useState('');
@@ -82,14 +78,11 @@ export function NoteDialog({
                 setEditedTitle('');
                 setEditedContent('');
                 setEditedTags([]);
-                setEditedFolder(folders[0] || '');
                 setIsEditing(true);
                 setActiveTab('write');
             } else if (note) {
                 setEditedTitle(note.title);
                 setEditedContent(note.content);
-                setEditedTags(note.tags);
-                setEditedFolder(note.folder);
                 setIsEditing(false);
             }
         }
@@ -99,39 +92,8 @@ export function NoteDialog({
         if (note) {
             setEditedTitle(note.title);
             setEditedContent(note.content);
-            setEditedTags(note.tags);
-            setEditedFolder(note.folder);
         }
         setIsEditing(true);
-    };
-
-    const handleSave = () => {
-        if (isNewNote && onCreate) {
-            const newNote: TNote = {
-                id: Date.now().toString(),
-                title: editedTitle || 'Untitled Note',
-                content: editedContent,
-                tags: editedTags,
-                folder: editedFolder || folders[0] || 'General',
-                favorited_at: false,
-                archived_at: false,
-                trashed: false,
-                created_at: new Date().toISOString(),
-                updated_at: new Date().toISOString(),
-            };
-            onCreate(newNote);
-            onOpenChange(false);
-        } else if (note && onUpdate) {
-            onUpdate({
-                ...note,
-                title: editedTitle,
-                content: editedContent,
-                tags: editedTags,
-                folder: editedFolder,
-                updated_at: new Date().toISOString(),
-            });
-            setIsEditing(false);
-        }
     };
 
     const handleCancel = () => {
@@ -220,7 +182,7 @@ export function NoteDialog({
                         <div className="flex items-center gap-2">
                             {isEditing || isNewNote ? (
                                 <>
-                                    <Button onClick={handleSave} size="sm">
+                                    <Button size="sm">
                                         <Save className="mr-2 h-4 w-4" />
                                         {isNewNote ? 'Create' : 'Save'}
                                     </Button>
@@ -351,11 +313,8 @@ export function NoteDialog({
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent className="w-56">
                                             {folders.map((folder) => (
-                                                <DropdownMenuItem
-                                                    key={folder}
-                                                    onClick={() => setEditedFolder(folder)}
-                                                >
-                                                    {folder}
+                                                <DropdownMenuItem key={folder.name}>
+                                                    {folder.name}
                                                 </DropdownMenuItem>
                                             ))}
                                         </DropdownMenuContent>
@@ -405,15 +364,15 @@ export function NoteDialog({
                                         <div className="flex items-center gap-2 text-sm">
                                             <Folder className="h-4 w-4 text-muted-foreground" />
                                             <span className="text-muted-foreground">
-                                                {note.folder}
+                                                {note.folder.name}
                                             </span>
                                         </div>
                                     )}
                                     {note.tags.length > 0 && (
                                         <div className="flex flex-wrap gap-2">
                                             {note.tags.map((tag) => (
-                                                <Badge key={tag} variant="secondary">
-                                                    {tag}
+                                                <Badge key={tag.id} variant="secondary">
+                                                    {tag.name}
                                                 </Badge>
                                             ))}
                                         </div>

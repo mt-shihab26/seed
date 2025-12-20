@@ -14,8 +14,6 @@ class NoteController extends Controller
     {
         $notes = $request->user()->notes()->with(['folder', 'tags'])->get();
 
-        dd($notes->toArray());
-
         return inertia('notes/index', [
             'notes' => $notes,
         ]);

@@ -20,7 +20,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import type { TNote } from '@/types/models';
+import type { TFolder, TNote } from '@/types/models';
 
 import { useState } from 'react';
 
@@ -32,86 +32,36 @@ import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Head } from '@inertiajs/react';
 
-const Index = () => {
+const Index = ({
+    notes,
+    selectedFolderId,
+    selectedTagIds,
+}: {
+    notes: TNote[];
+    selectedFolderId: string | null;
+    selectedTagIds: string[] | null;
+}) => {
+    const folders = Array.from(new Set(notes.map((note) => note.folder))) as TFolder[];
+    const tags = Array.from(new Set(notes.flatMap((note) => note.tags)));
+
     const [selectedNote, setSelectedNote] = useState<TNote | null>(null);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [isNewNoteDialogOpen, setIsNewNoteDialogOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
-    const [selectedFolder, setSelectedFolder] = useState<string | null>(null);
-    const [selectedTags, setSelectedTags] = useState<string[]>([]);
     const [showFavorites, setShowFavorites] = useState(false);
     const [showArchived, setShowArchived] = useState(false);
     const [showTrashed, setShowTrashed] = useState(false);
-
-    const [notes, setNotes] = useState<TNote[]>([
-        {
-            id: '1',
-            title: 'Understanding React Hooks',
-            content:
-                'useState and useEffect are fundamental hooks that every React developer should master...',
-            created_at: '2024-01-15',
-            updated_at: '2024-01-15',
-            tags: ['react', 'javascript'],
-            folder: 'Learning',
-            favorited_at: true,
-            archived_at: false,
-            trashed: false,
-        },
-        {
-            id: '2',
-            title: 'Laravel Routing Basics',
-            content:
-                'Routes in Laravel are defined in the routes directory. The most common file is web.php...',
-            created_at: '2024-01-14',
-            updated_at: '2024-01-14',
-            tags: ['laravel', 'php'],
-            folder: 'Learning',
-            favorited_at: false,
-            archived_at: false,
-            trashed: false,
-        },
-        {
-            id: '3',
-            title: 'Ruby on Rails MVC Pattern',
-            content:
-                'Rails follows the Model-View-Controller pattern strictly. Models handle data logic...',
-            created_at: '2024-01-13',
-            updated_at: '2024-01-13',
-            tags: ['rails', 'ruby'],
-            folder: 'Learning',
-            favorited_at: false,
-            archived_at: false,
-            trashed: false,
-        },
-        {
-            id: '4',
-            title: 'Meeting Notes - Project Planning',
-            content:
-                'Discussed timeline, milestones, and team responsibilities for the upcoming quarter...',
-            created_at: '2024-01-12',
-            updated_at: '2024-01-12',
-            tags: ['meeting', 'planning'],
-            folder: 'Work',
-            favorited_at: false,
-            archived_at: false,
-            trashed: false,
-        },
-    ]);
-
-    const folders = Array.from(new Set(notes.map((note) => note.folder)));
-    const allTags = Array.from(new Set(notes.flatMap((note) => note.tags)));
 
     const filteredNotes = notes.filter((note) => {
         const matchesSearch =
             note.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
             note.content.toLowerCase().includes(searchQuery.toLowerCase());
 
-        const matchesFolder = !selectedFolder || note.folder === selectedFolder;
-        const matchesTags =
-            selectedTags.length === 0 || selectedTags.some((tag) => note.tags.includes(tag));
-        const matchesFavorite = !showFavorites || note.favorited_at;
-        const matchesArchived = showArchived ? note.archived_at : !note.archived_at;
-        const matchesTrashed = showTrashed ? note.trashed : !note.trashed;
+        const matchesFolder = matchesSearch;
+        const matchesTags = matchesSearch;
+        const matchesFavorite = matchesSearch;
+        const matchesArchived = matchesSearch;
+        const matchesTrashed = matchesSearch;
 
         return (
             matchesSearch &&
@@ -126,42 +76,6 @@ const Index = () => {
     const handleNoteClick = (note: TNote) => {
         setSelectedNote(note);
         setIsDialogOpen(true);
-    };
-
-    const handleUpdateNote = (updatedNote: TNote) => {
-        setNotes(notes.map((note) => (note.id === updatedNote.id ? updatedNote : note)));
-        setSelectedNote(updatedNote);
-    };
-
-    const handleCreateNote = (newNote: TNote) => {
-        setNotes([newNote, ...notes]);
-        setIsNewNoteDialogOpen(false);
-    };
-
-    const handleDelete = (id: string) => {
-        setNotes(notes.map((note) => (note.id === id ? { ...note, trashed: true } : note)));
-    };
-
-    const toggleFavorite = (id: string) => {
-        setNotes(
-            notes.map((note) =>
-                note.id === id ? { ...note, favorited_at: !note.favorited_at } : note,
-            ),
-        );
-    };
-
-    const toggleArchive = (id: string) => {
-        setNotes(
-            notes.map((note) =>
-                note.id === id ? { ...note, archived_at: !note.archived_at } : note,
-            ),
-        );
-    };
-
-    const toggleTagFilter = (tag: string) => {
-        setSelectedTags((prev) =>
-            prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
-        );
     };
 
     return (
@@ -179,82 +93,49 @@ const Index = () => {
                                 </h3>
                                 <div className="space-y-1">
                                     <Button
-                                        variant={selectedFolder === null ? 'secondary' : 'ghost'}
+                                        variant={selectedFolderId === null ? 'secondary' : 'ghost'}
                                         className="w-full justify-start"
-                                        onClick={() => setSelectedFolder(null)}
                                     >
                                         All Notes
                                     </Button>
                                     {folders.map((folder) => (
                                         <Button
-                                            key={folder}
+                                            key={folder?.name}
                                             variant={
-                                                selectedFolder === folder ? 'secondary' : 'ghost'
+                                                selectedFolderId === folder?.id
+                                                    ? 'secondary'
+                                                    : 'ghost'
                                             }
                                             className="w-full justify-start"
-                                            onClick={() => setSelectedFolder(folder)}
                                         >
-                                            {folder}
+                                            {folder?.name}
                                         </Button>
                                     ))}
                                 </div>
                             </div>
-
                             <div>
                                 <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground">
                                     <Tag className="h-4 w-4" />
                                     Tags
                                 </h3>
                                 <div className="flex flex-wrap gap-2">
-                                    {allTags.map((tag) => (
+                                    {tags.map((tag) => (
                                         <Badge
-                                            key={tag}
+                                            key={tag.name}
                                             variant={
-                                                selectedTags.includes(tag) ? 'default' : 'outline'
+                                                selectedTagIds?.includes(tag.id)
+                                                    ? 'default'
+                                                    : 'outline'
                                             }
                                             className="cursor-pointer"
-                                            onClick={() => toggleTagFilter(tag)}
                                         >
-                                            {tag}
+                                            #{tag.name}
                                         </Badge>
                                     ))}
                                 </div>
                             </div>
-
-                            <div>
-                                <h3 className="mb-3 text-sm font-semibold text-foreground">
-                                    Quick Filters
-                                </h3>
-                                <div className="space-y-1">
-                                    <Button
-                                        variant={showFavorites ? 'secondary' : 'ghost'}
-                                        className="w-full justify-start"
-                                        onClick={() => setShowFavorites(!showFavorites)}
-                                    >
-                                        <Star className="mr-2 h-4 w-4" />
-                                        Favorites
-                                    </Button>
-                                    <Button
-                                        variant={showArchived ? 'secondary' : 'ghost'}
-                                        className="w-full justify-start"
-                                        onClick={() => setShowArchived(!showArchived)}
-                                    >
-                                        <Archive className="mr-2 h-4 w-4" />
-                                        Archived
-                                    </Button>
-                                    <Button
-                                        variant={showTrashed ? 'secondary' : 'ghost'}
-                                        className="w-full justify-start"
-                                        onClick={() => setShowTrashed(!showTrashed)}
-                                    >
-                                        <Trash2 className="mr-2 h-4 w-4" />
-                                        Trash
-                                    </Button>
-                                </div>
-                            </div>
                         </div>
                     </aside>
-
                     <main className="flex-1 px-4 py-8 sm:px-6 lg:px-8">
                         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                             <div className="relative flex-1 sm:max-w-md">
@@ -298,17 +179,14 @@ const Index = () => {
                                         </DropdownMenuCheckboxItem>
                                         <DropdownMenuSeparator />
                                         {folders.map((folder) => (
-                                            <DropdownMenuItem
-                                                key={folder}
-                                                onClick={() => setSelectedFolder(folder)}
-                                            >
+                                            <DropdownMenuItem key={folder?.name}>
                                                 <Folder className="mr-2 h-4 w-4" />
-                                                {folder}
+                                                {folder?.name}
                                             </DropdownMenuItem>
                                         ))}
                                     </DropdownMenuContent>
                                 </DropdownMenu>
-                                <Button onClick={() => setIsNewNoteDialogOpen(true)}>
+                                <Button>
                                     <Plus className="mr-2 h-4 w-4" />
                                     New Note
                                 </Button>
@@ -357,11 +235,11 @@ const Index = () => {
                                             <div className="mb-4 flex flex-wrap gap-1">
                                                 {note.tags.map((tag) => (
                                                     <Badge
-                                                        key={tag}
+                                                        key={tag.id}
                                                         variant="secondary"
                                                         className="text-xs"
                                                     >
-                                                        {tag}
+                                                        {tag.name}
                                                     </Badge>
                                                 ))}
                                             </div>
@@ -378,7 +256,6 @@ const Index = () => {
                                                     className="h-8 w-8"
                                                     onClick={(e) => {
                                                         e.stopPropagation();
-                                                        toggleFavorite(note.id);
                                                     }}
                                                 >
                                                     <Star
@@ -391,7 +268,6 @@ const Index = () => {
                                                     className="h-8 w-8"
                                                     onClick={(e) => {
                                                         e.stopPropagation();
-                                                        handleNoteClick(note);
                                                     }}
                                                 >
                                                     <Edit className="h-4 w-4" />
@@ -402,7 +278,6 @@ const Index = () => {
                                                     className="h-8 w-8"
                                                     onClick={(e) => {
                                                         e.stopPropagation();
-                                                        toggleArchive(note.id);
                                                     }}
                                                 >
                                                     <Archive className="h-4 w-4" />
@@ -413,7 +288,6 @@ const Index = () => {
                                                     className="h-8 w-8 text-destructive hover:bg-destructive/10"
                                                     onClick={(e) => {
                                                         e.stopPropagation();
-                                                        handleDelete(note.id);
                                                     }}
                                                 >
                                                     <Trash2 className="h-4 w-4" />
@@ -431,21 +305,19 @@ const Index = () => {
                     note={selectedNote}
                     open={isDialogOpen}
                     onOpenChange={setIsDialogOpen}
-                    onUpdate={handleUpdateNote}
-                    onDelete={handleDelete}
-                    onToggleFavorite={toggleFavorite}
-                    onToggleArchive={toggleArchive}
-                    folders={folders}
-                    allTags={allTags}
+                    onUpdate={() => {}}
+                    onDelete={() => {}}
+                    onToggleFavorite={() => {}}
+                    onToggleArchive={() => {}}
+                    folders={folders || []}
                 />
 
                 <NoteDialog
                     note={null}
                     open={isNewNoteDialogOpen}
                     onOpenChange={setIsNewNoteDialogOpen}
-                    onCreate={handleCreateNote}
+                    onCreate={() => {}}
                     folders={folders}
-                    allTags={allTags}
                 />
             </div>
         </AppLayout>
