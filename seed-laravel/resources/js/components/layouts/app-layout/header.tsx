@@ -27,10 +27,10 @@ import { Button } from '@/components/ui/button';
 import { Link } from '@inertiajs/react';
 import { BookOpen, Folder, LayoutGrid, Menu, Search } from 'lucide-react';
 
+import { AppLogoIcon } from '@/components/elements/app-logo-icon';
 import { Icon } from '@/components/elements/icon';
 
 import { AppLogo } from './app-logo';
-import { AppLogoIcon } from './app-logo-icon';
 import { Breadcrumbs } from './breadcrumbs';
 import { UserMenuContent } from './user-menu-content';
 

@@ -1,4 +1,4 @@
-import { AppLogoIcon } from './app-logo-icon';
+import { AppLogoIcon } from '@/components/elements/app-logo-icon';
 
 export const AppLogo = () => {
     return (
