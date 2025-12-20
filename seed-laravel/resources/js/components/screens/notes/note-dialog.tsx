@@ -1,0 +1,449 @@
+import {
+    Archive,
+    Copy,
+    Download,
+    Edit,
+    Eye,
+    FileEdit,
+    Folder,
+    MoreVertical,
+    Save,
+    Share2,
+    Star,
+    TagIcon,
+    Trash2,
+    X,
+} from 'lucide-react';
+
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+} from '@/components/ui/dialog';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+
+import { useState } from 'react';
+
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Textarea } from '@/components/ui/textarea';
+
+interface Note {
+    id: string;
+    title: string;
+    content: string;
+    createdAt: string;
+    updatedAt: string;
+    tags: string[];
+    folder: string;
+    isFavorite: boolean;
+    isArchived: boolean;
+    isTrashed: boolean;
+}
+
+interface NoteDialogProps {
+    note: Note | null;
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+    onUpdate: (note: Note) => void;
+    onDelete: (id: string) => void;
+    onToggleFavorite: (id: string) => void;
+    onToggleArchive: (id: string) => void;
+    folders: string[];
+    allTags: string[];
+}
+
+export function NoteDialog({
+    note,
+    open,
+    onOpenChange,
+    onUpdate,
+    onDelete,
+    onToggleFavorite,
+    onToggleArchive,
+    folders,
+    allTags,
+}: NoteDialogProps) {
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedTitle, setEditedTitle] = useState('');
+    const [editedContent, setEditedContent] = useState('');
+    const [editedTags, setEditedTags] = useState<string[]>([]);
+    const [editedFolder, setEditedFolder] = useState('');
+    const [tagInput, setTagInput] = useState('');
+    const [activeTab, setActiveTab] = useState<'write' | 'preview'>('write');
+
+    if (!note) return null;
+
+    const handleEditStart = () => {
+        setEditedTitle(note.title);
+        setEditedContent(note.content);
+        setEditedTags(note.tags);
+        setEditedFolder(note.folder);
+        setIsEditing(true);
+    };
+
+    const handleSave = () => {
+        onUpdate({
+            ...note,
+            title: editedTitle,
+            content: editedContent,
+            tags: editedTags,
+            folder: editedFolder,
+            updatedAt: new Date().toISOString(),
+        });
+        setIsEditing(false);
+    };
+
+    const handleCancel = () => {
+        setIsEditing(false);
+        setActiveTab('write');
+    };
+
+    const handleAddTag = () => {
+        if (tagInput.trim() && !editedTags.includes(tagInput.trim())) {
+            setEditedTags([...editedTags, tagInput.trim()]);
+            setTagInput('');
+        }
+    };
+
+    const handleRemoveTag = (tagToRemove: string) => {
+        setEditedTags(editedTags.filter((tag) => tag !== tagToRemove));
+    };
+
+    const handleExport = () => {
+        const blob = new Blob([`# ${note.title}\n\n${note.content}`], {
+            type: 'text/markdown',
+        });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${note.title.replace(/\s+/g, '-').toLowerCase()}.md`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    };
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(note.content);
+    };
+
+    const wordCount = note.content.trim().split(/\s+/).length;
+    const charCount = note.content.length;
+
+    return (
+        <Dialog open={open} onOpenChange={onOpenChange}>
+            <DialogContent className="flex max-h-[90vh] max-w-4xl flex-col overflow-hidden">
+                <DialogHeader className="flex-shrink-0">
+                    <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                            {isEditing ? (
+                                <Input
+                                    value={editedTitle}
+                                    onChange={(e) =>
+                                        setEditedTitle(e.target.value)
+                                    }
+                                    className="border-none px-0 text-2xl font-semibold focus-visible:ring-0"
+                                    placeholder="Note title"
+                                />
+                            ) : (
+                                <DialogTitle className="pr-8 text-2xl font-semibold">
+                                    {note.title}
+                                </DialogTitle>
+                            )}
+                            <DialogDescription className="mt-2 flex items-center gap-3 text-sm">
+                                <span>
+                                    Updated{' '}
+                                    {new Date(
+                                        note.updatedAt,
+                                    ).toLocaleDateString()}
+                                </span>
+                                {!isEditing && (
+                                    <>
+                                        <span>•</span>
+                                        <span>{wordCount} words</span>
+                                        <span>•</span>
+                                        <span>{charCount} characters</span>
+                                    </>
+                                )}
+                            </DialogDescription>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            {isEditing ? (
+                                <>
+                                    <Button onClick={handleSave} size="sm">
+                                        <Save className="mr-2 h-4 w-4" />
+                                        Save
+                                    </Button>
+                                    <Button
+                                        onClick={handleCancel}
+                                        variant="ghost"
+                                        size="sm"
+                                    >
+                                        <X className="mr-2 h-4 w-4" />
+                                        Cancel
+                                    </Button>
+                                </>
+                            ) : (
+                                <>
+                                    <Button
+                                        onClick={handleEditStart}
+                                        variant="outline"
+                                        size="sm"
+                                    >
+                                        <Edit className="mr-2 h-4 w-4" />
+                                        Edit
+                                    </Button>
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <Button variant="ghost" size="icon">
+                                                <MoreVertical className="h-4 w-4" />
+                                            </Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent align="end">
+                                            <DropdownMenuItem
+                                                onClick={() =>
+                                                    onToggleFavorite(note.id)
+                                                }
+                                            >
+                                                <Star
+                                                    className={`mr-2 h-4 w-4 ${note.isFavorite ? 'fill-current' : ''}`}
+                                                />
+                                                {note.isFavorite
+                                                    ? 'Remove from favorites'
+                                                    : 'Add to favorites'}
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem
+                                                onClick={() =>
+                                                    onToggleArchive(note.id)
+                                                }
+                                            >
+                                                <Archive className="mr-2 h-4 w-4" />
+                                                {note.isArchived
+                                                    ? 'Unarchive'
+                                                    : 'Archive'}
+                                            </DropdownMenuItem>
+                                            <DropdownMenuSeparator />
+                                            <DropdownMenuItem
+                                                onClick={handleExport}
+                                            >
+                                                <Download className="mr-2 h-4 w-4" />
+                                                Export as Markdown
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem
+                                                onClick={handleCopy}
+                                            >
+                                                <Copy className="mr-2 h-4 w-4" />
+                                                Copy content
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem>
+                                                <Share2 className="mr-2 h-4 w-4" />
+                                                Share note
+                                            </DropdownMenuItem>
+                                            <DropdownMenuSeparator />
+                                            <DropdownMenuItem
+                                                onClick={() => {
+                                                    onDelete(note.id);
+                                                    onOpenChange(false);
+                                                }}
+                                                className="text-destructive"
+                                            >
+                                                <Trash2 className="mr-2 h-4 w-4" />
+                                                Move to trash
+                                            </DropdownMenuItem>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
+                                </>
+                            )}
+                        </div>
+                    </div>
+                </DialogHeader>
+
+                <div className="flex-1 overflow-y-auto">
+                    {isEditing ? (
+                        <div className="space-y-6 py-4">
+                            <Tabs
+                                value={activeTab}
+                                onValueChange={(v) =>
+                                    setActiveTab(v as 'write' | 'preview')
+                                }
+                            >
+                                <TabsList className="grid w-full grid-cols-2">
+                                    <TabsTrigger value="write">
+                                        <FileEdit className="mr-2 h-4 w-4" />
+                                        Write
+                                    </TabsTrigger>
+                                    <TabsTrigger value="preview">
+                                        <Eye className="mr-2 h-4 w-4" />
+                                        Preview
+                                    </TabsTrigger>
+                                </TabsList>
+                                <TabsContent value="write" className="mt-4">
+                                    <Textarea
+                                        value={editedContent}
+                                        onChange={(e) =>
+                                            setEditedContent(e.target.value)
+                                        }
+                                        placeholder="Start writing your note..."
+                                        className="min-h-[400px] resize-none font-mono text-sm leading-relaxed"
+                                    />
+                                    <div className="mt-2 text-xs text-muted-foreground">
+                                        {
+                                            editedContent.trim().split(/\s+/)
+                                                .length
+                                        }{' '}
+                                        words • {editedContent.length}{' '}
+                                        characters
+                                    </div>
+                                </TabsContent>
+                                <TabsContent value="preview" className="mt-4">
+                                    <div className="min-h-[400px] rounded-md border border-border bg-muted/30 p-4">
+                                        <div className="prose prose-sm dark:prose-invert max-w-none">
+                                            {editedContent
+                                                .split('\n')
+                                                .map((line, i) => (
+                                                    <p
+                                                        key={i}
+                                                        className="leading-relaxed"
+                                                    >
+                                                        {line || <br />}
+                                                    </p>
+                                                ))}
+                                        </div>
+                                    </div>
+                                </TabsContent>
+                            </Tabs>
+
+                            <div className="grid gap-6 sm:grid-cols-2">
+                                <div className="space-y-2">
+                                    <Label className="flex items-center gap-2">
+                                        <Folder className="h-4 w-4" />
+                                        Folder
+                                    </Label>
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <Button
+                                                variant="outline"
+                                                className="w-full justify-start bg-transparent"
+                                            >
+                                                {editedFolder ||
+                                                    'Select folder'}
+                                            </Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent className="w-56">
+                                            {folders.map((folder) => (
+                                                <DropdownMenuItem
+                                                    key={folder}
+                                                    onClick={() =>
+                                                        setEditedFolder(folder)
+                                                    }
+                                                >
+                                                    {folder}
+                                                </DropdownMenuItem>
+                                            ))}
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <Label className="flex items-center gap-2">
+                                        <TagIcon className="h-4 w-4" />
+                                        Tags
+                                    </Label>
+                                    <div className="flex gap-2">
+                                        <Input
+                                            value={tagInput}
+                                            onChange={(e) =>
+                                                setTagInput(e.target.value)
+                                            }
+                                            onKeyDown={(e) =>
+                                                e.key === 'Enter' &&
+                                                (e.preventDefault(),
+                                                handleAddTag())
+                                            }
+                                            placeholder="Add tag..."
+                                        />
+                                        <Button
+                                            onClick={handleAddTag}
+                                            variant="secondary"
+                                        >
+                                            Add
+                                        </Button>
+                                    </div>
+                                    <div className="flex flex-wrap gap-2 pt-2">
+                                        {editedTags.map((tag) => (
+                                            <Badge
+                                                key={tag}
+                                                variant="secondary"
+                                                className="gap-1"
+                                            >
+                                                {tag}
+                                                <button
+                                                    onClick={() =>
+                                                        handleRemoveTag(tag)
+                                                    }
+                                                    className="ml-1 hover:text-destructive"
+                                                >
+                                                    <X className="h-3 w-3" />
+                                                </button>
+                                            </Badge>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="space-y-6 py-4">
+                            {(note.tags.length > 0 || note.folder) && (
+                                <div className="flex flex-wrap items-center gap-4">
+                                    {note.folder && (
+                                        <div className="flex items-center gap-2 text-sm">
+                                            <Folder className="h-4 w-4 text-muted-foreground" />
+                                            <span className="text-muted-foreground">
+                                                {note.folder}
+                                            </span>
+                                        </div>
+                                    )}
+                                    {note.tags.length > 0 && (
+                                        <div className="flex flex-wrap gap-2">
+                                            {note.tags.map((tag) => (
+                                                <Badge
+                                                    key={tag}
+                                                    variant="secondary"
+                                                >
+                                                    {tag}
+                                                </Badge>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+
+                            <div className="prose prose-sm dark:prose-invert max-w-none">
+                                {note.content.split('\n').map((line, i) => (
+                                    <p
+                                        key={i}
+                                        className="leading-relaxed text-foreground"
+                                    >
+                                        {line || <br />}
+                                    </p>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </DialogContent>
+        </Dialog>
+    );
+}
