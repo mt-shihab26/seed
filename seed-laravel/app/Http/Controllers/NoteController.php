@@ -10,9 +10,11 @@ class NoteController extends Controller
     /**
      * Display a listing of the notes.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $notes = Note::query()->with([''])->get();
+        $notes = $request->user()->notes()->with(['folder', 'tags'])->get();
+
+        dd($notes);
 
         return inertia('notes/index', [
             'notes' => $notes,
