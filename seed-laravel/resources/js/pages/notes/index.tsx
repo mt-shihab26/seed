@@ -20,8 +20,11 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import type { TFolder, TNote } from '@/types/models';
+import type { TNote } from '@/types/models';
 
+import { href } from '@/lib/href';
+import { getFoldersFromNotes, getTagsFromNotes } from '@/lib/notes';
+import { router, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
 import { AppLayout } from '@/components/layouts/app-layout';
@@ -32,17 +35,11 @@ import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Head } from '@inertiajs/react';
 
-const Index = ({
-    notes,
-    selectedFolderId,
-    selectedTagIds,
-}: {
-    notes: TNote[];
-    selectedFolderId: string | null;
-    selectedTagIds: string[] | null;
-}) => {
-    const folders = Array.from(new Set(notes.map((note) => note.folder))) as TFolder[];
-    const tags = Array.from(new Set(notes.flatMap((note) => note.tags)));
+const Index = ({ notes, selectedTagIds }: { notes: TNote[]; selectedTagIds: string[] | null }) => {
+    const { url } = usePage();
+
+    const folders = getFoldersFromNotes(notes);
+    const tags = getTagsFromNotes(notes);
 
     const [selectedNote, setSelectedNote] = useState<TNote | null>(null);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -81,7 +78,6 @@ const Index = ({
     return (
         <AppLayout>
             <Head title="Notes" />
-
             <div className="min-h-screen bg-background">
                 <div className="mx-auto flex max-w-7xl">
                     <aside className="hidden w-64 border-r border-border bg-card/50 p-6 lg:block">
@@ -92,21 +88,20 @@ const Index = ({
                                     Folders
                                 </h3>
                                 <div className="space-y-1">
-                                    <Button
-                                        variant={selectedFolderId === null ? 'secondary' : 'ghost'}
-                                        className="w-full justify-start"
-                                    >
-                                        All Notes
-                                    </Button>
                                     {folders.map((folder) => (
                                         <Button
-                                            key={folder?.name}
+                                            key={folder?.id}
+                                            className="w-full justify-start"
                                             variant={
-                                                selectedFolderId === folder?.id
+                                                href.query.get(url, 'folder') === folder?.id
                                                     ? 'secondary'
                                                     : 'ghost'
                                             }
-                                            className="w-full justify-start"
+                                            onClick={() =>
+                                                router.visit(
+                                                    href.query.update(url, 'folder', folder?.id),
+                                                )
+                                            }
                                         >
                                             {folder?.name}
                                         </Button>
