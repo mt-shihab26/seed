@@ -21,6 +21,7 @@ import { APP_NAME } from '@/lib/env';
 import { formatShortcut } from '@/lib/format';
 import { getHref, isActiveHref } from '@/lib/href';
 import { accordionLinks, pagesLinks } from '@/lib/links';
+import { useApplicationStore } from '@/stores/use-application-store';
 import { router, usePage } from '@inertiajs/react';
 
 import { AppLogoIcon } from '@/components/icons/app-logo-icon';
@@ -31,6 +32,7 @@ import { ChevronDownIcon } from 'lucide-react';
 
 export const Menu = () => {
     const { url, props } = usePage<TShared>();
+    const { openAccordionItems, setOpenAccordionItems } = useApplicationStore();
 
     return (
         <DropdownMenu>
@@ -86,7 +88,11 @@ export const Menu = () => {
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
 
-                <Accordion type="multiple">
+                <Accordion
+                    type="multiple"
+                    value={openAccordionItems}
+                    onValueChange={setOpenAccordionItems}
+                >
                     {accordionLinks.map((accordionLink) => (
                         <AccordionItem key={accordionLink.key} value={accordionLink.key}>
                             <AccordionTrigger>{accordionLink.title}</AccordionTrigger>
