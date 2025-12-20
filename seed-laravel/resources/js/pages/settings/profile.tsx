@@ -54,11 +54,11 @@ const Profile = ({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status
             breadcrumbs={[
                 {
                     title: 'Settings',
-                    href: 'settings.redirect',
+                    route: 'settings.redirect',
                 },
                 {
-                    title: 'Password',
-                    href: 'settings.profile.edit',
+                    title: 'Profile',
+                    route: 'settings.profile.edit',
                 },
             ]}
         >

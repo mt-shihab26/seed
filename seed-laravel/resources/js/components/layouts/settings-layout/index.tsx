@@ -49,7 +49,7 @@ export const SettingsLayout = ({ children }: { children: ReactNode }) => {
                                     'bg-muted': route().current(link.route),
                                 })}
                             >
-                                <Link href={link.route}>
+                                <Link href={route(link.route)}>
                                     {link.icon && <link.icon className="h-4 w-4" />}
                                     {link.title}
                                 </Link>

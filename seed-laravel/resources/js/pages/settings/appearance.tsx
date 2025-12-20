@@ -12,11 +12,11 @@ const Appearance = () => {
             breadcrumbs={[
                 {
                     title: 'Settings',
-                    href: 'settings.redirect',
+                    route: 'settings.redirect',
                 },
                 {
                     title: 'Appearance',
-                    href: 'settings.appearance.edit',
+                    route: 'settings.appearance.edit',
                 },
             ]}
         >

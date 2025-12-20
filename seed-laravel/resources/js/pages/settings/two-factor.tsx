@@ -38,11 +38,11 @@ const TwoFactor = ({
             breadcrumbs={[
                 {
                     title: 'Settings',
-                    href: 'settings.redirect',
+                    route: 'settings.redirect',
                 },
                 {
                     title: 'Two-Factor Authentication',
-                    href: 'settings.two-factor.show',
+                    route: 'settings.two-factor.show',
                 },
             ]}
         >

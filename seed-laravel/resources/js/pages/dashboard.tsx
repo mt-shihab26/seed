@@ -9,7 +9,7 @@ const Dashboard = () => {
             breadcrumbs={[
                 {
                     title: 'Dashboard',
-                    href: 'dashboard',
+                    route: 'dashboard',
                 },
             ]}
         >

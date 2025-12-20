@@ -23,11 +23,11 @@ export const Breadcrumbs = ({ breadcrumbs }: { breadcrumbs: TBreadcrumb[] }) => 
                             return (
                                 <Fragment key={index}>
                                     <BreadcrumbItem>
-                                        {isLast ? (
+                                        {isLast || !item.route ? (
                                             <BreadcrumbPage>{item.title}</BreadcrumbPage>
                                         ) : (
                                             <BreadcrumbLink asChild>
-                                                <Link href={item.href}>{item.title}</Link>
+                                                <Link href={route(item.route)}>{item.title}</Link>
                                             </BreadcrumbLink>
                                         )}
                                     </BreadcrumbItem>

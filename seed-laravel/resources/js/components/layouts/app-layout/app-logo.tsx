@@ -1,3 +1,5 @@
+import { APP_NAME } from '@/lib/env';
+
 import { AppLogoIcon } from '@/components/elements/app-logo-icon';
 
 export const AppLogo = () => {
@@ -7,8 +9,8 @@ export const AppLogo = () => {
                 <AppLogoIcon className="size-5 fill-current text-white dark:text-black" />
             </div>
             <div className="ml-1 grid flex-1 text-left text-sm">
-                <span className="mb-0.5 truncate leading-tight font-semibold">
-                    Laravel Starter Kit
+                <span className="mb-0.5 truncate text-lg leading-tight font-semibold">
+                    {APP_NAME}
                 </span>
             </div>
         </>

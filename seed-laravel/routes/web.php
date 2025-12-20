@@ -20,11 +20,16 @@ Route::prefix('/settings')->middleware('auth')->group(function () {
     Route::get('/two-factor', [SettingController::class, 'twoFactorShow'])->middleware('two-factor.password.confirm')->name('settings.two-factor.show');
 
     Route::get('/appearance', [SettingController::class, 'editAppearance'])->name('settings.appearance.edit');
-
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
+});
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('notes', function () {
+        return Inertia::render('notes/index');
+    })->name('notes.index');
 });

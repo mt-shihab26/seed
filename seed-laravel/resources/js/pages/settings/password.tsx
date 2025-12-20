@@ -22,11 +22,11 @@ function Password() {
             breadcrumbs={[
                 {
                     title: 'Settings',
-                    href: 'settings.redirect',
+                    route: 'settings.redirect',
                 },
                 {
                     title: 'Password',
-                    href: 'settings.password.edit',
+                    route: 'settings.password.edit',
                 },
             ]}
         >

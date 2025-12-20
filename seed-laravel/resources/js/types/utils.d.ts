@@ -1,6 +1,6 @@
 export type TBreadcrumb = {
     title: string;
-    href: string;
+    route?: string;
 };
 
 export type TLink = {
