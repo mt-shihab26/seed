@@ -22,25 +22,38 @@ class NoteController extends Controller
     /**
      * Display a listing of the favorites notes.
      */
-    public function favorites()
+    public function favorites(Request $request)
     {
-        return inertia('notes/index');
+        $notes = $request->user()->notes()->with(['folder', 'tags'])->whereNotNull('favorited_at')->get();
+
+        return inertia('notes/index', [
+            'notes' => $notes,
+        ]);
     }
 
     /**
      * Display a listing of the archived notes.
      */
-    public function archived()
+    public function archived(Request $request)
     {
-        return inertia('notes/index');
+        $notes = $request->user()->notes()->with(['folder', 'tags'])->whereNotNull('archived_at')->get();
+
+        return inertia('notes/index', [
+            'notes' => $notes,
+        ]);
     }
 
     /**
      * Display a listing of the trashed notes.
      */
-    public function trashed()
+    public function trashed(Request $request)
     {
-        return inertia('notes/index');
+        $notes = $request->user()->notes()->with(['folder', 'tags'])->withTrashed()->get();
+
+        return inertia('notes/index', [
+            'notes' => $notes,
+        ]);
+
     }
 
     /**
