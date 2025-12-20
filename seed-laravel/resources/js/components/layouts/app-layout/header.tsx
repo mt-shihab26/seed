@@ -1,18 +1,22 @@
-import { Breadcrumbs } from '@/components/breadcrumbs';
-import { Icon } from '@/components/icon';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+
 import {
     NavigationMenu,
     NavigationMenuItem,
     NavigationMenuList,
-    navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
+
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
+
 import {
     Sheet,
     SheetContent,
@@ -20,23 +24,27 @@ import {
     SheetTitle,
     SheetTrigger,
 } from '@/components/ui/sheet';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { UserMenuContent } from '@/components/user-menu-content';
+
+import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu';
+
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+
+import { Icon } from '@/components/elements/icon';
+
+import { Breadcrumbs } from './breadcrumbs';
+import { UserMenuContent } from './user-menu-content';
+
 import { useInitials } from '@/hooks/use-initials';
 import { cn, isSameUrl, resolveUrl } from '@/lib/utils';
 import { dashboard } from '@/routes';
-import { type BreadcrumbItem, type NavItem, type SharedData } from '@/types';
+import { type TBreadcrumb, type TLink, type TShared } from '@/types/props';
 import { Link, usePage } from '@inertiajs/react';
 import { BookOpen, Folder, LayoutGrid, Menu, Search } from 'lucide-react';
-import AppLogo from './app-logo';
-import AppLogoIcon from './app-logo-icon';
+import AppLogo from '../../elements/app-logo';
+import AppLogoIcon from '../../elements/app-logo-icon';
 
-const mainNavItems: NavItem[] = [
+const mainNavItems: TLink[] = [
     {
         title: 'Dashboard',
         href: dashboard(),
@@ -44,7 +52,7 @@ const mainNavItems: NavItem[] = [
     },
 ];
 
-const rightNavItems: NavItem[] = [
+const rightNavItems: TLink[] = [
     {
         title: 'Repository',
         href: 'https://github.com/laravel/react-starter-kit',
@@ -60,12 +68,8 @@ const rightNavItems: NavItem[] = [
 const activeItemStyles =
     'text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100';
 
-interface AppHeaderProps {
-    breadcrumbs?: BreadcrumbItem[];
-}
-
-export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
-    const page = usePage<SharedData>();
+export function Header({ breadcrumbs = [] }: { breadcrumbs?: TBreadcrumb[] }) {
+    const page = usePage<TShared>();
     const { auth } = page.props;
     const getInitials = useInitials();
     return (
@@ -105,7 +109,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                                 >
                                                     {item.icon && (
                                                         <Icon
-                                                            iconNode={item.icon}
+                                                            node={item.icon}
                                                             className="h-5 w-5"
                                                         />
                                                     )}
@@ -125,7 +129,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                                 >
                                                     {item.icon && (
                                                         <Icon
-                                                            iconNode={item.icon}
+                                                            node={item.icon}
                                                             className="h-5 w-5"
                                                         />
                                                     )}
@@ -169,7 +173,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                         >
                                             {item.icon && (
                                                 <Icon
-                                                    iconNode={item.icon}
+                                                    node={item.icon}
                                                     className="mr-2 h-4 w-4"
                                                 />
                                             )}
@@ -212,7 +216,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                                     </span>
                                                     {item.icon && (
                                                         <Icon
-                                                            iconNode={item.icon}
+                                                            node={item.icon}
                                                             className="size-5 opacity-80 group-hover:opacity-100"
                                                         />
                                                     )}

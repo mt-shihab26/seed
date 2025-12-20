@@ -1,5 +1,5 @@
 import { dashboard, login, register } from '@/routes';
-import { type SharedData } from '@/types';
+import { type TShared } from '@/types/props';
 import { Head, Link, usePage } from '@inertiajs/react';
 
 export default function Welcome({
@@ -7,7 +7,7 @@ export default function Welcome({
 }: {
     canRegister?: boolean;
 }) {
-    const { auth } = usePage<SharedData>().props;
+    const { auth } = usePage<TShared>().props;
 
     return (
         <>

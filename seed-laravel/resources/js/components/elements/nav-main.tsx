@@ -6,10 +6,10 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { resolveUrl } from '@/lib/utils';
-import { type NavItem } from '@/types';
+import { type TLink } from '@/types/props';
 import { Link, usePage } from '@inertiajs/react';
 
-export function NavMain({ items = [] }: { items: NavItem[] }) {
+export function NavMain({ items = [] }: { items: TLink[] }) {
     const page = usePage();
     return (
         <SidebarGroup className="px-2 py-0">
