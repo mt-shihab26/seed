@@ -14,7 +14,7 @@ class Folder extends Model
     use HasFactory, HasUuids;
 
     /**
-     * Get the user that own this folder.
+     * Get the user that owns the folder.
      */
     public function user(): BelongsTo
     {
@@ -22,10 +22,10 @@ class Folder extends Model
     }
 
     /**
-     * Get the notes  for this note.
+     * Get all of the notes for the folder.
      */
     public function notes(): HasMany
     {
-        return $this->hasMany(Tag::class);
+        return $this->hasMany(Note::class);
     }
 }

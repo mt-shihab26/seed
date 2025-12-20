@@ -15,7 +15,7 @@ class Note extends Model
     use HasFactory, HasUuids, SoftDeletes;
 
     /**
-     * Get the user that own this note.
+     * Get the user that owns the note.
      */
     public function user(): BelongsTo
     {
@@ -23,7 +23,7 @@ class Note extends Model
     }
 
     /**
-     * Get the folder for this note.
+     * Get the folder that owns the note.
      */
     public function folder(): BelongsTo
     {
@@ -31,7 +31,7 @@ class Note extends Model
     }
 
     /**
-     * Get the tags for this note.
+     * The tags that belong to the note.
      */
     public function tags(): BelongsToMany
     {

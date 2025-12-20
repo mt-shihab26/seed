@@ -54,7 +54,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the notes for this user.
+     * Get all of the folders for the user.
      */
     public function folders(): HasMany
     {
@@ -62,7 +62,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the notes for this user.
+     * Get all of the notes for the user.
      */
     public function notes(): HasMany
     {
@@ -70,10 +70,10 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the tags for this user.
+     * Get all of the tags for the user.
      */
     public function tags(): HasMany
     {
-        return $this->hasMany(Note::class);
+        return $this->hasMany(Tag::class);
     }
 }

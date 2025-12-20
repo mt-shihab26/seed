@@ -14,7 +14,7 @@ class Tag extends Model
     use HasFactory, HasUuids;
 
     /**
-     * Get the user that own this folder.
+     * Get the user that owns the tag.
      */
     public function user(): BelongsTo
     {
@@ -22,7 +22,7 @@ class Tag extends Model
     }
 
     /**
-     * Get the notes that are assigned this tag.
+     * The notes that belong to the tag.
      */
     public function notes(): BelongsToMany
     {
