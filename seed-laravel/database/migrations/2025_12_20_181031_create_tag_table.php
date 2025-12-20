@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tag', function (Blueprint $table) {
+        Schema::create('tags', function (Blueprint $table) {
             $table->uuid('id')->primary();
 
             $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
@@ -23,7 +23,7 @@ return new class extends Migration
 
         Schema::create('note_tag', function (Blueprint $table) {
             $table->foreignUuid('note_id')->constrained('notes')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignUuid('tag_id')->constrained('tag')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid('tag_id')->constrained('tags')->cascadeOnDelete()->cascadeOnUpdate();
 
             $table->primary(['note_id', 'tag_id']);
 
@@ -37,6 +37,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('note_tag');
-        Schema::dropIfExists('tag');
+        Schema::dropIfExists('tags');
     }
 };
