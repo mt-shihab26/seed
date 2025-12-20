@@ -5,6 +5,7 @@
     "htmlWhitespaceSensitivity": "css",
     "printWidth": 80,
     "plugins": [
+        "prettier-plugin-blade",
         "prettier-plugin-organize-imports",
         "prettier-plugin-tailwindcss"
     ],
@@ -16,6 +17,12 @@
             "files": "**/*.yml",
             "options": {
                 "tabWidth": 2
+            }
+        },
+        {
+            "files": ["*.blade.php"],
+            "options": {
+                "parser": "blade"
             }
         }
     ]
