@@ -22,6 +22,7 @@ import {
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
+
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -30,7 +31,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -56,10 +57,11 @@ interface NoteDialogProps {
     note: Note | null;
     open: boolean;
     onOpenChange: (open: boolean) => void;
-    onUpdate: (note: Note) => void;
-    onDelete: (id: string) => void;
-    onToggleFavorite: (id: string) => void;
-    onToggleArchive: (id: string) => void;
+    onUpdate?: (note: Note) => void;
+    onCreate?: (note: Note) => void;
+    onDelete?: (id: string) => void;
+    onToggleFavorite?: (id: string) => void;
+    onToggleArchive?: (id: string) => void;
     folders: string[];
     allTags: string[];
 }
@@ -69,13 +71,15 @@ export function NoteDialog({
     open,
     onOpenChange,
     onUpdate,
+    onCreate,
     onDelete,
     onToggleFavorite,
     onToggleArchive,
     folders,
     allTags,
 }: NoteDialogProps) {
-    const [isEditing, setIsEditing] = useState(false);
+    const isNewNote = note === null;
+    const [isEditing, setIsEditing] = useState(isNewNote);
     const [editedTitle, setEditedTitle] = useState('');
     const [editedContent, setEditedContent] = useState('');
     const [editedTags, setEditedTags] = useState<string[]>([]);
@@ -83,31 +87,71 @@ export function NoteDialog({
     const [tagInput, setTagInput] = useState('');
     const [activeTab, setActiveTab] = useState<'write' | 'preview'>('write');
 
-    if (!note) return null;
+    useEffect(() => {
+        if (open) {
+            if (isNewNote) {
+                setEditedTitle('');
+                setEditedContent('');
+                setEditedTags([]);
+                setEditedFolder(folders[0] || '');
+                setIsEditing(true);
+                setActiveTab('write');
+            } else if (note) {
+                setEditedTitle(note.title);
+                setEditedContent(note.content);
+                setEditedTags(note.tags);
+                setEditedFolder(note.folder);
+                setIsEditing(false);
+            }
+        }
+    }, [open, note, isNewNote, folders]);
 
     const handleEditStart = () => {
-        setEditedTitle(note.title);
-        setEditedContent(note.content);
-        setEditedTags(note.tags);
-        setEditedFolder(note.folder);
+        if (note) {
+            setEditedTitle(note.title);
+            setEditedContent(note.content);
+            setEditedTags(note.tags);
+            setEditedFolder(note.folder);
+        }
         setIsEditing(true);
     };
 
     const handleSave = () => {
-        onUpdate({
-            ...note,
-            title: editedTitle,
-            content: editedContent,
-            tags: editedTags,
-            folder: editedFolder,
-            updatedAt: new Date().toISOString(),
-        });
-        setIsEditing(false);
+        if (isNewNote && onCreate) {
+            const newNote: Note = {
+                id: Date.now().toString(),
+                title: editedTitle || 'Untitled Note',
+                content: editedContent,
+                tags: editedTags,
+                folder: editedFolder || folders[0] || 'General',
+                isFavorite: false,
+                isArchived: false,
+                isTrashed: false,
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString(),
+            };
+            onCreate(newNote);
+            onOpenChange(false);
+        } else if (note && onUpdate) {
+            onUpdate({
+                ...note,
+                title: editedTitle,
+                content: editedContent,
+                tags: editedTags,
+                folder: editedFolder,
+                updatedAt: new Date().toISOString(),
+            });
+            setIsEditing(false);
+        }
     };
 
     const handleCancel = () => {
-        setIsEditing(false);
-        setActiveTab('write');
+        if (isNewNote) {
+            onOpenChange(false);
+        } else {
+            setIsEditing(false);
+            setActiveTab('write');
+        }
     };
 
     const handleAddTag = () => {
@@ -122,6 +166,7 @@ export function NoteDialog({
     };
 
     const handleExport = () => {
+        if (!note) return;
         const blob = new Blob([`# ${note.title}\n\n${note.content}`], {
             type: 'text/markdown',
         });
@@ -136,11 +181,15 @@ export function NoteDialog({
     };
 
     const handleCopy = () => {
-        navigator.clipboard.writeText(note.content);
+        if (note) {
+            navigator.clipboard.writeText(note.content);
+        }
     };
 
-    const wordCount = note.content.trim().split(/\s+/).length;
-    const charCount = note.content.length;
+    const wordCount = (isEditing ? editedContent : note?.content || '')
+        .trim()
+        .split(/\s+/).length;
+    const charCount = (isEditing ? editedContent : note?.content || '').length;
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -148,7 +197,7 @@ export function NoteDialog({
                 <DialogHeader className="flex-shrink-0">
                     <div className="flex items-start justify-between">
                         <div className="flex-1">
-                            {isEditing ? (
+                            {isEditing || isNewNote ? (
                                 <Input
                                     value={editedTitle}
                                     onChange={(e) =>
@@ -159,32 +208,40 @@ export function NoteDialog({
                                 />
                             ) : (
                                 <DialogTitle className="pr-8 text-2xl font-semibold">
-                                    {note.title}
+                                    {note?.title}
                                 </DialogTitle>
                             )}
                             <DialogDescription className="mt-2 flex items-center gap-3 text-sm">
-                                <span>
-                                    Updated{' '}
-                                    {new Date(
-                                        note.updatedAt,
-                                    ).toLocaleDateString()}
-                                </span>
-                                {!isEditing && (
+                                {isNewNote ? (
+                                    <span>New note</span>
+                                ) : (
                                     <>
-                                        <span>•</span>
-                                        <span>{wordCount} words</span>
-                                        <span>•</span>
-                                        <span>{charCount} characters</span>
+                                        <span>
+                                            Updated{' '}
+                                            {new Date(
+                                                note?.updatedAt || '',
+                                            ).toLocaleDateString()}
+                                        </span>
+                                        {!isEditing && (
+                                            <>
+                                                <span>•</span>
+                                                <span>{wordCount} words</span>
+                                                <span>•</span>
+                                                <span>
+                                                    {charCount} characters
+                                                </span>
+                                            </>
+                                        )}
                                     </>
                                 )}
                             </DialogDescription>
                         </div>
                         <div className="flex items-center gap-2">
-                            {isEditing ? (
+                            {isEditing || isNewNote ? (
                                 <>
                                     <Button onClick={handleSave} size="sm">
                                         <Save className="mr-2 h-4 w-4" />
-                                        Save
+                                        {isNewNote ? 'Create' : 'Save'}
                                     </Button>
                                     <Button
                                         onClick={handleCancel}
@@ -214,23 +271,25 @@ export function NoteDialog({
                                         <DropdownMenuContent align="end">
                                             <DropdownMenuItem
                                                 onClick={() =>
-                                                    onToggleFavorite(note.id)
+                                                    note &&
+                                                    onToggleFavorite?.(note.id)
                                                 }
                                             >
                                                 <Star
-                                                    className={`mr-2 h-4 w-4 ${note.isFavorite ? 'fill-current' : ''}`}
+                                                    className={`mr-2 h-4 w-4 ${note?.isFavorite ? 'fill-current' : ''}`}
                                                 />
-                                                {note.isFavorite
+                                                {note?.isFavorite
                                                     ? 'Remove from favorites'
                                                     : 'Add to favorites'}
                                             </DropdownMenuItem>
                                             <DropdownMenuItem
                                                 onClick={() =>
-                                                    onToggleArchive(note.id)
+                                                    note &&
+                                                    onToggleArchive?.(note.id)
                                                 }
                                             >
                                                 <Archive className="mr-2 h-4 w-4" />
-                                                {note.isArchived
+                                                {note?.isArchived
                                                     ? 'Unarchive'
                                                     : 'Archive'}
                                             </DropdownMenuItem>
@@ -254,8 +313,10 @@ export function NoteDialog({
                                             <DropdownMenuSeparator />
                                             <DropdownMenuItem
                                                 onClick={() => {
-                                                    onDelete(note.id);
-                                                    onOpenChange(false);
+                                                    if (note && onDelete) {
+                                                        onDelete(note.id);
+                                                        onOpenChange(false);
+                                                    }
                                                 }}
                                                 className="text-destructive"
                                             >
@@ -271,7 +332,7 @@ export function NoteDialog({
                 </DialogHeader>
 
                 <div className="flex-1 overflow-y-auto">
-                    {isEditing ? (
+                    {isEditing || isNewNote ? (
                         <div className="space-y-6 py-4">
                             <Tabs
                                 value={activeTab}
@@ -405,7 +466,7 @@ export function NoteDialog({
                         </div>
                     ) : (
                         <div className="space-y-6 py-4">
-                            {(note.tags.length > 0 || note.folder) && (
+                            {(note?.tags.length || note?.folder) && (
                                 <div className="flex flex-wrap items-center gap-4">
                                     {note.folder && (
                                         <div className="flex items-center gap-2 text-sm">
@@ -431,7 +492,7 @@ export function NoteDialog({
                             )}
 
                             <div className="prose prose-sm dark:prose-invert max-w-none">
-                                {note.content.split('\n').map((line, i) => (
+                                {note?.content.split('\n').map((line, i) => (
                                     <p
                                         key={i}
                                         className="leading-relaxed text-foreground"

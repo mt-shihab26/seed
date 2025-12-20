@@ -43,9 +43,10 @@ interface Note {
     isTrashed: boolean;
 }
 
-const Index = () => {
+export default function NotesPage() {
     const [selectedNote, setSelectedNote] = useState<Note | null>(null);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [isNewNoteDialogOpen, setIsNewNoteDialogOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedFolder, setSelectedFolder] = useState<string | null>(null);
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -148,6 +149,11 @@ const Index = () => {
             ),
         );
         setSelectedNote(updatedNote);
+    };
+
+    const handleCreateNote = (newNote: Note) => {
+        setNotes([newNote, ...notes]);
+        setIsNewNoteDialogOpen(false);
     };
 
     const handleDelete = (id: string) => {
@@ -367,11 +373,11 @@ const Index = () => {
                                     ))}
                                 </DropdownMenuContent>
                             </DropdownMenu>
-                            <Button asChild>
-                                <Link href="/notes/new">
-                                    <Plus className="mr-2 h-4 w-4" />
-                                    New Note
-                                </Link>
+                            <Button
+                                onClick={() => setIsNewNoteDialogOpen(true)}
+                            >
+                                <Plus className="mr-2 h-4 w-4" />
+                                New Note
                             </Button>
                         </div>
                     </div>
@@ -390,11 +396,11 @@ const Index = () => {
                                     : 'Start by creating your first note'}
                             </p>
                             {!searchQuery && (
-                                <Button asChild>
-                                    <Link href="/notes/new">
-                                        <Plus className="mr-2 h-4 w-4" />
-                                        Create Note
-                                    </Link>
+                                <Button
+                                    onClick={() => setIsNewNoteDialogOpen(true)}
+                                >
+                                    <Plus className="mr-2 h-4 w-4" />
+                                    Create Note
                                 </Button>
                             )}
                         </div>
@@ -503,8 +509,15 @@ const Index = () => {
                 folders={folders}
                 allTags={allTags}
             />
+
+            <NoteDialog
+                note={null}
+                open={isNewNoteDialogOpen}
+                onOpenChange={setIsNewNoteDialogOpen}
+                onCreate={handleCreateNote}
+                folders={folders}
+                allTags={allTags}
+            />
         </div>
     );
-};
-
-export default Index;
+}
