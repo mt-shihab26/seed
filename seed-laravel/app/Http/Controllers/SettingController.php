@@ -9,18 +9,27 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
-use Inertia\Inertia;
-use Inertia\Response;
 use Laravel\Fortify\Features;
 
 class SettingController extends Controller
 {
     /**
+     * Show the user's statistics settings page.
+     */
+    public function editStatistics(Request $request)
+    {
+        return inertia('settings/statistics', [
+            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
+            'status' => $request->session()->get('status'),
+        ]);
+    }
+
+    /**
      * Show the user's profile settings page.
      */
-    public function editProfile(Request $request): Response
+    public function editProfile(Request $request)
     {
-        return Inertia::render('settings/profile', [
+        return inertia('settings/profile', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => $request->session()->get('status'),
         ]);
@@ -66,9 +75,9 @@ class SettingController extends Controller
     /**
      * Show the user's password settings page.
      */
-    public function editPassword(): Response
+    public function editPassword()
     {
-        return Inertia::render('settings/password');
+        return inertia('settings/password');
     }
 
     /**
@@ -91,11 +100,11 @@ class SettingController extends Controller
     /**
      * Show the user's two-factor authentication settings page.
      */
-    public function twoFactorShow(TwoFactorAuthenticationRequest $request): Response
+    public function twoFactorShow(TwoFactorAuthenticationRequest $request)
     {
         $request->ensureStateIsValid();
 
-        return Inertia::render('settings/two-factor', [
+        return inertia('settings/two-factor', [
             'twoFactorEnabled' => $request->user()->hasEnabledTwoFactorAuthentication(),
             'requiresConfirmation' => Features::optionEnabled(Features::twoFactorAuthentication(), 'confirm'),
         ]);
@@ -106,6 +115,6 @@ class SettingController extends Controller
      */
     public function editAppearance()
     {
-        return Inertia::render('settings/appearance');
+        return inertia('settings/appearance');
     }
 }

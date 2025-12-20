@@ -10,6 +10,8 @@ Route::get('/', fn () => inertia('welcome', ['canRegister' => Features::enabled(
 Route::prefix('/settings')->middleware('auth')->group(function () {
     Route::redirect('/', '/settings/profile')->name('settings.redirect');
 
+    Route::get('/statistics', [SettingController::class, 'editStatistics'])->name('settings.statistics.edit');
+
     Route::get('/profile', [SettingController::class, 'editProfile'])->name('settings.profile.edit');
     Route::patch('/profile', [SettingController::class, 'updateProfile'])->name('settings.profile.update');
     Route::delete('/profile', [SettingController::class, 'destroyProfile'])->name('settings.profile.destroy');
