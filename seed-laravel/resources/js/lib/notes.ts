@@ -24,5 +24,26 @@ export const getFilteredNotes = (
         selectedTagIDs: string[] | null;
     },
 ): TNote[] => {
-    return notes;
+    let filtered = notes;
+
+    if (options.selectedFolderID !== null) {
+        filtered = filtered.filter((note) => note.folder_id === options.selectedFolderID);
+    }
+
+    if (options.selectedTagIDs !== null && options.selectedTagIDs.length > 0) {
+        filtered = filtered.filter((note) =>
+            note.tags.some((tag) => options.selectedTagIDs!.includes(tag.id)),
+        );
+    }
+
+    return filtered;
+};
+
+export const getSelectedNote = (
+    notes: TNote[],
+    options: {
+        selectedNoteID: string | null;
+    },
+): TNote | null => {
+    return notes.find((n) => n.id === options.selectedNoteID) || null;
 };
