@@ -19,8 +19,8 @@ import type { TShared } from '@/types/props';
 
 import { APP_NAME } from '@/lib/env';
 import { formatShortcut } from '@/lib/format';
-import { getHref } from '@/lib/href';
-import { pagesLinks, settingsLinks } from '@/lib/links';
+import { getHref, isActiveHref } from '@/lib/href';
+import { accordionLinks, pagesLinks } from '@/lib/links';
 import { router, usePage } from '@inertiajs/react';
 
 import { AppLogoIcon } from '@/components/icons/app-logo-icon';
@@ -69,6 +69,10 @@ export const Menu = () => {
                         <DropdownMenuItem
                             key={link.route || link.href}
                             onClick={() => router.visit(getHref(link))}
+                            data-active={isActiveHref(url, link)}
+                            className={
+                                isActiveHref(url, link) ? 'bg-accent text-accent-foreground' : ''
+                            }
                         >
                             <Icon iconNode={link.icon} />
                             {link.title}
@@ -83,29 +87,37 @@ export const Menu = () => {
                 <DropdownMenuSeparator />
 
                 <Accordion type="multiple">
-                    <AccordionItem value="settings">
-                        <AccordionTrigger>Settings</AccordionTrigger>
-                        <AccordionContent>
-                            <DropdownMenuGroup>
-                                {settingsLinks.map((link) => (
-                                    <DropdownMenuItem
-                                        key={link.route || link.href}
-                                        onClick={() => router.visit(getHref(link))}
-                                    >
-                                        <Icon iconNode={link.icon} />
-                                        {link.title}
-                                        {link.shortcut && (
-                                            <DropdownMenuShortcut>
-                                                {formatShortcut(link.shortcut)}
-                                            </DropdownMenuShortcut>
-                                        )}
-                                    </DropdownMenuItem>
-                                ))}
-                            </DropdownMenuGroup>{' '}
-                        </AccordionContent>
-                    </AccordionItem>
+                    {accordionLinks.map((accordionLink) => (
+                        <AccordionItem key={accordionLink.key} value={accordionLink.key}>
+                            <AccordionTrigger>{accordionLink.title}</AccordionTrigger>
+                            <AccordionContent>
+                                <DropdownMenuGroup>
+                                    {accordionLink.links.map((link) => (
+                                        <DropdownMenuItem
+                                            key={link.route || link.href}
+                                            onClick={() => router.visit(getHref(link))}
+                                            data-active={isActiveHref(url, link)}
+                                            className={
+                                                isActiveHref(url, link)
+                                                    ? 'bg-accent text-accent-foreground'
+                                                    : ''
+                                            }
+                                        >
+                                            <Icon iconNode={link.icon} />
+                                            {link.title}
+                                            {link.shortcut && (
+                                                <DropdownMenuShortcut>
+                                                    {formatShortcut(link.shortcut)}
+                                                </DropdownMenuShortcut>
+                                            )}
+                                        </DropdownMenuItem>
+                                    ))}
+                                </DropdownMenuGroup>{' '}
+                            </AccordionContent>
+                            <DropdownMenuSeparator />
+                        </AccordionItem>
+                    ))}
                 </Accordion>
-                <DropdownMenuSeparator />
             </DropdownMenuContent>
         </DropdownMenu>
     );

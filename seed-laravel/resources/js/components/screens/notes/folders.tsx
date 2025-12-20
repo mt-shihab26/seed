@@ -1,13 +1,13 @@
 import type { TNote } from '@/types/models';
 
 import { getFoldersFromNotes } from '@/lib/notes';
-import { useNotesFilterStore } from '@/stores/notes-filter-store';
+import { useNotesStore } from '@/stores/use-notes-store';
 
 import { Button } from '@/components/ui/button';
 import { Folder } from 'lucide-react';
 
 export const Folders = ({ notes }: { notes: TNote[] }) => {
-    const { selectedFolderID, toggleFolder } = useNotesFilterStore();
+    const { selectedFolderID, toggleFolder } = useNotesStore();
 
     const folders = getFoldersFromNotes(notes);
 

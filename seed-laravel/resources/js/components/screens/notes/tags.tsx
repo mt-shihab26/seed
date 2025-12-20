@@ -3,12 +3,12 @@ import { Tag } from 'lucide-react';
 import type { TNote } from '@/types/models';
 
 import { getTagsFromNotes } from '@/lib/notes';
-import { useNotesFilterStore } from '@/stores/notes-filter-store';
+import { useNotesStore } from '@/stores/use-notes-store';
 
 import { Badge } from '@/components/ui/badge';
 
 export const Tags = ({ notes }: { notes: TNote[] }) => {
-    const { selectedTagIDs, toggleTag } = useNotesFilterStore();
+    const { selectedTagIDs, toggleTag } = useNotesStore();
 
     const tags = getTagsFromNotes(notes);
 

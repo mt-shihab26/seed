@@ -1,7 +1,7 @@
 import type { TNote } from '@/types/models';
 
 import { getFilteredNotes, getFoldersFromNotes, getSelectedNote } from '@/lib/notes';
-import { useNotesFilterStore } from '@/stores/notes-filter-store';
+import { useNotesStore } from '@/stores/use-notes-store';
 import { useState } from 'react';
 
 import { AppLayout } from '@/components/layouts/app-layout';
@@ -15,7 +15,7 @@ import { Head } from '@inertiajs/react';
 import { Archive, Edit, Plus, Sprout, Star, Trash2 } from 'lucide-react';
 
 const Index = ({ notes }: { notes: TNote[] }) => {
-    const { selectedFolderID, selectedTagIDs, searchQuery, selectedNoteID } = useNotesFilterStore();
+    const { selectedFolderID, selectedTagIDs, searchQuery, selectedNoteID } = useNotesStore();
 
     const folders = getFoldersFromNotes(notes);
     const filteredNotes = getFilteredNotes(notes, { selectedFolderID, selectedTagIDs });

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-export const useNotesFilterStore = create<{
+export const useNotesStore = create<{
     selectedFolderID: string | null;
     setSelectedFolderID: (folderId: string | null) => void;
     selectedTagIDs: string[] | null;

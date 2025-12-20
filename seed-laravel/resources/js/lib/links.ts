@@ -13,6 +13,14 @@ import {
 
 import type { TLink } from '@/types/utils';
 
+export const rightLinks: TLink[] = [
+    {
+        title: 'Repository',
+        href: 'https://github.com/mt-shihab26/seed/tree/main/seed-laravel',
+        icon: Folder,
+    },
+];
+
 export const pagesLinks: TLink[] = [
     {
         title: 'Notes',
@@ -68,10 +76,10 @@ export const settingsLinks: TLink[] = [
     },
 ];
 
-export const rightLinks: TLink[] = [
+export const accordionLinks: { key: string; title: string; links: TLink[] }[] = [
     {
-        title: 'Repository',
-        href: 'https://github.com/mt-shihab26/seed/tree/main/seed-laravel',
-        icon: Folder,
+        key: 'settings',
+        title: 'Settings',
+        links: settingsLinks,
     },
 ];
