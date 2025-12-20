@@ -25,34 +25,34 @@ import {
     SheetTrigger,
 } from '@/components/ui/sheet';
 
+import type { TShared } from '@/types/props';
+import type { TBreadcrumb, TLink } from '@/types/utils';
+
 import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu';
+import { cn, isSameUrl, resolveUrl } from '@/lib/utils';
+import { usePage } from '@inertiajs/react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
+import { Link } from '@inertiajs/react';
+import { BookOpen, Folder, LayoutGrid, Menu, Search } from 'lucide-react';
 
 import { Icon } from '@/components/elements/icon';
 
+import { AppLogo } from './app-logo';
+import { AppLogoIcon } from './app-logo-icon';
 import { Breadcrumbs } from './breadcrumbs';
 import { UserMenuContent } from './user-menu-content';
 
-import { useInitials } from '@/hooks/use-initials';
-import { cn, isSameUrl, resolveUrl } from '@/lib/utils';
-import { dashboard } from '@/routes';
-import { type TBreadcrumb, type TLink, type TShared } from '@/types/props';
-import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid, Menu, Search } from 'lucide-react';
-import AppLogo from '../../elements/app-logo';
-import AppLogoIcon from '../../elements/app-logo-icon';
-
-const mainNavItems: TLink[] = [
+const mainLinks: TLink[] = [
     {
         title: 'Dashboard',
-        href: dashboard(),
+        route: 'dashboard',
         icon: LayoutGrid,
     },
 ];
 
-const rightNavItems: TLink[] = [
+const rightLinks: TLink[] = [
     {
         title: 'Repository',
         href: 'https://github.com/laravel/react-starter-kit',
@@ -65,13 +65,16 @@ const rightNavItems: TLink[] = [
     },
 ];
 
-const activeItemStyles =
+const activeLinkClassName =
     'text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100';
 
-export function Header({ breadcrumbs = [] }: { breadcrumbs?: TBreadcrumb[] }) {
-    const page = usePage<TShared>();
-    const { auth } = page.props;
-    const getInitials = useInitials();
+export const Header = ({
+    breadcrumbs = [],
+}: {
+    breadcrumbs?: TBreadcrumb[];
+}) => {
+    const { url, props } = usePage<TShared>();
+
     return (
         <>
             <div className="border-b border-sidebar-border/80">
@@ -101,7 +104,7 @@ export function Header({ breadcrumbs = [] }: { breadcrumbs?: TBreadcrumb[] }) {
                                 <div className="flex h-full flex-1 flex-col space-y-4 p-4">
                                     <div className="flex h-full flex-col justify-between text-sm">
                                         <div className="flex flex-col space-y-4">
-                                            {mainNavItems.map((item) => (
+                                            {mainLinks.map((item) => (
                                                 <Link
                                                     key={item.title}
                                                     href={item.href}
@@ -119,7 +122,7 @@ export function Header({ breadcrumbs = [] }: { breadcrumbs?: TBreadcrumb[] }) {
                                         </div>
 
                                         <div className="flex flex-col space-y-4">
-                                            {rightNavItems.map((item) => (
+                                            {rightLinks.map((item) => (
                                                 <a
                                                     key={item.title}
                                                     href={resolveUrl(item.href)}
@@ -155,7 +158,7 @@ export function Header({ breadcrumbs = [] }: { breadcrumbs?: TBreadcrumb[] }) {
                     <div className="ml-6 hidden h-full items-center space-x-6 lg:flex">
                         <NavigationMenu className="flex h-full items-stretch">
                             <NavigationMenuList className="flex h-full items-stretch space-x-2">
-                                {mainNavItems.map((item, index) => (
+                                {mainLinks.map((item, index) => (
                                     <NavigationMenuItem
                                         key={index}
                                         className="relative flex h-full items-center"
@@ -167,7 +170,7 @@ export function Header({ breadcrumbs = [] }: { breadcrumbs?: TBreadcrumb[] }) {
                                                 isSameUrl(
                                                     page.url,
                                                     item.href,
-                                                ) && activeItemStyles,
+                                                ) && activeLinkClassName,
                                                 'h-9 cursor-pointer px-3',
                                             )}
                                         >
@@ -198,7 +201,7 @@ export function Header({ breadcrumbs = [] }: { breadcrumbs?: TBreadcrumb[] }) {
                                 <Search className="!size-5 opacity-80 group-hover:opacity-100" />
                             </Button>
                             <div className="hidden lg:flex">
-                                {rightNavItems.map((item) => (
+                                {rightLinks.map((item) => (
                                     <TooltipProvider
                                         key={item.title}
                                         delayDuration={0}
@@ -263,4 +266,4 @@ export function Header({ breadcrumbs = [] }: { breadcrumbs?: TBreadcrumb[] }) {
             )}
         </>
     );
-}
+};

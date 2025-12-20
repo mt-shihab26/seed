@@ -1,14 +1,14 @@
 import { qrCode, recoveryCodes, secretKey } from '@/routes/two-factor';
 import { useCallback, useMemo, useState } from 'react';
 
-interface TwoFactorSetupData {
+type TTwoFactorSetupData = {
     svg: string;
     url: string;
-}
+};
 
-interface TwoFactorSecretKey {
+type TTwoFactorSecretKey = {
     secretKey: string;
-}
+};
 
 export const OTP_MAX_LENGTH = 6;
 
@@ -37,7 +37,7 @@ export const useTwoFactorAuth = () => {
 
     const fetchQrCode = useCallback(async (): Promise<void> => {
         try {
-            const { svg } = await fetchJson<TwoFactorSetupData>(qrCode.url());
+            const { svg } = await fetchJson<TTwoFactorSetupData>(qrCode.url());
             setQrCodeSvg(svg);
         } catch {
             setErrors((prev) => [...prev, 'Failed to fetch QR code']);
@@ -47,7 +47,7 @@ export const useTwoFactorAuth = () => {
 
     const fetchSetupKey = useCallback(async (): Promise<void> => {
         try {
-            const { secretKey: key } = await fetchJson<TwoFactorSecretKey>(
+            const { secretKey: key } = await fetchJson<TTwoFactorSecretKey>(
                 secretKey.url(),
             );
             setManualSetupKey(key);

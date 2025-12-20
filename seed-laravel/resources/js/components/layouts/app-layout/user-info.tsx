@@ -1,22 +1,22 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useInitials } from '@/hooks/use-initials';
-import { type TUser } from '@/types/props';
+import type { TUser } from '@/types/models';
 
-export function UserInfo({
+import { formatInitials } from '@/lib/format';
+
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+
+export const UserInfo = ({
     user,
-    showEmail = false,
+    showEmail,
 }: {
     user: TUser;
     showEmail?: boolean;
-}) {
-    const getInitials = useInitials();
-
+}) => {
     return (
         <>
             <Avatar className="h-8 w-8 overflow-hidden rounded-full">
                 <AvatarImage src={user.avatar} alt={user.name} />
                 <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
-                    {getInitials(user.name)}
+                    {formatInitials(user.name)}
                 </AvatarFallback>
             </Avatar>
             <div className="grid flex-1 text-left text-sm leading-tight">
@@ -29,4 +29,4 @@ export function UserInfo({
             </div>
         </>
     );
-}
+};

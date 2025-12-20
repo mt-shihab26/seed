@@ -5,7 +5,5 @@ export type TBreadcrumb = {
 
 export type TLink = {
     title: string;
-    href: NonNullable<InertiaLinkProps['href']>;
     icon?: LucideIcon | null;
-    isActive?: boolean;
-};
+} & ({ route: string; href?: never } | { route?: never; href: string });

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
-export type Appearance = 'light' | 'dark' | 'system';
+export type TAppearance = 'light' | 'dark' | 'system';
 
 const prefersDark = () => {
     if (typeof window === 'undefined') {
@@ -19,7 +19,7 @@ const setCookie = (name: string, value: string, days = 365) => {
     document.cookie = `${name}=${value};path=/;max-age=${maxAge};SameSite=Lax`;
 };
 
-const applyTheme = (appearance: Appearance) => {
+const applyTheme = (appearance: TAppearance) => {
     const isDark =
         appearance === 'dark' || (appearance === 'system' && prefersDark());
 
@@ -36,13 +36,13 @@ const mediaQuery = () => {
 };
 
 const handleSystemThemeChange = () => {
-    const currentAppearance = localStorage.getItem('appearance') as Appearance;
+    const currentAppearance = localStorage.getItem('appearance') as TAppearance;
     applyTheme(currentAppearance || 'system');
 };
 
 export function initializeTheme() {
     const savedAppearance =
-        (localStorage.getItem('appearance') as Appearance) || 'system';
+        (localStorage.getItem('appearance') as TAppearance) || 'system';
 
     applyTheme(savedAppearance);
 
@@ -51,9 +51,9 @@ export function initializeTheme() {
 }
 
 export function useAppearance() {
-    const [appearance, setAppearance] = useState<Appearance>('system');
+    const [appearance, setAppearance] = useState<TAppearance>('system');
 
-    const updateAppearance = useCallback((mode: Appearance) => {
+    const updateAppearance = useCallback((mode: TAppearance) => {
         setAppearance(mode);
 
         // Store in localStorage for client-side persistence...
@@ -68,7 +68,7 @@ export function useAppearance() {
     useEffect(() => {
         const savedAppearance = localStorage.getItem(
             'appearance',
-        ) as Appearance | null;
+        ) as TAppearance | null;
 
         // eslint-disable-next-line react-hooks/set-state-in-effect
         updateAppearance(savedAppearance || 'system');

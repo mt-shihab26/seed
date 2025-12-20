@@ -14,7 +14,7 @@ import { dashboard } from '@/routes';
 import { type TLink } from '@/types/props';
 import { Link } from '@inertiajs/react';
 import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
-import AppLogo from './app-logo';
+import AppLogo from '../layouts/app-layout/app-logo';
 
 const mainNavItems: TLink[] = [
     {
