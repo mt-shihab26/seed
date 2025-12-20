@@ -1,7 +1,3 @@
-import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
-import HeadingSmall from '@/components/heading-small';
-import InputError from '@/components/input-error';
-import { Button } from '@/components/ui/button';
 import {
     Dialog,
     DialogClose,
@@ -11,12 +7,18 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
+
+import { useRef } from 'react';
+
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Form } from '@inertiajs/react';
-import { useRef } from 'react';
 
-export default function DeleteUser() {
+import { HeadingSmall } from '@/components/elements/heading-small';
+import { InputError } from '@/components/elements/input-error';
+
+export const DeleteUser = () => {
     const passwordInput = useRef<HTMLInputElement>(null);
 
     return (
@@ -100,4 +102,4 @@ export default function DeleteUser() {
             </div>
         </div>
     );
-}
+};

@@ -1,22 +1,22 @@
+import { regenerateRecoveryCodes } from '@/routes/two-factor';
+import { useCallback, useEffect, useRef, useState } from 'react';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { regenerateRecoveryCodes } from '@/routes/two-factor';
 import { Form } from '@inertiajs/react';
 import { Eye, EyeOff, LockKeyhole, RefreshCw } from 'lucide-react';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import AlertError from './alert-error';
 
-interface TwoFactorRecoveryCodesProps {
-    recoveryCodesList: string[];
-    fetchRecoveryCodes: () => Promise<void>;
-    errors: string[];
-}
+import { AlertError } from './alert-error';
 
-export default function TwoFactorRecoveryCodes({
+export const TwoFactorRecoveryCodes = ({
     recoveryCodesList,
     fetchRecoveryCodes,
     errors,
-}: TwoFactorRecoveryCodesProps) {
+}: {
+    recoveryCodesList: string[];
+    fetchRecoveryCodes: () => Promise<void>;
+    errors: string[];
+}) => {
     const [codesAreVisible, setCodesAreVisible] = useState<boolean>(false);
     const codesSectionRef = useRef<HTMLDivElement | null>(null);
     const canRegenerateCodes = recoveryCodesList.length > 0 && codesAreVisible;
@@ -145,4 +145,4 @@ export default function TwoFactorRecoveryCodes({
             </CardContent>
         </Card>
     );
-}
+};
