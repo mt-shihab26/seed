@@ -15,7 +15,7 @@ import { router, usePage } from '@inertiajs/react';
 import { AccordionTrigger } from '@/components/patch/accordion';
 import { Accordion, AccordionContent, AccordionItem } from '@/components/ui/accordion';
 import { Icon } from '@/components/ui/icon';
-import { Folder, Folders, Settings } from 'lucide-react';
+import { Folder, Folders, Settings, Tag, Tags } from 'lucide-react';
 
 export const AccordionLinks = () => {
     const { url, props } = usePage<TShared>();
@@ -29,11 +29,24 @@ export const AccordionLinks = () => {
             links:
                 props.auth.user.folders?.map((folder, index) => ({
                     title: folder.name,
-                    route: 'settings.appearance.edit',
+                    href: route('notes.folders.show', { folder }),
                     icon: Folder,
                     shortcut: `mod+f+${index + 1}`,
                 })) || [],
         },
+        {
+            key: 'tags',
+            title: 'Tags',
+            icon: Tags,
+            links:
+                props.auth.user.tags?.map((tag, index) => ({
+                    title: tag.name,
+                    href: route('notes.tags.show', { tag }),
+                    icon: Tag,
+                    shortcut: `mod+f+${index + 1}`,
+                })) || [],
+        },
+
         {
             key: 'settings',
             title: 'Settings',
@@ -52,7 +65,7 @@ export const AccordionLinks = () => {
                         )}
                         {accordionLink.title}
                     </AccordionTrigger>
-                    <AccordionContent className="p-0">
+                    <AccordionContent className="pl-5">
                         <DropdownMenuGroup>
                             {accordionLink.links.map((link) => (
                                 <DropdownMenuItem
