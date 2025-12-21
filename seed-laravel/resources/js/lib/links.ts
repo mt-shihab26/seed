@@ -17,25 +17,25 @@ export const pagesLinks: TLink[] = [
         title: 'Notes',
         route: 'notes.index',
         icon: StickyNote,
-        shortcut: ['mod', 'shift', 'n'],
+        shortcut: ['n'],
     },
     {
         title: 'Favorites',
         route: 'notes.favorites',
         icon: Star,
-        shortcut: ['mod', 'shift', 'f'],
+        shortcut: ['f'],
     },
     {
         title: 'Archived',
         route: 'notes.archived',
         icon: Archive,
-        shortcut: ['mod', 'shift', 'r'],
+        shortcut: ['a'],
     },
     {
         title: 'Trash',
         route: 'notes.trashed',
         icon: Trash2,
-        shortcut: ['mod', 'shift', 'd'],
+        shortcut: ['t'],
     },
 ];
 

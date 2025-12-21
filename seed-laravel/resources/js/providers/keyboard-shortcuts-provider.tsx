@@ -54,7 +54,7 @@ export const KeyboardShortcutsProvider = ({ children }: { children: ReactNode })
     const matchesShortcut = (event: KeyboardEvent, keys: string[]): boolean => {
         const normalizedKeys = keys.map((k) => k.toLowerCase());
 
-        // Check for modifier keys
+        // Check for modifier keys in shortcut definition
         const hasMod = normalizedKeys.includes('mod');
         const hasShift = normalizedKeys.includes('shift');
         const hasAlt = normalizedKeys.includes('alt');
@@ -67,25 +67,22 @@ export const KeyboardShortcutsProvider = ({ children }: { children: ReactNode })
 
         // Check if the pressed key matches
         const keyMatches = event.key.toLowerCase() === actualKey;
+        if (!keyMatches) return false;
 
-        // Check modifiers
-        const modMatches = hasMod ? event.metaKey || event.ctrlKey : true;
-        const shiftMatches = hasShift ? event.shiftKey : !event.shiftKey;
-        const altMatches = hasAlt ? event.altKey : !event.altKey;
-        const ctrlMatches = hasCtrl ? event.ctrlKey : !event.ctrlKey;
-
-        // For 'mod' shortcuts, ensure we don't require extra modifiers
+        // For shortcuts with 'mod', check if Cmd (Mac) or Ctrl is pressed
         if (hasMod) {
-            return (
-                keyMatches &&
-                (event.metaKey || event.ctrlKey) &&
-                shiftMatches &&
-                altMatches &&
-                (!hasCtrl || ctrlMatches)
-            );
+            if (!(event.metaKey || event.ctrlKey)) return false;
+        } else {
+            // If shortcut doesn't have 'mod', neither Cmd nor Ctrl should be pressed
+            if (event.metaKey || event.ctrlKey) return false;
         }
 
-        return keyMatches && modMatches && shiftMatches && altMatches && ctrlMatches;
+        // Check other modifiers - they must match exactly
+        if (hasShift !== event.shiftKey) return false;
+        if (hasAlt !== event.altKey) return false;
+        if (hasCtrl && !event.ctrlKey) return false;
+
+        return true;
     };
 
     useEffect(() => {

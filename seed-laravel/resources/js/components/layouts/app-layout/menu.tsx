@@ -41,10 +41,11 @@ export const Menu = () => {
             keys: [menuKey],
             handler: () => setOpen((prev) => !prev),
         });
+        registerLinks(pagesLinks);
         registerLinks(foldersLinks);
         registerLinks(tagsLinks);
         registerLinks(settingsLinks);
-    }, [registerLinks, registerShortcut, foldersLinks, tagsLinks, settingsLinks]);
+    }, [registerLinks, registerShortcut, foldersLinks, tagsLinks]);
 
     const links = [
         {
