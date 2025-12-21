@@ -45,7 +45,7 @@ export const Menu = () => {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
-                className="min-w-full space-y-3 rounded-4xl p-4 md:min-w-120 md:p-6 overflow-hidden"
+                className="min-w-full space-y-3 overflow-hidden rounded-4xl p-4 md:min-w-120 md:p-6"
                 align="center"
                 sideOffset={-44}
             >
@@ -61,7 +61,7 @@ export const Menu = () => {
                 </div>
                 <DropdownMenuSeparator />
 
-                <div className="max-h-screen w-full overflow-x-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 dark:[&::-webkit-scrollbar-track]:bg-neutral-700">
+                <div className="max-h-[100vh-0.5rem] w-full overflow-x-hidden overflow-y-auto pr-2 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-muted">
                     <DropdownMenuGroup>
                         {pagesLinks.map((link) => (
                             <DropdownMenuItem
