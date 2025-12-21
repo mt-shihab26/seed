@@ -29,7 +29,6 @@ Route::prefix('/notes')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/favorites', [NoteController::class, 'favorites'])->name('notes.favorites');
     Route::get('/archived', [NoteController::class, 'archived'])->name('notes.archived');
     Route::get('/trashed', [NoteController::class, 'trashed'])->name('notes.trashed');
-
     Route::get('/folders/{folder}', [NoteController::class, 'folders'])->name('notes.folders.show');
     Route::get('/tags/{tag}', [NoteController::class, 'tags'])->name('notes.tags.show');
 });
