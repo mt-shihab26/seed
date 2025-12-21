@@ -22,7 +22,7 @@ import { DropdownMenuGroup, DropdownMenuSeparator } from '@/components/ui/dropdo
 import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import { Kbd, KbdGroup } from '@/components/ui/kbd';
-import { ChevronDownIcon, Folders, Settings, Tags, XIcon } from 'lucide-react';
+import { ChevronDownIcon, Folders, Settings, Tags } from 'lucide-react';
 import { MenuGroup } from './menu-group';
 
 export const Menu = () => {
@@ -94,14 +94,12 @@ export const Menu = () => {
                 align="center"
                 sideOffset={-44}
             >
-                <Button
+                <KbdGroup
                     onClick={() => setOpen(false)}
-                    className="absolute top-2 right-2"
-                    variant="ghost"
-                    size="icon"
+                    className="absolute top-4 left-3 cursor-pointer"
                 >
-                    <XIcon className="size-4" />
-                </Button>
+                    <Kbd className="border border-border">ESC</Kbd>
+                </KbdGroup>
                 <div className="text-center text-xl font-bold">
                     <h2>{props.auth.user.name}'s Notes</h2>
                 </div>
