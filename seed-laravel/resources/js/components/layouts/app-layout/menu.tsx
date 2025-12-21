@@ -43,11 +43,11 @@ export const Menu = () => {
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="lg" className="h-14 rounded-full">
-                    <div className="flex aspect-square size-10 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
-                        <AppLogoIcon className="size-8 fill-current text-white dark:text-black" />
+                    <div className="flex aspect-square size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
+                        <AppLogoIcon className="size-5 fill-current text-white dark:text-black" />
                     </div>
                     <div className="ml-1 grid flex-1 text-left text-sm">
-                        <span className="mb-0.5 truncate text-xl leading-tight font-semibold">
+                        <span className="mb-0.5 truncate text-lg leading-tight font-semibold">
                             {APP_NAME}
                         </span>
                     </div>
