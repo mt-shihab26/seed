@@ -61,7 +61,7 @@ export const Menu = () => {
                 </div>
                 <DropdownMenuSeparator />
 
-                <div className="max-h-screen w-full overflow-y-auto">
+                <div className="max-h-screen w-full overflow-y-auto overflow-x-hidden">
                     <DropdownMenuGroup>
                         {pagesLinks.map((link) => (
                             <DropdownMenuItem
