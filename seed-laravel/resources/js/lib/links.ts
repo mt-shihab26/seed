@@ -26,25 +26,25 @@ export const pagesLinks: TLink[] = [
         title: 'Notes',
         route: 'notes.index',
         icon: StickyNote,
-        shortcut: 'mod+n',
+        shortcut: 'mod+1',
     },
     {
         title: 'Favorites',
         route: 'notes.favorites',
         icon: Star,
-        shortcut: 'mod+f',
+        shortcut: 'mod+2',
     },
     {
         title: 'Archived',
         route: 'notes.archived',
         icon: Archive,
-        shortcut: 'mod+a',
+        shortcut: 'mod+3',
     },
     {
         title: 'Trash',
         route: 'notes.trashed',
         icon: Trash2,
-        shortcut: 'mod+d',
+        shortcut: 'mod+4',
     },
 ];
 
@@ -53,25 +53,30 @@ export const settingsLinks: TLink[] = [
         title: 'Statistics',
         route: 'settings.statistics.edit',
         icon: ChartBar,
+        shortcut: 'mod+shift+s',
     },
     {
         title: 'Profile',
         route: 'settings.profile.edit',
         icon: UserCircle,
+        shortcut: 'mod+,',
     },
     {
         title: 'Password',
         route: 'settings.password.edit',
         icon: KeyRound,
+        shortcut: 'mod+shift+k',
     },
     {
         title: 'Two-Factor Auth',
         route: 'settings.two-factor.show',
         icon: ShieldCheck,
+        shortcut: 'mod+shift+2',
     },
     {
         title: 'Appearance',
         route: 'settings.appearance.edit',
         icon: Palette,
+        shortcut: 'mod+shift+t',
     },
 ];
