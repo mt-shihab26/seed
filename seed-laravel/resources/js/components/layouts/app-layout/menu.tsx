@@ -45,14 +45,14 @@ export const Menu = () => {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
-                className="min-w-full space-y-3 overflow-hidden rounded-4xl p-4 md:min-w-120 md:p-6"
+                className="flex max-h-[calc(100vh-2.5rem)] min-w-full flex-col space-y-3 overflow-hidden rounded-4xl p-4 md:min-w-120"
                 align="center"
                 sideOffset={-44}
             >
                 <div className="text-center text-xl font-bold">
                     <h2>{props.auth.user.name}'s Notes</h2>
                 </div>
-                <div>
+                <div className="px-2">
                     <Input
                         placeholder="Type to jump to folders, tags, quick links..."
                         autoFocus={true}
@@ -61,7 +61,7 @@ export const Menu = () => {
                 </div>
                 <DropdownMenuSeparator />
 
-                <div className="max-h-[100vh-0.5rem] w-full overflow-x-hidden overflow-y-auto pr-2 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-muted">
+                <div className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-2 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-muted">
                     <DropdownMenuGroup>
                         {pagesLinks.map((link) => (
                             <DropdownMenuItem
