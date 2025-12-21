@@ -8,9 +8,9 @@ import type { TShared } from '@/types/props';
 import type { TLink } from '@/types/utils';
 
 import { getHref, isActiveHref } from '@/lib/href';
-import { formatShortcut } from '@/lib/shortcut';
 import { router, usePage } from '@inertiajs/react';
 
+import { RenderKDB } from '@/components/elements/render-kbd';
 import { Icon } from '@/components/ui/icon';
 
 export const MenuGroup = ({ links }: { links: TLink[] }) => {
@@ -28,7 +28,9 @@ export const MenuGroup = ({ links }: { links: TLink[] }) => {
                     {link.icon && <Icon iconNode={link.icon} className="size-4" />}
                     {link.title}
                     {link.shortcut && (
-                        <DropdownMenuShortcut>{formatShortcut(link.shortcut)}</DropdownMenuShortcut>
+                        <DropdownMenuShortcut>
+                            <RenderKDB keys={link.shortcut} />
+                        </DropdownMenuShortcut>
                     )}
                 </DropdownMenuItem>
             ))}
