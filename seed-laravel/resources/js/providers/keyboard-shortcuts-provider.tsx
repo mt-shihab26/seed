@@ -106,33 +106,28 @@ export const KeyboardShortcutsProvider = ({ children }: { children: ReactNode })
                 );
             };
 
-            // Debug: Log when we detect typing in input
-            const isTargetInput = isInputElement(target);
-            const isActiveInput = isInputElement(activeElement);
-
-            if (isTargetInput || isActiveInput) {
-                console.log('🚫 Shortcut blocked - typing in input:', {
-                    key: event.key,
-                    targetTag: target?.tagName,
-                    activeTag: activeElement?.tagName,
-                    isTargetInput,
-                    isActiveInput,
-                });
+            // Don't trigger shortcuts when typing in input fields
+            if (isInputElement(target) || isInputElement(activeElement)) {
+                // Stop propagation to prevent other listeners from firing
+                event.stopImmediatePropagation();
                 return;
             }
 
             // Check all registered shortcuts
+            let handled = false;
             shortcutsRef.current.forEach((config) => {
-                if (matchesShortcut(event, config.keys)) {
-                    console.log('✅ Shortcut triggered:', config.keys.join('+'));
+                if (!handled && matchesShortcut(event, config.keys)) {
                     event.preventDefault();
+                    event.stopImmediatePropagation();
                     config.handler();
+                    handled = true;
                 }
             });
         };
 
-        window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
+        // Use capture phase to ensure we catch the event first
+        window.addEventListener('keydown', handleKeyDown, true);
+        return () => window.removeEventListener('keydown', handleKeyDown, true);
     }, []);
 
     return (
