@@ -4,22 +4,69 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import { useRegisterShortcut } from '@/hooks/use-register-shortcut';
+import type { TShared } from '@/types/props';
+
+import { useFoldersLinks, useTagsLinks } from '@/hooks/use-shared-auth';
 import { APP_NAME } from '@/lib/env';
-import { useState } from 'react';
+import { pagesLinks, settingsLinks } from '@/lib/links';
+import { useKeyboardShortcuts } from '@/providers/keyboard-shortcuts-provider';
+import { useApplicationStore } from '@/stores/use-application-store';
+import { usePage } from '@inertiajs/react';
+import { useEffect, useState } from 'react';
 
 import { AppLogoIcon } from '@/components/icons/app-logo-icon';
+import { AccordionTrigger } from '@/components/patch/accordion';
+import { Accordion, AccordionContent, AccordionItem } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
+import { DropdownMenuGroup, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
+import { Icon } from '@/components/ui/icon';
+import { Input } from '@/components/ui/input';
 import { Kbd, KbdGroup } from '@/components/ui/kbd';
-import { ChevronDownIcon, XIcon } from 'lucide-react';
-import { MenuContent } from './menu-content';
+import { ChevronDownIcon, Folders, Settings, Tags, XIcon } from 'lucide-react';
+import { MenuGroup } from './menu-group';
 
 export const Menu = () => {
     const [open, setOpen] = useState<boolean>(false);
 
+    const { props } = usePage<TShared>();
+    const { openAccordionItems, setOpenAccordionItems } = useApplicationStore();
+    const { foldersLinks } = useFoldersLinks();
+    const { tagsLinks } = useTagsLinks();
+    const { registerShortcut, registerLinks } = useKeyboardShortcuts();
+
     const menuKey = 'j';
 
-    useRegisterShortcut('menu-toggle', [menuKey], () => setOpen((prev) => !prev));
+    useEffect(() => {
+        registerShortcut('menu-toggle', {
+            keys: [menuKey],
+            handler: () => setOpen((prev) => !prev),
+        });
+        registerLinks(foldersLinks);
+        registerLinks(tagsLinks);
+        registerLinks(settingsLinks);
+    }, [registerLinks, registerShortcut, foldersLinks, tagsLinks, settingsLinks]);
+
+    const links = [
+        {
+            key: 'folders',
+            title: 'Folders',
+            icon: Folders,
+            links: foldersLinks,
+        },
+        {
+            key: 'tags',
+            title: 'Tags',
+            icon: Tags,
+            links: tagsLinks,
+        },
+
+        {
+            key: 'settings',
+            title: 'Settings',
+            icon: Settings,
+            links: settingsLinks,
+        },
+    ];
 
     return (
         <DropdownMenu open={open} onOpenChange={setOpen}>
@@ -35,7 +82,7 @@ export const Menu = () => {
                             </span>
                         </div>
                         <KbdGroup>
-                            <Kbd className="border border-border">J</Kbd>
+                            <Kbd className="border border-border uppercase">{menuKey}</Kbd>
                         </KbdGroup>
                         <ChevronDownIcon className="size-5" />
                     </div>
@@ -54,7 +101,42 @@ export const Menu = () => {
                 >
                     <XIcon className="size-4" />
                 </Button>
-                <MenuContent />
+                <div className="text-center text-xl font-bold">
+                    <h2>{props.auth.user.name}'s Notes</h2>
+                </div>
+                <div className="px-2">
+                    <Input
+                        placeholder="Type to jump to folders, tags, quick links..."
+                        autoFocus={true}
+                        className="focus-visible:ring-primary"
+                    />
+                </div>
+                <DropdownMenuSeparator />
+                <div className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-2 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-muted">
+                    <MenuGroup links={pagesLinks} />
+                    <DropdownMenuSeparator />
+                    <Accordion
+                        type="multiple"
+                        value={openAccordionItems}
+                        onValueChange={setOpenAccordionItems}
+                    >
+                        {links.map((accordionLink) => (
+                            <AccordionItem key={accordionLink.key} value={accordionLink.key}>
+                                <AccordionTrigger>
+                                    {accordionLink.icon && (
+                                        <Icon iconNode={accordionLink.icon} className="size-4" />
+                                    )}
+                                    {accordionLink.title}
+                                </AccordionTrigger>
+                                <AccordionContent className="pl-5">
+                                    <DropdownMenuGroup>
+                                        <MenuGroup links={accordionLink.links} />
+                                    </DropdownMenuGroup>
+                                </AccordionContent>
+                            </AccordionItem>
+                        ))}
+                    </Accordion>
+                </div>
             </DropdownMenuContent>
         </DropdownMenu>
     );
