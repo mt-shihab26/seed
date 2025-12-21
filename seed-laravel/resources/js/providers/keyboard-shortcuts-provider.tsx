@@ -107,10 +107,11 @@ export const KeyboardShortcutsProvider = ({ children }: { children: ReactNode })
             };
 
             // Don't trigger shortcuts when typing in input fields
+            // Exception: ESC key should always work (to close modals/menus)
             const isTargetInput = isInputElement(target);
             const isActiveInput = isInputElement(activeElement);
 
-            if (isTargetInput || isActiveInput) {
+            if ((isTargetInput || isActiveInput) && event.key !== 'Escape') {
                 console.log('🚫 Shortcut blocked - typing in input:', {
                     key: event.key,
                     targetTag: target?.tagName,
