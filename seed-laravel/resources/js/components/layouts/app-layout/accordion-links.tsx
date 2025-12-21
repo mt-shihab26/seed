@@ -1,20 +1,22 @@
-import { DropdownMenuGroup } from '@/components/ui/dropdown-menu';
-
 import type { TShared } from '@/types/props';
 
 import { settingsLinks } from '@/lib/links';
+import { useKeyboardShortcuts } from '@/providers/keyboard-shortcuts-provider';
 import { useApplicationStore } from '@/stores/use-application-store';
 import { usePage } from '@inertiajs/react';
+import { useEffect } from 'react';
 
 import { AccordionTrigger } from '@/components/patch/accordion';
 import { Accordion, AccordionContent, AccordionItem } from '@/components/ui/accordion';
+import { DropdownMenuGroup } from '@/components/ui/dropdown-menu';
 import { Icon } from '@/components/ui/icon';
 import { Folder, Folders, Settings, Tag, Tags } from 'lucide-react';
 import { MenuGroup } from './menu-group';
 
 export const AccordionLinks = () => {
-    const { url, props } = usePage<TShared>();
+    const { props } = usePage<TShared>();
     const { openAccordionItems, setOpenAccordionItems } = useApplicationStore();
+    const { registerLinks } = useKeyboardShortcuts();
 
     const links = [
         {
@@ -49,6 +51,12 @@ export const AccordionLinks = () => {
             links: settingsLinks,
         },
     ];
+
+    useEffect(() => {
+        links.forEach((accordionLink) => {
+            registerLinks(accordionLink.links);
+        });
+    }, [registerLinks, props.auth.user.folders, props.auth.user.tags]);
 
     return (
         <Accordion type="multiple" value={openAccordionItems} onValueChange={setOpenAccordionItems}>

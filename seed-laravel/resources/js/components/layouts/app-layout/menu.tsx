@@ -4,6 +4,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
+import { useRegisterShortcut } from '@/hooks/use-register-shortcut';
 import { APP_NAME } from '@/lib/env';
 import { useState } from 'react';
 
@@ -15,6 +16,10 @@ import { MenuContent } from './menu-content';
 
 export const Menu = () => {
     const [open, setOpen] = useState<boolean>(false);
+
+    const menuKey = 'j';
+
+    useRegisterShortcut('menu-toggle', [menuKey], () => setOpen((prev) => !prev));
 
     return (
         <DropdownMenu open={open} onOpenChange={setOpen}>

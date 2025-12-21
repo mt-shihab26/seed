@@ -1,7 +1,9 @@
 import type { TShared } from '@/types/props';
 
 import { pagesLinks } from '@/lib/links';
+import { useKeyboardShortcuts } from '@/providers/keyboard-shortcuts-provider';
 import { usePage } from '@inertiajs/react';
+import { useEffect } from 'react';
 
 import { DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
@@ -10,6 +12,11 @@ import { MenuGroup } from './menu-group';
 
 export const MenuContent = () => {
     const { props } = usePage<TShared>();
+    const { registerLinks } = useKeyboardShortcuts();
+
+    useEffect(() => {
+        registerLinks(pagesLinks);
+    }, [registerLinks]);
 
     return (
         <>
