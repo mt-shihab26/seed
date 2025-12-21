@@ -71,7 +71,7 @@ export const settingsLinks: TLink[] = [
         title: 'Two-Factor Auth',
         route: 'settings.two-factor.show',
         icon: ShieldCheck,
-        shortcut: 'mod+shift+2',
+        shortcut: 'mod+shift+a',
     },
     {
         title: 'Appearance',
