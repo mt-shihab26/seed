@@ -14,6 +14,7 @@ import { APP_NAME } from '@/lib/env';
 import { getHref, isActiveHref } from '@/lib/href';
 import { pagesLinks } from '@/lib/links';
 import { formatShortcut } from '@/lib/shortcut';
+import { cn } from '@/lib/utils';
 import { router, usePage } from '@inertiajs/react';
 
 import { AppLogoIcon } from '@/components/icons/app-logo-icon';
@@ -60,29 +61,31 @@ export const Menu = () => {
                 </div>
                 <DropdownMenuSeparator />
 
-                <DropdownMenuGroup>
-                    {pagesLinks.map((link) => (
-                        <DropdownMenuItem
-                            key={link.route || link.href}
-                            onClick={() => router.visit(getHref(link))}
-                            data-active={isActiveHref(url, link)}
-                            className={
-                                isActiveHref(url, link) ? 'bg-accent text-accent-foreground' : ''
-                            }
-                        >
-                            <Icon iconNode={link.icon} />
-                            {link.title}
-                            {link.shortcut && (
-                                <DropdownMenuShortcut>
-                                    {formatShortcut(link.shortcut)}
-                                </DropdownMenuShortcut>
-                            )}
-                        </DropdownMenuItem>
-                    ))}
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
+                <div className="max-h-screen w-full overflow-y-auto">
+                    <DropdownMenuGroup>
+                        {pagesLinks.map((link) => (
+                            <DropdownMenuItem
+                                key={link.route || link.href}
+                                onClick={() => router.visit(getHref(link))}
+                                data-active={isActiveHref(url, link)}
+                                className={cn(
+                                    isActiveHref(url, link) && 'bg-accent text-accent-foreground',
+                                )}
+                            >
+                                <Icon iconNode={link.icon} />
+                                {link.title}
+                                {link.shortcut && (
+                                    <DropdownMenuShortcut>
+                                        {formatShortcut(link.shortcut)}
+                                    </DropdownMenuShortcut>
+                                )}
+                            </DropdownMenuItem>
+                        ))}
+                    </DropdownMenuGroup>
+                    <DropdownMenuSeparator />
 
-                <AccordionLinks />
+                    <AccordionLinks />
+                </div>
             </DropdownMenuContent>
         </DropdownMenu>
     );
