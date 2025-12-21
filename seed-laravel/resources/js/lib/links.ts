@@ -11,7 +11,7 @@ import {
     UserCircle,
 } from 'lucide-react';
 
-import type { TLink } from '@/types/utils';
+import type { TAccordionLink, TLink } from '@/types/utils';
 
 export const rightLinks: TLink[] = [
     {
@@ -76,7 +76,7 @@ export const settingsLinks: TLink[] = [
     },
 ];
 
-export const accordionLinks: { key: string; title: string; links: TLink[] }[] = [
+export const accordionLinks: TAccordionLink[] = [
     {
         key: 'settings',
         title: 'Settings',
