@@ -5,6 +5,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { APP_NAME } from '@/lib/env';
+import { useState } from 'react';
 
 import { AppLogoIcon } from '@/components/icons/app-logo-icon';
 import { Button } from '@/components/ui/button';
@@ -12,8 +13,10 @@ import { ChevronDownIcon, XIcon } from 'lucide-react';
 import { MenuContent } from './menu-content';
 
 export const Menu = () => {
+    const [open, setOpen] = useState<boolean>(false);
+
     return (
-        <DropdownMenu>
+        <DropdownMenu open={open} onOpenChange={setOpen}>
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="lg" className="h-14 rounded-full">
                     <div className="flex items-center space-x-1">
@@ -34,7 +37,12 @@ export const Menu = () => {
                 align="center"
                 sideOffset={-44}
             >
-                <Button className="absolute top-2 right-2" variant="ghost" size="icon">
+                <Button
+                    onClick={() => setOpen(false)}
+                    className="absolute top-2 right-2"
+                    variant="ghost"
+                    size="icon"
+                >
                     <XIcon className="size-4" />
                 </Button>
                 <MenuContent />
