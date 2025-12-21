@@ -55,7 +55,7 @@ export const Menu = () => {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
-                className="w-120 space-y-3 rounded-4xl p-6"
+                className="min-w-full space-y-3 rounded-4xl p-4 md:min-w-120 md:p-6"
                 align="center"
                 sideOffset={-44}
             >
