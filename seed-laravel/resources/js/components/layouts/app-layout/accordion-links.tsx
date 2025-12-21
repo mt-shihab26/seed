@@ -6,9 +6,9 @@ import {
 
 import type { TShared } from '@/types/props';
 
-import { formatShortcut } from '@/lib/format';
 import { getHref, isActiveHref } from '@/lib/href';
 import { settingsLinks } from '@/lib/links';
+import { formatShortcut } from '@/lib/shortcut';
 import { useApplicationStore } from '@/stores/use-application-store';
 import { router, usePage } from '@inertiajs/react';
 
@@ -31,7 +31,7 @@ export const AccordionLinks = () => {
                     title: folder.name,
                     href: route('notes.folders.show', { folder }),
                     icon: Folder,
-                    shortcut: `mod+shift+${index + 1}`,
+                    shortcut: ['mod', 'shift', `${index + 1}`],
                 })) || [],
         },
         {
@@ -43,7 +43,7 @@ export const AccordionLinks = () => {
                     title: tag.name,
                     href: route('notes.tags.show', { tag }),
                     icon: Tag,
-                    shortcut: `mod+alt+${index + 1}`,
+                    shortcut: ['mod', 'alt', `${index + 1}`],
                 })) || [],
         },
 

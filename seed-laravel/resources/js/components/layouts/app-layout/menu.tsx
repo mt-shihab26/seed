@@ -11,9 +11,9 @@ import {
 import type { TShared } from '@/types/props';
 
 import { APP_NAME } from '@/lib/env';
-import { formatShortcut } from '@/lib/format';
 import { getHref, isActiveHref } from '@/lib/href';
 import { pagesLinks } from '@/lib/links';
+import { formatShortcut } from '@/lib/shortcut';
 import { router, usePage } from '@inertiajs/react';
 
 import { AppLogoIcon } from '@/components/icons/app-logo-icon';

@@ -8,7 +8,7 @@ export type TBreadcrumb = {
 export type TLink = {
     title: string;
     icon?: LucideIcon;
-    shortcut?: string;
+    shortcut?: string[];
 } & ({ route: string; href?: never } | { route?: never; href: string });
 
 export type TAccordionLink = {
