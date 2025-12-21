@@ -9,6 +9,7 @@ import { useState } from 'react';
 
 import { AppLogoIcon } from '@/components/icons/app-logo-icon';
 import { Button } from '@/components/ui/button';
+import { Kbd, KbdGroup } from '@/components/ui/kbd';
 import { ChevronDownIcon, XIcon } from 'lucide-react';
 import { MenuContent } from './menu-content';
 
@@ -19,7 +20,7 @@ export const Menu = () => {
         <DropdownMenu open={open} onOpenChange={setOpen}>
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="lg" className="h-14 rounded-full">
-                    <div className="flex items-center space-x-1">
+                    <div className="flex items-center space-x-2">
                         <div className="flex aspect-square size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
                             <AppLogoIcon className="size-5 fill-current text-white dark:text-black" />
                         </div>
@@ -28,6 +29,9 @@ export const Menu = () => {
                                 {APP_NAME}
                             </span>
                         </div>
+                        <KbdGroup>
+                            <Kbd className="border border-border">J</Kbd>
+                        </KbdGroup>
                         <ChevronDownIcon className="size-5" />
                     </div>
                 </Button>

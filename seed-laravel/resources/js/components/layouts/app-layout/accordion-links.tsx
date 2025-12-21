@@ -1,21 +1,16 @@
-import {
-    DropdownMenuGroup,
-    DropdownMenuItem,
-    DropdownMenuShortcut,
-} from '@/components/ui/dropdown-menu';
+import { DropdownMenuGroup } from '@/components/ui/dropdown-menu';
 
 import type { TShared } from '@/types/props';
 
-import { getHref, isActiveHref } from '@/lib/href';
 import { settingsLinks } from '@/lib/links';
-import { formatShortcut } from '@/lib/shortcut';
 import { useApplicationStore } from '@/stores/use-application-store';
-import { router, usePage } from '@inertiajs/react';
+import { usePage } from '@inertiajs/react';
 
 import { AccordionTrigger } from '@/components/patch/accordion';
 import { Accordion, AccordionContent, AccordionItem } from '@/components/ui/accordion';
 import { Icon } from '@/components/ui/icon';
 import { Folder, Folders, Settings, Tag, Tags } from 'lucide-react';
+import { MenuGroup } from './menu-group';
 
 export const AccordionLinks = () => {
     const { url, props } = usePage<TShared>();
@@ -67,26 +62,7 @@ export const AccordionLinks = () => {
                     </AccordionTrigger>
                     <AccordionContent className="pl-5">
                         <DropdownMenuGroup>
-                            {accordionLink.links.map((link) => (
-                                <DropdownMenuItem
-                                    key={getHref(link)}
-                                    onClick={() => router.visit(getHref(link))}
-                                    data-active={isActiveHref(url, link)}
-                                    className={
-                                        isActiveHref(url, link)
-                                            ? 'bg-accent text-accent-foreground'
-                                            : ''
-                                    }
-                                >
-                                    {link.icon && <Icon iconNode={link.icon} className="size-4" />}
-                                    {link.title}
-                                    {link.shortcut && (
-                                        <DropdownMenuShortcut>
-                                            {formatShortcut(link.shortcut)}
-                                        </DropdownMenuShortcut>
-                                    )}
-                                </DropdownMenuItem>
-                            ))}
+                            <MenuGroup links={accordionLink.links} />
                         </DropdownMenuGroup>
                     </AccordionContent>
                 </AccordionItem>
