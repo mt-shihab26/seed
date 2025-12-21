@@ -108,7 +108,7 @@ class NoteController extends Controller
      */
     public function show(Request $request, Note $note)
     {
-        Gate::allowIf(fn () => $note->user_id === $request->user()->id);
+        Gate::allowIf(fn (User $user) => $note->user_id === $user->id);
 
         //
     }
@@ -118,7 +118,7 @@ class NoteController extends Controller
      */
     public function edit(Request $request, Note $note)
     {
-        Gate::allowIf(fn () => $note->user_id === $request->user()->id);
+        Gate::allowIf(fn (User $user) => $note->user_id === $user->id);
 
         //
     }
@@ -128,6 +128,8 @@ class NoteController extends Controller
      */
     public function update(Request $request, Note $note)
     {
+        Gate::allowIf(fn (User $user) => $note->user_id === $user->id);
+
         //
     }
 
@@ -136,6 +138,6 @@ class NoteController extends Controller
      */
     public function destroy(Note $note)
     {
-        //
+        Gate::allowIf(fn (User $user) => $note->user_id === $user->id);
     }
 }

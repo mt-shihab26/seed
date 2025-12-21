@@ -41,5 +41,5 @@ export const getHref = (link: TLink): string => {
 };
 
 export const isActiveHref = (url: string, link: TLink): boolean => {
-    return link.route ? route().current(link.route) : link.href === url;
+    return link.route ? route().current(link.route) : !!link.href?.includes(url);
 };
