@@ -1,11 +1,4 @@
 import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-} from '@/components/ui/accordion';
-
-import {
     DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuShortcut,
@@ -20,7 +13,10 @@ import { accordionLinks } from '@/lib/links';
 import { useApplicationStore } from '@/stores/use-application-store';
 import { router, usePage } from '@inertiajs/react';
 
+import { AccordionTrigger } from '@/components/patch/accordion';
+import { Accordion, AccordionContent, AccordionItem } from '@/components/ui/accordion';
 import { Icon } from '@/components/ui/icon';
+import { Folder, Folders } from 'lucide-react';
 
 export const AccordionLinks = () => {
     const { url, props } = usePage<TShared>();
@@ -29,10 +25,12 @@ export const AccordionLinks = () => {
     const foldersLinks: TAccordionLink = {
         key: 'folders',
         title: 'Folders',
+        icon: Folders,
         links:
             props.auth.user.folders?.map((folder) => ({
                 title: folder.name,
                 route: 'settings.appearance.edit',
+                icon: Folder,
             })) || [],
     };
 
@@ -42,7 +40,12 @@ export const AccordionLinks = () => {
         <Accordion type="multiple" value={openAccordionItems} onValueChange={setOpenAccordionItems}>
             {links.map((accordionLink) => (
                 <AccordionItem key={accordionLink.key} value={accordionLink.key}>
-                    <AccordionTrigger>{accordionLink.title}</AccordionTrigger>
+                    <AccordionTrigger>
+                        {accordionLink.icon && (
+                            <Icon iconNode={accordionLink.icon} className="size-4" />
+                        )}{' '}
+                        {accordionLink.title}
+                    </AccordionTrigger>
                     <AccordionContent>
                         <DropdownMenuGroup>
                             {accordionLink.links.map((link) => (
@@ -56,7 +59,7 @@ export const AccordionLinks = () => {
                                             : ''
                                     }
                                 >
-                                    <Icon iconNode={link.icon} />
+                                    {link.icon && <Icon iconNode={link.icon} className="size-4" />}
                                     {link.title}
                                     {link.shortcut && (
                                         <DropdownMenuShortcut>
