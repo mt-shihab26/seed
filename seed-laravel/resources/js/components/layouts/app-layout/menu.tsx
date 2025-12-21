@@ -43,9 +43,7 @@ export const Menu = () => {
         });
         registerLinks(pagesLinks);
         registerLinks(foldersLinks);
-        registerLinks(tagsLinks);
-        registerLinks(settingsLinks);
-    }, [registerLinks, registerShortcut, foldersLinks, tagsLinks]);
+    }, [registerLinks, registerShortcut, foldersLinks]);
 
     const links = [
         {

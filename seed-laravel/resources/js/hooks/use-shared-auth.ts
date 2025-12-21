@@ -12,7 +12,7 @@ export const useFoldersLinks = () => {
             title: folder.name,
             href: route('notes.folders.show', { folder }),
             icon: Folder,
-            shortcut: ['mod', 'shift', `${index + 1}`],
+            shortcut: [`${index + 1}`],
         })) || [];
 
     return {
@@ -28,7 +28,6 @@ export const useTagsLinks = () => {
             title: tag.name,
             href: route('notes.tags.show', { tag }),
             icon: Tag,
-            shortcut: ['mod', 'alt', `${index + 1}`],
         })) || [];
 
     return {
