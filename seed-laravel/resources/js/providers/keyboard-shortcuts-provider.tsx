@@ -87,19 +87,44 @@ export const KeyboardShortcutsProvider = ({ children }: { children: ReactNode })
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
-            // Don't trigger shortcuts when typing in input fields
+            // Check both event.target and document.activeElement for input detection
             const target = event.target as HTMLElement;
-            if (
-                target.tagName === 'INPUT' ||
-                target.tagName === 'TEXTAREA' ||
-                target.isContentEditable
-            ) {
+            const activeElement = document.activeElement as HTMLElement;
+
+            // Helper function to check if an element is an input-like element
+            const isInputElement = (element: HTMLElement | null): boolean => {
+                if (!element) return false;
+
+                return (
+                    element.tagName === 'INPUT' ||
+                    element.tagName === 'TEXTAREA' ||
+                    element.tagName === 'SELECT' ||
+                    element.isContentEditable ||
+                    element.getAttribute('contenteditable') === 'true' ||
+                    element.getAttribute('role') === 'textbox' ||
+                    element.closest('[contenteditable="true"]') !== null
+                );
+            };
+
+            // Debug: Log when we detect typing in input
+            const isTargetInput = isInputElement(target);
+            const isActiveInput = isInputElement(activeElement);
+
+            if (isTargetInput || isActiveInput) {
+                console.log('🚫 Shortcut blocked - typing in input:', {
+                    key: event.key,
+                    targetTag: target?.tagName,
+                    activeTag: activeElement?.tagName,
+                    isTargetInput,
+                    isActiveInput,
+                });
                 return;
             }
 
             // Check all registered shortcuts
             shortcutsRef.current.forEach((config) => {
                 if (matchesShortcut(event, config.keys)) {
+                    console.log('✅ Shortcut triggered:', config.keys.join('+'));
                     event.preventDefault();
                     config.handler();
                 }
