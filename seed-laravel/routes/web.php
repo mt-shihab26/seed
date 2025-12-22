@@ -10,7 +10,7 @@ Route::redirect('/dashboard', '/notes')->name('dashboard');
 Route::prefix('/settings')->middleware('auth')->group(function () {
     Route::redirect('/', '/settings/statistics')->name('settings.redirect');
 
-    Route::get('/statistics', [SettingController::class, 'editStatistics'])->name('settings.statistics.edit');
+    Route::get('/statistics', [SettingController::class, 'editStatistics'])->name('settings.statistics.show');
 
     Route::get('/profile', [SettingController::class, 'editProfile'])->name('settings.profile.edit');
     Route::patch('/profile', [SettingController::class, 'updateProfile'])->name('settings.profile.update');

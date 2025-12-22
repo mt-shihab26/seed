@@ -19,6 +19,7 @@ class NoteController extends Controller
         $notes = $request->user()->notes()->with(['folder', 'tags'])->get();
 
         return inertia('notes/index', [
+            'title' => 'All Notes',
             'notes' => $notes,
         ]);
     }
@@ -31,6 +32,7 @@ class NoteController extends Controller
         $notes = $request->user()->notes()->with(['folder', 'tags'])->whereNotNull('favorited_at')->get();
 
         return inertia('notes/index', [
+            'title' => 'Favorites Notes',
             'notes' => $notes,
         ]);
     }
@@ -43,6 +45,7 @@ class NoteController extends Controller
         $notes = $request->user()->notes()->with(['folder', 'tags'])->whereNotNull('archived_at')->get();
 
         return inertia('notes/index', [
+            'title' => 'Archived Notes',
             'notes' => $notes,
         ]);
     }
@@ -52,9 +55,10 @@ class NoteController extends Controller
      */
     public function trashed(Request $request)
     {
-        $notes = $request->user()->notes()->with(['folder', 'tags'])->withTrashed()->get();
+        $notes = $request->user()->notes()->with(['folder', 'tags'])->onlyTrashed()->get();
 
         return inertia('notes/index', [
+            'title' => 'Trashed Notes',
             'notes' => $notes,
         ]);
     }
@@ -69,6 +73,7 @@ class NoteController extends Controller
         $notes = $folder->notes()->with(['folder', 'tags'])->where('folder_id', $folder->id)->get();
 
         return inertia('notes/index', [
+            'title' => "Notes filter by '{$folder->name}' folder",
             'notes' => $notes,
         ]);
     }
@@ -83,6 +88,7 @@ class NoteController extends Controller
         $notes = $tag->notes()->with(['folder', 'tags'])->get();
 
         return inertia('notes/index', [
+            'title' => "Notes filter by '{$tag->name}' tag",
             'notes' => $notes,
         ]);
     }

@@ -20,6 +20,8 @@ export type TFolder = {
     name: string;
     created_at: string;
     updated_at: string;
+
+    notes_count?: number;
 };
 
 export type TNote = {
@@ -44,6 +46,8 @@ export type TTag = {
     name: string;
     created_at: string;
     updated_at: string;
+
+    notes_count?: number;
 
     pivot?: { note_id: string; tag_id: string }[];
 };

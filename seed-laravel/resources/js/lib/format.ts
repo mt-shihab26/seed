@@ -9,3 +9,16 @@ export const formatInitials = (fullName: string) => {
 
     return `${firstInitial}${lastInitial}`.toUpperCase();
 };
+
+export const formatDateTime = (dateString: string | null | undefined): string => {
+    if (!dateString) return '';
+
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.toLocaleString('en-US', { month: 'long' });
+    const year = date.getFullYear();
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const ampm = date.getHours() >= 12 ? 'PM' : 'AM';
+    const displayHours = date.getHours() % 12 || 12;
+    return `${day} ${month} ${year}, ${displayHours}:${minutes} ${ampm}`;
+};
