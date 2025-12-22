@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Folder;
 use App\Models\Note;
-use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -59,36 +57,6 @@ class NoteController extends Controller
 
         return inertia('notes/index', [
             'title' => 'Trashed Notes',
-            'notes' => $notes,
-        ]);
-    }
-
-    /**
-     * Display a listing of the notes by folder.
-     */
-    public function folders(Folder $folder)
-    {
-        Gate::allowIf(fn (User $user) => $folder->user_id === $user->id);
-
-        $notes = $folder->notes()->with(['folder', 'tags'])->where('folder_id', $folder->id)->get();
-
-        return inertia('notes/index', [
-            'title' => "Notes filter by '{$folder->name}' folder",
-            'notes' => $notes,
-        ]);
-    }
-
-    /**
-     * Display a listing of the notes by tag.
-     */
-    public function tags(Tag $tag)
-    {
-        Gate::allowIf(fn (User $user) => $tag->user_id === $user->id);
-
-        $notes = $tag->notes()->with(['folder', 'tags'])->get();
-
-        return inertia('notes/index', [
-            'title' => "Notes filter by '{$tag->name}' tag",
             'notes' => $notes,
         ]);
     }

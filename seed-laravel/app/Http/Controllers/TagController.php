@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class TagController extends Controller
 {
@@ -36,7 +38,15 @@ class TagController extends Controller
      */
     public function show(Tag $tag)
     {
-        //
+        Gate::allowIf(fn (User $user) => $tag->user_id === $user->id);
+
+        $notes = $tag->notes()->with(['folder', 'tags'])->get();
+
+        return inertia('notes/index', [
+            'title' => "Notes filter by '{$tag->name}' tag",
+            'notes' => $notes,
+        ]);
+
     }
 
     /**

@@ -10,7 +10,7 @@ export const useFoldersLinks = () => {
     const foldersLinks =
         props.auth.user.folders?.map((folder, index) => ({
             title: `${folder.name} (${folder.notes_count || 0})`,
-            href: route('notes.folders.show', { folder }),
+            href: route('folders.show', { folder }),
             icon: Folder,
             shortcut: [`${index + 1}`],
         })) || [];
@@ -26,7 +26,7 @@ export const useTagsLinks = () => {
     const tagsLinks =
         props.auth.user.tags?.map((tag) => ({
             title: `${tag.name} (${tag.notes_count || 0})`,
-            href: route('notes.tags.show', { tag }),
+            href: route('tags.show', { tag }),
             icon: Tag,
         })) || [];
 

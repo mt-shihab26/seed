@@ -6,7 +6,7 @@ import { NoteCard } from './note-card';
 
 export const Notes = ({ notes, title }: { notes: TNote[]; title: string }) => {
     return (
-        <main className="mx-auto max-w-7xl flex-1 space-y-4">
+        <main className="mx-auto w-full max-w-7xl flex-1 space-y-4">
             <Header count={notes?.length} title={title} />
             {notes.length === 0 ? (
                 <NoNotesMessage />

@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\FolderController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/notes')->name('home');
@@ -24,11 +26,19 @@ Route::prefix('/settings')->middleware('auth')->group(function () {
     Route::get('/appearance', [SettingController::class, 'editAppearance'])->name('settings.appearance.edit');
 });
 
-Route::prefix('/notes')->middleware(['auth', 'verified'])->group(function () {
-    Route::get('/', [NoteController::class, 'index'])->name('notes.index');
-    Route::get('/favorites', [NoteController::class, 'favorites'])->name('notes.favorites');
-    Route::get('/archived', [NoteController::class, 'archived'])->name('notes.archived');
-    Route::get('/trashed', [NoteController::class, 'trashed'])->name('notes.trashed');
-    Route::get('/folders/{folder}', [NoteController::class, 'folders'])->name('notes.folders.show');
-    Route::get('/tags/{tag}', [NoteController::class, 'tags'])->name('notes.tags.show');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::prefix('/notes')->group(function () {
+        Route::get('/', [NoteController::class, 'index'])->name('notes.index');
+        Route::get('/favorites', [NoteController::class, 'favorites'])->name('notes.favorites');
+        Route::get('/archived', [NoteController::class, 'archived'])->name('notes.archived');
+        Route::get('/trashed', [NoteController::class, 'trashed'])->name('notes.trashed');
+    });
+
+    Route::prefix('/folders')->group(function () {
+        Route::get('/{folder}', [FolderController::class, 'show'])->name('folders.show');
+    });
+
+    Route::prefix('/tags')->group(function () {
+        Route::get('/{tag}', [TagController::class, 'show'])->name('tags.show');
+    });
 });
