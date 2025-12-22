@@ -27,6 +27,7 @@ import { MenuGroup } from './menu-group';
 
 export const Menu = () => {
     const [open, setOpen] = useState<boolean>(false);
+    const [search, setSearch] = useState<string>('');
 
     const { props } = usePage<TShared>();
     const { openAccordionItems, setOpenAccordionItems } = useApplicationStore();
@@ -44,6 +45,12 @@ export const Menu = () => {
         registerLinks(pagesLinks);
         registerLinks(foldersLinks);
     }, [registerLinks, registerShortcut, foldersLinks]);
+
+    useEffect(() => {
+        if (!open) {
+            setSearch('');
+        }
+    }, [open]);
 
     const links = [
         {
@@ -66,6 +73,22 @@ export const Menu = () => {
             links: settingsLinks,
         },
     ];
+
+    const filterLinks = (links: typeof pagesLinks) => {
+        if (!search) return links;
+        return links.filter((link) => link.title.toLowerCase().includes(search.toLowerCase()));
+    };
+
+    const filteredPagesLinks = filterLinks(pagesLinks);
+    const filteredAccordionLinks = links
+        .map((accordionLink) => ({
+            ...accordionLink,
+            links: filterLinks(accordionLink.links),
+        }))
+        .filter((accordionLink) => accordionLink.links.length > 0);
+
+    const hasResults =
+        filteredPagesLinks.length > 0 || filteredAccordionLinks.some((l) => l.links.length > 0);
 
     return (
         <DropdownMenu open={open} onOpenChange={setOpen}>
@@ -106,33 +129,57 @@ export const Menu = () => {
                         placeholder="Type to jump to folders, tags, quick links..."
                         autoFocus={true}
                         className="focus-visible:ring-primary"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
                     />
                 </div>
                 <DropdownMenuSeparator />
                 <div className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-2 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-muted">
-                    <MenuGroup links={pagesLinks} />
-                    <DropdownMenuSeparator />
-                    <Accordion
-                        type="multiple"
-                        value={openAccordionItems}
-                        onValueChange={setOpenAccordionItems}
-                    >
-                        {links.map((accordionLink) => (
-                            <AccordionItem key={accordionLink.key} value={accordionLink.key}>
-                                <AccordionTrigger>
-                                    {accordionLink.icon && (
-                                        <Icon iconNode={accordionLink.icon} className="size-4" />
-                                    )}
-                                    {accordionLink.title}
-                                </AccordionTrigger>
-                                <AccordionContent className="pl-5">
-                                    <DropdownMenuGroup>
-                                        <MenuGroup links={accordionLink.links} />
-                                    </DropdownMenuGroup>
-                                </AccordionContent>
-                            </AccordionItem>
-                        ))}
-                    </Accordion>
+                    {!hasResults ? (
+                        <div className="flex flex-col items-center justify-center py-8 text-center">
+                            <p className="text-sm text-muted-foreground">No results found</p>
+                        </div>
+                    ) : (
+                        <>
+                            {filteredPagesLinks.length > 0 && (
+                                <>
+                                    <MenuGroup links={filteredPagesLinks} />
+                                    <DropdownMenuSeparator />
+                                </>
+                            )}
+                            <Accordion
+                                type="multiple"
+                                value={
+                                    search
+                                        ? filteredAccordionLinks.map((link) => link.key)
+                                        : openAccordionItems
+                                }
+                                onValueChange={setOpenAccordionItems}
+                            >
+                                {filteredAccordionLinks.map((accordionLink) => (
+                                    <AccordionItem
+                                        key={accordionLink.key}
+                                        value={accordionLink.key}
+                                    >
+                                        <AccordionTrigger>
+                                            {accordionLink.icon && (
+                                                <Icon
+                                                    iconNode={accordionLink.icon}
+                                                    className="size-4"
+                                                />
+                                            )}
+                                            {accordionLink.title}
+                                        </AccordionTrigger>
+                                        <AccordionContent className="pl-5">
+                                            <DropdownMenuGroup>
+                                                <MenuGroup links={accordionLink.links} />
+                                            </DropdownMenuGroup>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                ))}
+                            </Accordion>
+                        </>
+                    )}
                 </div>
             </DropdownMenuContent>
         </DropdownMenu>
