@@ -10,30 +10,6 @@ use Illuminate\Support\Facades\Gate;
 class TagController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      */
     public function show(Tag $tag)
@@ -50,19 +26,19 @@ class TagController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Tag $tag)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Tag $tag)
     {
-        //
+        Gate::allowIf(fn (User $user) => $tag->user_id === $user->id);
+
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+        ]);
+
+        $tag->update($validated);
+
+        return redirect()->back()->with('success', 'Tag updated successfully');
     }
 
     /**
@@ -70,6 +46,14 @@ class TagController extends Controller
      */
     public function destroy(Tag $tag)
     {
-        //
+        Gate::allowIf(fn (User $user) => $tag->user_id === $user->id);
+
+        if ($tag->notes()->count() > 0) {
+            return redirect()->back()->with('info', 'Cannot delete tag with existing notes. Please remove the tag from notes first.');
+        }
+
+        $tag->delete();
+
+        return redirect()->back()->with('success', 'Tag deleted successfully');
     }
 }

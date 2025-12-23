@@ -14,6 +14,15 @@ class Folder extends Model
     use HasFactory, HasUuids;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        'name',
+    ];
+
+    /**
      * Get the user that owns the folder.
      */
     public function user(): BelongsTo

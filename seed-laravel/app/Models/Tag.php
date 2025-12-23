@@ -14,6 +14,15 @@ class Tag extends Model
     use HasFactory, HasUuids;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        'name',
+    ];
+
+    /**
      * Get the user that owns the tag.
      */
     public function user(): BelongsTo

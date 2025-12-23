@@ -44,9 +44,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::prefix('/folders')->group(function () {
         Route::get('/{folder}', [FolderController::class, 'show'])->name('folders.show');
+        Route::patch('/{folder}', [FolderController::class, 'update'])->name('folders.update');
+        Route::delete('/{folder}', [FolderController::class, 'destroy'])->name('folders.destroy');
     });
 
     Route::prefix('/tags')->group(function () {
         Route::get('/{tag}', [TagController::class, 'show'])->name('tags.show');
+        Route::patch('/{tag}', [TagController::class, 'update'])->name('tags.update');
+        Route::delete('/{tag}', [TagController::class, 'destroy'])->name('tags.destroy');
     });
 });

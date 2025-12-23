@@ -29,7 +29,15 @@ class FolderController extends Controller
      */
     public function update(Request $request, Folder $folder)
     {
-        //
+        Gate::allowIf(fn (User $user) => $folder->user_id === $user->id);
+
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+        ]);
+
+        $folder->update($validated);
+
+        return redirect()->back()->with('success', 'Folder updated successfully');
     }
 
     /**
@@ -37,6 +45,14 @@ class FolderController extends Controller
      */
     public function destroy(Folder $folder)
     {
-        //
+        Gate::allowIf(fn (User $user) => $folder->user_id === $user->id);
+
+        if ($folder->notes()->count() > 0) {
+            return redirect()->back()->with('info', 'Cannot delete folder with existing notes. Please move or delete the notes first.');
+        }
+
+        $folder->delete();
+
+        return redirect()->back()->with('success', 'Folder deleted successfully');
     }
 }
