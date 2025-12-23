@@ -23,7 +23,7 @@ import { DropdownMenuGroup, DropdownMenuSeparator } from '@/components/ui/dropdo
 import { Input } from '@/components/ui/input';
 import { Kbd, KbdGroup } from '@/components/ui/kbd';
 import { TLink } from '@/types/utils';
-import { ChevronDownIcon, Folders, Settings, Tags } from 'lucide-react';
+import { ChevronDownIcon, Folders, SearchX, Settings, Tags } from 'lucide-react';
 import { MenuGroup } from './menu-group';
 
 const getFilterLinks = (search: string, links: TLink[]) => {
@@ -133,7 +133,8 @@ export const Menu = () => {
                 <DropdownMenuSeparator />
                 <div className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-2 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-muted">
                     {!hasResults ? (
-                        <div className="flex flex-col items-center justify-center py-8 text-center">
+                        <div className="flex flex-col items-center justify-center gap-2 py-8 text-center">
+                            <SearchX className="size-8 text-muted-foreground" />
                             <p className="text-sm text-muted-foreground">No results found</p>
                         </div>
                     ) : (
