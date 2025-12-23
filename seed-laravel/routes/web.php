@@ -32,6 +32,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/favorites', [NoteController::class, 'favorites'])->name('notes.favorites');
         Route::get('/archived', [NoteController::class, 'archived'])->name('notes.archived');
         Route::get('/trashed', [NoteController::class, 'trashed'])->name('notes.trashed');
+
+        Route::get('/create', [NoteController::class, 'create'])->name('notes.create');
+        Route::post('/', [NoteController::class, 'store'])->name('notes.store');
+
+        Route::get('/{note}/edit', [NoteController::class, 'edit'])->name('notes.edit');
+        Route::patch('/{note}', [NoteController::class, 'update'])->name('notes.update');
+
+        Route::delete('/{note}', [NoteController::class, 'destroy'])->name('notes.destroy');
     });
 
     Route::prefix('/folders')->group(function () {

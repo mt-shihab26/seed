@@ -94,7 +94,9 @@ class NoteController extends Controller
     {
         Gate::allowIf(fn (User $user) => $note->user_id === $user->id);
 
-        //
+        return inertia('notes/edit', [
+            'note' => $note,
+        ]);
     }
 
     /**
@@ -113,5 +115,9 @@ class NoteController extends Controller
     public function destroy(Note $note)
     {
         Gate::allowIf(fn (User $user) => $note->user_id === $user->id);
+
+        $note->delete();
+
+        return redirect()->back()->with('success', 'Notes deleted successfully');
     }
 }
