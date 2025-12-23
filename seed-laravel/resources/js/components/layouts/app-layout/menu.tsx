@@ -22,8 +22,14 @@ import { Button } from '@/components/ui/button';
 import { DropdownMenuGroup, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { Kbd, KbdGroup } from '@/components/ui/kbd';
+import { TLink } from '@/types/utils';
 import { ChevronDownIcon, Folders, Settings, Tags } from 'lucide-react';
 import { MenuGroup } from './menu-group';
+
+const getFilterLinks = (search: string, links: TLink[]) => {
+    if (!search) return links;
+    return links.filter((link) => link.title.toLowerCase().includes(search.toLowerCase()));
+};
 
 export const Menu = () => {
     const [open, setOpen] = useState<boolean>(false);
@@ -47,9 +53,7 @@ export const Menu = () => {
     }, [registerLinks, registerShortcut, foldersLinks]);
 
     useEffect(() => {
-        if (!open) {
-            setSearch('');
-        }
+        if (!open) setSearch('');
     }, [open]);
 
     const links = [
@@ -74,17 +78,10 @@ export const Menu = () => {
         },
     ];
 
-    const filterLinks = (links: typeof pagesLinks) => {
-        if (!search) return links;
-        return links.filter((link) => link.title.toLowerCase().includes(search.toLowerCase()));
-    };
+    const filteredPagesLinks = getFilterLinks(search, pagesLinks);
 
-    const filteredPagesLinks = filterLinks(pagesLinks);
     const filteredAccordionLinks = links
-        .map((accordionLink) => ({
-            ...accordionLink,
-            links: filterLinks(accordionLink.links),
-        }))
+        .map((a) => ({ ...a, links: getFilterLinks(search, a.links) }))
         .filter((accordionLink) => accordionLink.links.length > 0);
 
     const hasResults =
