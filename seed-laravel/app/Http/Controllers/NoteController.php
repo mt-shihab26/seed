@@ -62,6 +62,20 @@ class NoteController extends Controller
     }
 
     /**
+     * Display the specified note.
+     */
+    public function show(Note $note)
+    {
+        Gate::allowIf(fn (User $user) => $note->user_id === $user->id);
+
+        $note->load(['folder', 'tags']);
+
+        return inertia('notes/show', [
+            'note' => $note,
+        ]);
+    }
+
+    /**
      * Show the form for creating a new resource.
      */
     public function create(Request $request)

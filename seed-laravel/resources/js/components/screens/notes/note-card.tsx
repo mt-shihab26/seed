@@ -3,12 +3,16 @@ import type { TNote } from '@/types/models';
 import { formatDateTime } from '@/lib/format';
 
 import { Badge } from '@/components/ui/badge';
+import { Link } from '@inertiajs/react';
 import { ArchiveIcon, EditIcon, FolderIcon, StarIcon, TrashIcon } from 'lucide-react';
 import { NoteActionLink } from './note-action-link';
 
 export const NoteCard = ({ note }: { note: TNote }) => {
     return (
-        <div className="group relative flex cursor-pointer flex-col gap-3 rounded-xl border border-border bg-card p-6 text-card-foreground shadow-none transition-all hover:shadow-xs">
+        <Link
+            href={route('notes.show', note)}
+            className="group relative flex cursor-pointer flex-col gap-3 rounded-xl border border-border bg-card p-6 text-card-foreground shadow-none transition-all hover:shadow-xs"
+        >
             {note.folder && (
                 <Badge
                     variant="outline"
@@ -37,7 +41,7 @@ export const NoteCard = ({ note }: { note: TNote }) => {
                 <span className="text-xs text-muted-foreground">
                     {formatDateTime(note.updated_at)}
                 </span>
-                <div className="flex gap-1">
+                <div className="flex gap-1" onClick={(e) => e.stopPropagation()}>
                     <NoteActionLink
                         icon={StarIcon}
                         href={route('notes.toggle-favorite', note)}
@@ -60,6 +64,6 @@ export const NoteCard = ({ note }: { note: TNote }) => {
                     <NoteActionLink icon={EditIcon} href={route('notes.edit', note)} />
                 </div>
             </div>
-        </div>
+        </Link>
     );
 };

@@ -36,6 +36,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/create', [NoteController::class, 'create'])->name('notes.create');
         Route::post('/', [NoteController::class, 'store'])->name('notes.store');
 
+        Route::get('/{note}', [NoteController::class, 'show'])->name('notes.show');
         Route::get('/{note}/edit', [NoteController::class, 'edit'])->name('notes.edit');
         Route::patch('/{note}', [NoteController::class, 'update'])->name('notes.update');
 
