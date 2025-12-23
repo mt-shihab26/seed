@@ -43,6 +43,7 @@ export const NoteCard = ({ note }: { note: TNote }) => {
                     <Link
                         className={buttonVariants({ size: 'icon', variant: 'ghost' })}
                         href={route('notes.toggle-favorite', note)}
+                        method="patch"
                     >
                         <StarIcon
                             className={cn('size-4', {
@@ -53,6 +54,7 @@ export const NoteCard = ({ note }: { note: TNote }) => {
                     <Link
                         className={buttonVariants({ size: 'icon', variant: 'ghost' })}
                         href={route('notes.toggle-archive', note)}
+                        method="patch"
                     >
                         <ArchiveIcon
                             className={cn('size-4', {
@@ -63,6 +65,7 @@ export const NoteCard = ({ note }: { note: TNote }) => {
                     <Link
                         className={buttonVariants({ size: 'icon', variant: 'ghost' })}
                         href={route('notes.destroy', note)}
+                        method="delete"
                     >
                         <TrashIcon
                             className={cn('size-4', {
