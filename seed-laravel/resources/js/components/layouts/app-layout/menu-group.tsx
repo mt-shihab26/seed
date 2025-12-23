@@ -10,8 +10,8 @@ import type { TLink } from '@/types/utils';
 import { getHref, isActiveHref } from '@/lib/href';
 import { router, usePage } from '@inertiajs/react';
 
+import { Icon } from '@/components/elements/icon';
 import { RenderKDB } from '@/components/elements/render-kbd';
-import { Icon } from '@/components/ui/icon';
 
 export const MenuGroup = ({ links }: { links: TLink[] }) => {
     const { url } = usePage<TShared>();

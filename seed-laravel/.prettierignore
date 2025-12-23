@@ -5,3 +5,4 @@ CLAUDE.md
 composer.lock
 bun.lock
 storage/*
+.claude

@@ -14,12 +14,12 @@ import { useApplicationStore } from '@/stores/use-application-store';
 import { usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 
+import { Icon } from '@/components/elements/icon';
 import { AppLogoIcon } from '@/components/icons/app-logo-icon';
 import { AccordionTrigger } from '@/components/patch/accordion';
 import { Accordion, AccordionContent, AccordionItem } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import { DropdownMenuGroup, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
-import { Icon } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import { Kbd, KbdGroup } from '@/components/ui/kbd';
 import { ChevronDownIcon, Folders, Settings, Tags } from 'lucide-react';
