@@ -35,21 +35,29 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $user = $request->user()?->load([
-            'tags' => fn ($query) => $query->withCount('notes'),
-            'folders' => fn ($query) => $query->withCount('notes'),
-        ]);
+        $auth = [
+            'user' => $request->user()?->load([
+                'tags' => fn ($query) => $query->withCount('notes'),
+                'folders' => fn ($query) => $query->withCount('notes'),
+            ]),
+            'counts' => [
+                'all' => $request->user()?->notes()->count(),
+                'favorites' => $request->user()?->notes()->where('is_favorite', true)->count(),
+                'archived' => $request->user()?->notes()->where('is_archived', true)->count(),
+                'trashed' => $request->user()?->notes()->onlyTrashed()->count(),
+            ],
+        ];
+
+        $flash = [
+            'info' => $request->session()->get('info'),
+            'success' => $request->session()->get('success'),
+            'error' => $request->session()->get('error'),
+        ];
 
         return [
             ...parent::share($request),
-            'auth' => [
-                'user' => $user,
-            ],
-            'flash' => [
-                'info' => $request->session()->get('info'),
-                'success' => $request->session()->get('success'),
-                'error' => $request->session()->get('error'),
-            ],
+            'auth' => $auth,
+            'flash' => $flash,
         ];
     }
 }
