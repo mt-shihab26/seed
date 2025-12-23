@@ -41,7 +41,7 @@ class HandleInertiaRequests extends Middleware
                 'folders' => fn ($query) => $query->withCount('notes'),
             ]),
             'counts' => [
-                'notes.index' => $request->user()?->notes()->count(),
+                'notes.index' => $request->user()?->notes()->whereNull('archived_at')->count(),
                 'notes.favorites' => $request->user()?->notes()->whereNotNull('favorited_at')->count(),
                 'notes.archived' => $request->user()?->notes()->whereNotNull('archived_at')->count(),
                 'notes.trashed' => $request->user()?->notes()->onlyTrashed()->count(),

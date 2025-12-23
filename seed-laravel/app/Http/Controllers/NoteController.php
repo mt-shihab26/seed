@@ -14,7 +14,9 @@ class NoteController extends Controller
      */
     public function index(Request $request)
     {
-        $notes = $request->user()->notes()->with(['folder', 'tags'])->get();
+        $notes = $request->user()->notes()->with(['folder', 'tags'])
+            ->whereNull('archived_at')
+            ->get();
 
         return inertia('notes/index', [
             'title' => 'All Notes',
@@ -140,6 +142,34 @@ class NoteController extends Controller
         }
 
         return redirect()->route('notes.index')->with('success', 'Note updated successfully');
+    }
+
+    /**
+     * Toggle the favorite status of the note.
+     */
+    public function toggleFavorite(Note $note)
+    {
+        Gate::allowIf(fn (User $user) => $note->user_id === $user->id);
+
+        $note->update([
+            'favorited_at' => $note->favorited_at ? null : now(),
+        ]);
+
+        return redirect()->back();
+    }
+
+    /**
+     * Toggle the archive status of the note.
+     */
+    public function toggleArchive(Note $note)
+    {
+        Gate::allowIf(fn (User $user) => $note->user_id === $user->id);
+
+        $note->update([
+            'archived_at' => $note->archived_at ? null : now(),
+        ]);
+
+        return redirect()->back();
     }
 
     /**
