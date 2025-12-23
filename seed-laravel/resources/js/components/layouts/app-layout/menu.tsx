@@ -48,8 +48,6 @@ export const Menu = () => {
 
     useEffect(() => {
         if (!open) {
-            // Reset search when menu closes to clear filters
-
             setSearch('');
         }
     }, [open]);
