@@ -20,7 +20,11 @@ class Note extends Model
      * @var list<string>
      */
     protected $fillable = [
-        //
+        'title',
+        'content',
+        'folder_id',
+        'favorited_at',
+        'archived_at',
     ];
 
     /**
