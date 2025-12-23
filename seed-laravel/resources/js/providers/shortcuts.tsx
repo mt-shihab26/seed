@@ -53,8 +53,8 @@ export const ShortcutsProvider = ({ children }: { children: ReactNode }) => {
     return (
         <ShortcutsContext.Provider
             value={{
-                registerShortcut: shortcutsRef.current.set,
-                unregisterShortcut: shortcutsRef.current.delete,
+                registerShortcut: (id, config) => shortcutsRef.current.set(id, config),
+                unregisterShortcut: (id) => shortcutsRef.current.delete(id),
                 registerLinks: (links) => {
                     links.forEach((link) => {
                         if (!link.shortcut) return;
