@@ -6,7 +6,6 @@ import { createRoot } from 'react-dom/client';
 import { initializeTheme } from './hooks/use-appearance';
 
 import { StrictMode } from 'react';
-import { KeyboardShortcutsProvider } from './providers/keyboard-shortcuts-provider';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -19,9 +18,7 @@ createInertiaApp({
 
         root.render(
             <StrictMode>
-                <KeyboardShortcutsProvider>
-                    <App {...props} />
-                </KeyboardShortcutsProvider>
+                <App {...props} />
             </StrictMode>,
         );
     },
@@ -30,5 +27,4 @@ createInertiaApp({
     },
 });
 
-// This will set light / dark mode on load...
 initializeTheme();

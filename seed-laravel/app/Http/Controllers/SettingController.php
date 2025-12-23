@@ -16,9 +16,9 @@ class SettingController extends Controller
     /**
      * Show the user's statistics settings page.
      */
-    public function editStatistics(Request $request)
+    public function editNotes(Request $request)
     {
-        return inertia('settings/statistics', [
+        return inertia('settings/notes', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => $request->session()->get('status'),
         ]);

@@ -10,9 +10,9 @@ Route::redirect('/', '/notes')->name('home');
 Route::redirect('/dashboard', '/notes')->name('dashboard');
 
 Route::prefix('/settings')->middleware('auth')->group(function () {
-    Route::redirect('/', '/settings/statistics')->name('settings.redirect');
+    Route::redirect('/', '/settings/notes')->name('settings.redirect');
 
-    Route::get('/statistics', [SettingController::class, 'editStatistics'])->name('settings.statistics.show');
+    Route::get('/notes', [SettingController::class, 'editNotes'])->name('settings.notes.show');
 
     Route::get('/profile', [SettingController::class, 'editProfile'])->name('settings.profile.edit');
     Route::patch('/profile', [SettingController::class, 'updateProfile'])->name('settings.profile.update');

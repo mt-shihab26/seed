@@ -7,7 +7,7 @@ export const Header = ({ count = 0, title }: { count: number; title: string }) =
             <div className="flex w-full items-center space-x-4">
                 <div className="w-min">
                     <IconLink
-                        href={route('settings.statistics.show')}
+                        href={route('settings.notes.show')}
                         icon={Settings}
                         variant="outline"
                     />

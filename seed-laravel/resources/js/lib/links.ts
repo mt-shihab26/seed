@@ -41,8 +41,8 @@ export const pagesLinks: TLink[] = [
 
 export const settingsLinks: TLink[] = [
     {
-        title: 'Statistics',
-        route: 'settings.statistics.show',
+        title: 'Notes',
+        route: 'settings.notes.show',
         icon: ChartBar,
     },
     {
