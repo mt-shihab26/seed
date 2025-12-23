@@ -9,7 +9,7 @@ import type { TShared } from '@/types/props';
 import { useFoldersLinks, useTagsLinks } from '@/hooks/use-shared-auth';
 import { APP_NAME } from '@/lib/env';
 import { pagesLinks, settingsLinks } from '@/lib/links';
-import { useKeyboardShortcuts } from '@/providers/keyboard-shortcuts-provider';
+import { useShortcuts } from '@/providers/shortcuts';
 import { useApplicationStore } from '@/stores/use-application-store';
 import { usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
@@ -33,7 +33,7 @@ export const Menu = () => {
     const { openAccordionItems, setOpenAccordionItems } = useApplicationStore();
     const { foldersLinks } = useFoldersLinks();
     const { tagsLinks } = useTagsLinks();
-    const { registerShortcut, registerLinks } = useKeyboardShortcuts();
+    const { registerShortcut, registerLinks } = useShortcuts();
 
     const menuKey = 'j';
 

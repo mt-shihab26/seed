@@ -12,23 +12,13 @@ type TConfig = {
     description?: string;
 };
 
-type TContext = {
+const ShortcutsContext = createContext<{
     registerShortcut: (id: string, config: TConfig) => void;
     unregisterShortcut: (id: string) => void;
     registerLinks: (links: TLink[]) => void;
-};
+} | null>(null);
 
-const KeyboardShortcutsContext = createContext<TContext | null>(null);
-
-export const useKeyboardShortcuts = () => {
-    const context = useContext(KeyboardShortcutsContext);
-    if (!context) {
-        throw new Error('useKeyboardShortcuts must be used within KeyboardShortcutsProvider');
-    }
-    return context;
-};
-
-export const KeyboardShortcutsProvider = ({ children }: { children: ReactNode }) => {
+export const ShortcutsProvider = ({ children }: { children: ReactNode }) => {
     const shortcutsRef = useRef<Map<string, TConfig>>(new Map());
 
     useEffect(() => {
@@ -61,7 +51,7 @@ export const KeyboardShortcutsProvider = ({ children }: { children: ReactNode })
     }, []);
 
     return (
-        <KeyboardShortcutsContext.Provider
+        <ShortcutsContext.Provider
             value={{
                 registerShortcut: shortcutsRef.current.set,
                 unregisterShortcut: shortcutsRef.current.delete,
@@ -78,6 +68,14 @@ export const KeyboardShortcutsProvider = ({ children }: { children: ReactNode })
             }}
         >
             {children}
-        </KeyboardShortcutsContext.Provider>
+        </ShortcutsContext.Provider>
     );
+};
+
+export const useShortcuts = () => {
+    const context = useContext(ShortcutsContext);
+    if (!context) {
+        throw new Error('useShortcuts must be used within KeyboardShortcutsProvider');
+    }
+    return context;
 };
