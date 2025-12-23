@@ -25,7 +25,7 @@ export const MenuGroup = ({ links }: { links: TLink[] }) => {
                     data-active={isActiveHref(url, link)}
                     className={isActiveHref(url, link) ? 'bg-accent text-accent-foreground' : ''}
                 >
-                    {link.icon && <Icon iconNode={link.icon} className="size-4" />}
+                    {link.icon && <Icon node={link.icon} className="size-4" />}
                     {link.title}
                     {link.shortcut && (
                         <DropdownMenuShortcut>

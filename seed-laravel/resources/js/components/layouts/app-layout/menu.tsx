@@ -166,7 +166,7 @@ export const Menu = () => {
                                         <AccordionTrigger>
                                             {accordionLink.icon && (
                                                 <Icon
-                                                    iconNode={accordionLink.icon}
+                                                    node={accordionLink.icon}
                                                     className="size-4"
                                                 />
                                             )}
