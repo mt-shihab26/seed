@@ -39,6 +39,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/{note}/edit', [NoteController::class, 'edit'])->name('notes.edit');
         Route::patch('/{note}', [NoteController::class, 'update'])->name('notes.update');
 
+        Route::patch('/{note}/toggle-favorite', [NoteController::class, 'toggleFavorite'])->name('notes.toggle-favorite');
+        Route::patch('/{note}/toggle-archive', [NoteController::class, 'toggleArchive'])->name('notes.toggle-archive');
+
         Route::delete('/{note}', [NoteController::class, 'destroy'])->name('notes.destroy');
     });
 
