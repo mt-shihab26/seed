@@ -12,7 +12,7 @@ import {
 
 import type { TLink } from '@/types/utils';
 
-export const pagesLinks: TLink[] = [
+export const pagesLinks = [
     {
         title: 'Notes',
         route: 'notes.index',

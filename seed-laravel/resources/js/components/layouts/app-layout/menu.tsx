@@ -141,7 +141,12 @@ export const Menu = () => {
                         <>
                             {filteredPagesLinks.length > 0 && (
                                 <>
-                                    <MenuGroup links={filteredPagesLinks} />
+                                    <MenuGroup
+                                        links={filteredPagesLinks.map((link) => ({
+                                            ...link,
+                                            title: `${link.title} (${props.auth.counts[link.route || ''] || 0})`,
+                                        }))}
+                                    />
                                     <DropdownMenuSeparator />
                                 </>
                             )}

@@ -1,11 +1,6 @@
 import type { TUser } from './models';
 
-export type TCounts = {
-    all: number | null;
-    favorites: number | null;
-    archived: number | null;
-    trashed: number | null;
-};
+export type TCounts = Record<string, number | null>;
 
 export type TAuth = {
     user: TUser;
