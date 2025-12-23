@@ -1,12 +1,10 @@
 import type { TNote } from '@/types/models';
 
 import { formatDateTime } from '@/lib/format';
-import { cn } from '@/lib/utils';
 
 import { Badge } from '@/components/ui/badge';
-import { buttonVariants } from '@/components/ui/button';
-import { Link } from '@inertiajs/react';
 import { ArchiveIcon, EditIcon, FolderIcon, StarIcon, TrashIcon } from 'lucide-react';
+import { NoteActionLink } from './note-action-link';
 
 export const NoteCard = ({ note }: { note: TNote }) => {
     return (
@@ -40,45 +38,26 @@ export const NoteCard = ({ note }: { note: TNote }) => {
                     {formatDateTime(note.updated_at)}
                 </span>
                 <div className="flex gap-1">
-                    <Link
-                        className={buttonVariants({ size: 'icon', variant: 'ghost' })}
+                    <NoteActionLink
+                        icon={StarIcon}
                         href={route('notes.toggle-favorite', note)}
                         method="patch"
-                    >
-                        <StarIcon
-                            className={cn('size-4', {
-                                'fill-primary text-primary': note.favorited_at,
-                            })}
-                        />
-                    </Link>
-                    <Link
-                        className={buttonVariants({ size: 'icon', variant: 'ghost' })}
+                        active={!!note.favorited_at}
+                    />
+                    <NoteActionLink
+                        icon={ArchiveIcon}
                         href={route('notes.toggle-archive', note)}
                         method="patch"
-                    >
-                        <ArchiveIcon
-                            className={cn('size-4', {
-                                'fill-primary text-primary': note.archived_at,
-                            })}
-                        />
-                    </Link>
-                    <Link
-                        className={buttonVariants({ size: 'icon', variant: 'ghost' })}
+                        active={!!note.archived_at}
+                    />
+                    <NoteActionLink
+                        icon={TrashIcon}
                         href={route('notes.destroy', note)}
                         method="delete"
-                    >
-                        <TrashIcon
-                            className={cn('size-4', {
-                                'fill-destructive text-destructive': note.deleted_at,
-                            })}
-                        />
-                    </Link>
-                    <Link
-                        className={buttonVariants({ size: 'icon', variant: 'ghost' })}
-                        href={route('notes.edit', note)}
-                    >
-                        <EditIcon className="size-4" />
-                    </Link>
+                        active={!!note.deleted_at}
+                        variant="destructive"
+                    />
+                    <NoteActionLink icon={EditIcon} href={route('notes.edit', note)} />
                 </div>
             </div>
         </div>

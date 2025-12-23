@@ -6,17 +6,12 @@ import { cn } from '@/lib/utils';
 
 import { Link } from '@inertiajs/react';
 
-interface IconLinkProps extends ComponentPropsWithoutRef<typeof Link> {
+interface TProps extends ComponentPropsWithoutRef<typeof Link> {
     icon: LucideIcon;
     variant?: 'default' | 'outline' | 'ghost' | 'destructive' | 'secondary' | 'link';
 }
 
-export const IconLink = ({
-    icon: Icon,
-    variant = 'default',
-    className,
-    ...props
-}: IconLinkProps) => {
+export const IconLink = ({ icon: Icon, variant = 'default', className, ...props }: TProps) => {
     return (
         <Link
             className={cn(buttonVariants({ variant, size: 'icon' }), 'rounded-full', className)}
