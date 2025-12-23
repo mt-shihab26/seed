@@ -48,6 +48,8 @@ export const Menu = () => {
 
     useEffect(() => {
         if (!open) {
+            // Reset search when menu closes to clear filters
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setSearch('');
         }
     }, [open]);
