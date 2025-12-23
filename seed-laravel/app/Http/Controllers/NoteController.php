@@ -14,9 +14,7 @@ class NoteController extends Controller
      */
     public function index(Request $request)
     {
-        $notes = $request->user()->notes()->with(['folder', 'tags'])
-            ->whereNull('archived_at')
-            ->get();
+        $notes = $request->user()->notes()->withRelations()->onlyActive()->get();
 
         return inertia('notes/index', [
             'title' => 'All Notes',
@@ -29,7 +27,7 @@ class NoteController extends Controller
      */
     public function favorites(Request $request)
     {
-        $notes = $request->user()->notes()->with(['folder', 'tags'])->whereNotNull('favorited_at')->get();
+        $notes = $request->user()->notes()->withRelations()->onlyFavorited()->get();
 
         return inertia('notes/index', [
             'title' => 'Favorites Notes',
@@ -42,7 +40,7 @@ class NoteController extends Controller
      */
     public function archived(Request $request)
     {
-        $notes = $request->user()->notes()->with(['folder', 'tags'])->whereNotNull('archived_at')->get();
+        $notes = $request->user()->notes()->withRelations()->onlyArchived()->get();
 
         return inertia('notes/index', [
             'title' => 'Archived Notes',
@@ -55,7 +53,7 @@ class NoteController extends Controller
      */
     public function trashed(Request $request)
     {
-        $notes = $request->user()->notes()->with(['folder', 'tags'])->onlyTrashed()->get();
+        $notes = $request->user()->notes()->withRelations()->onlyTrashed()->get();
 
         return inertia('notes/index', [
             'title' => 'Trashed Notes',

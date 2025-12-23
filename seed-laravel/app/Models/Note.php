@@ -63,4 +63,36 @@ class Note extends Model
     {
         return $this->belongsToMany(Tag::class);
     }
+
+    /**
+     * Scope a query to eager load common relationships.
+     */
+    public function scopeWithRelations($query)
+    {
+        return $query->with(['folder', 'tags']);
+    }
+
+    /**
+     * Scope a query to only include active (non-archived) notes.
+     */
+    public function scopeOnlyActive($query)
+    {
+        return $query->whereNull('archived_at');
+    }
+
+    /**
+     * Scope a query to only include favorited notes.
+     */
+    public function scopeOnlyFavorited($query)
+    {
+        return $query->whereNotNull('favorited_at');
+    }
+
+    /**
+     * Scope a query to only include archived notes.
+     */
+    public function scopeOnlyArchived($query)
+    {
+        return $query->whereNotNull('archived_at');
+    }
 }
