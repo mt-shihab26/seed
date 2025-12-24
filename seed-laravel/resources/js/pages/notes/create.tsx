@@ -31,7 +31,7 @@ const Create = ({ folders, tags }: { folders: TFolder[]; tags: TTag[] }) => {
                     <NoteForm
                         folders={folders}
                         tags={tags}
-                        formAction={NoteController.store.form()}
+                        formProps={NoteController.store.form()}
                         cancelHref={route('notes.index')}
                         isEditing={false}
                     />

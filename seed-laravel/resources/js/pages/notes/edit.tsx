@@ -32,7 +32,7 @@ const Edit = ({ note, folders, tags }: { note: TNote; folders: TFolder[]; tags: 
                         note={note}
                         folders={folders}
                         tags={tags}
-                        formAction={NoteController.update.form(note)}
+                        formProps={NoteController.update.form(note)}
                         cancelHref={route('notes.show', note)}
                         isEditing={true}
                     />
