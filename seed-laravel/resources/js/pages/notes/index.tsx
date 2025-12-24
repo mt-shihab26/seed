@@ -3,7 +3,6 @@ import {
     EditIcon,
     FolderIcon,
     PlusIcon,
-    SettingsIcon,
     SproutIcon,
     StarIcon,
     TrashIcon,
@@ -13,13 +12,22 @@ import type { TNote } from '@/types/models';
 
 import { formatDateTime } from '@/lib/format';
 
+import { BackButton } from '@/components/elements/back-button';
 import { ColoredBadge } from '@/components/elements/colored-badge';
 import { IconLink } from '@/components/elements/icon-link';
 import { NoteActionLink } from '@/components/elements/note-action-link';
 import { NoteLayout } from '@/components/layouts/note-layout';
 import { Link } from '@inertiajs/react';
 
-const Index = ({ notes, title }: { notes: TNote[]; title: string }) => {
+const Index = ({
+    notes,
+    title,
+    back = null,
+}: {
+    notes: TNote[];
+    title: string;
+    back: string | null;
+}) => {
     return (
         <NoteLayout
             title={title}
@@ -27,13 +35,11 @@ const Index = ({ notes, title }: { notes: TNote[]; title: string }) => {
             header={
                 <div className="flex w-full items-center space-x-4">
                     <div className="flex w-full items-center space-x-4">
-                        <div className="w-min">
-                            <IconLink
-                                href={route('settings.notes.show')}
-                                icon={SettingsIcon}
-                                variant="outline"
-                            />
-                        </div>
+                        {back && (
+                            <div className="w-min text-nowrap">
+                                <BackButton href={back} largeLabel="Back to All Notes" />
+                            </div>
+                        )}
                         <div className="h-0.5 w-full bg-border" />
                     </div>
                     <div className="w-min text-xl font-bold text-nowrap">

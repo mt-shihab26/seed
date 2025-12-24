@@ -32,6 +32,7 @@ class NoteController extends Controller
         return inertia('notes/index', [
             'title' => 'Favorites Notes',
             'notes' => $notes,
+            'back' => route('notes.index'),
         ]);
     }
 
@@ -45,6 +46,7 @@ class NoteController extends Controller
         return inertia('notes/index', [
             'title' => 'Archived Notes',
             'notes' => $notes,
+            'back' => route('notes.index'),
         ]);
     }
 
@@ -58,6 +60,7 @@ class NoteController extends Controller
         return inertia('notes/index', [
             'title' => 'Trashed Notes',
             'notes' => $notes,
+            'back' => route('notes.index'),
         ]);
     }
 
