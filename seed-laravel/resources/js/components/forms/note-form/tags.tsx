@@ -13,10 +13,20 @@ export const Tags = ({
     onChange: (values: TTag[]) => void;
     tags: TTag[];
 }) => {
+    const handleTagChange = (tag: TTag, checked: boolean) => {
+        if (checked) {
+            // Add tag to values if not already present
+            onChange([...values, tag]);
+        } else {
+            // Remove tag from values
+            onChange(values.filter((t) => t.id !== tag.id));
+        }
+    };
+
     return (
         <div className="space-y-2">
             <Label>Select tags to organize your note</Label>
-            <div className="grid grid-cols-3 gap-2 rounded-lg border border-border bg-muted/30 p-4">
+            <div className="grid gap-3 space-y-3 rounded-lg border border-border bg-muted/30 p-4 sm:grid-cols-2">
                 {tags.map((tag) => (
                     <div key={tag.id} className="flex items-center space-x-2">
                         <Checkbox
@@ -24,6 +34,9 @@ export const Tags = ({
                             name={`tag-${tag.id}`}
                             value={tag.id}
                             checked={values?.some((t) => t.id === tag.id)}
+                            onCheckedChange={(checked) =>
+                                handleTagChange(tag, checked as boolean)
+                            }
                         />
                         <Label
                             htmlFor={`tag-${tag.id}`}
