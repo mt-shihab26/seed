@@ -7,12 +7,12 @@ import { ColorPicker } from '@/components/elements/color-picker';
 import { InputError } from '@/components/elements/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { PlusIcon } from 'lucide-react';
+import { PlusIcon, SaveIcon } from 'lucide-react';
 
 export const TagForm = ({ tag }: { tag?: TTag }) => {
-    const { data, setData, post, processing, errors, reset, patch } = useForm({
+    const { data, setData, post, patch, processing, errors, reset } = useForm({
         name: tag?.name || '',
-        color: tag?.color || ('gray' as TColor),
+        color: (tag?.color || 'gray') as TColor,
     });
 
     return (
@@ -27,29 +27,36 @@ export const TagForm = ({ tag }: { tag?: TTag }) => {
                             reset();
                         },
                     });
-
-                    return;
+                } else {
+                    post(route('tags.store'), {
+                        preserveScroll: true,
+                        onSuccess: () => {
+                            reset();
+                        },
+                    });
                 }
-
-                post(route('tags.store'), {
-                    preserveScroll: true,
-                    onSuccess: () => {
-                        reset();
-                    },
-                });
             }}
         >
             <div className="flex gap-2">
                 <Input
                     value={data.name}
                     onChange={(e) => setData('name', e.target.value)}
-                    placeholder="Enter new tag name"
+                    placeholder={tag ? 'Edit tag name' : 'Enter new tag name'}
                     className="h-7"
                 />
                 <ColorPicker value={data.color} onChange={(color) => setData('color', color)} />
                 <Button type="submit" disabled={processing} size="sm">
-                    <PlusIcon className="mr-2 size-4" />
-                    {processing ? 'Adding...' : 'Add'}
+                    {tag ? (
+                        <>
+                            <SaveIcon className="mr-2 size-4" />
+                            {processing ? 'Saving...' : 'Save'}
+                        </>
+                    ) : (
+                        <>
+                            <PlusIcon className="mr-2 size-4" />
+                            {processing ? 'Adding...' : 'Add'}
+                        </>
+                    )}
                 </Button>
             </div>
             <InputError message={errors.name || errors.color} />
