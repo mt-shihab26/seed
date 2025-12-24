@@ -17,7 +17,7 @@ type NoteFormProps = {
     note?: TNote;
     folders: TFolder[];
     tags: TTag[];
-    formAction: { url: string; method: string };
+    formProps: any;
     onCancel?: () => void;
     cancelHref?: string;
     isEditing?: boolean;
@@ -27,15 +27,14 @@ export const NoteForm = ({
     note,
     folders,
     tags,
-    formAction,
+    formProps,
     onCancel,
     cancelHref,
     isEditing = false,
 }: NoteFormProps) => {
     return (
         <Form
-            action={formAction.url}
-            method={formAction.method}
+            {...formProps}
             options={{ preserveScroll: true }}
             className="space-y-6"
         >

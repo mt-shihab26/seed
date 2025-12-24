@@ -1,9 +1,9 @@
 import type { TNote } from '@/types/models';
 
 import { AppLayout } from '@/components/layouts/app-layout';
-import { Header } from '@/components/screens/notes/header';
-import { NoNotesMessage } from '@/components/screens/notes/no-notes-message';
-import { NoteCard } from '@/components/screens/notes/note-card';
+import { Header } from '@/components/screens/notes/list/header';
+import { NoNotesMessage } from '@/components/screens/notes/list/no-notes-message';
+import { NoteCard } from '@/components/screens/notes/list/note-card';
 import { Head } from '@inertiajs/react';
 
 const Index = ({ notes, title }: { notes: TNote[]; title: string }) => {

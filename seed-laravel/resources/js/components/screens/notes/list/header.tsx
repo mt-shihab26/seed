@@ -20,7 +20,7 @@ export const Header = ({ count = 0, title }: { count: number; title: string }) =
             <div className="flex w-full items-center space-x-4">
                 <div className="h-0.5 w-full bg-border" />
                 <div className="w-min">
-                    <IconLink href={route('notes.index')} icon={Plus} />
+                    <IconLink href={route('notes.create')} icon={Plus} />
                 </div>
             </div>
         </div>
