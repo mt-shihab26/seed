@@ -326,10 +326,22 @@ Wayfinder generates TypeScript functions and types for Laravel controllers and r
 
 
 ### Wayfinder + Inertia
-If your application uses the `<Form>` component from Inertia, you can use Wayfinder to generate form action and method automatically.
-<code-snippet name="Wayfinder Form Component (React)" lang="typescript">
+When using Wayfinder with the `useForm` helper, you can pass the route URL directly to the form submission method.
+<code-snippet name="Wayfinder with useForm Helper (React)" lang="typescript">
 
-<Form {...store.form()}><input name="title" /></Form>
+import { useForm } from '@inertiajs/react'
+import { store } from '@/actions/App/Http/Controllers/PostController'
+
+const { data, setData, post, processing, errors } = useForm({
+    title: '',
+});
+
+const handleSubmit = (e) => {
+    e.preventDefault();
+    post(store.url(), {
+        preserveScroll: true,
+    });
+};
 
 </code-snippet>
 
@@ -468,36 +480,43 @@ import { Link } from '@inertiajs/react'
 
 ## Inertia + React Forms
 
-    <code-snippet name="`<Form>` Component Example" lang="react">
+**REQUIRED: Use `useForm` helper for all forms in this application.**
 
-import { Form } from '@inertiajs/react'
+    <code-snippet name="`useForm` Helper Example" lang="react">
 
-export default () => (
-    <Form action="/users" method="post">
-        {({
-            errors,
-            hasErrors,
-            processing,
-            wasSuccessful,
-            recentlySuccessful,
-            clearErrors,
-            resetAndClearErrors,
-            defaults
-        }) => (
-        <>
-        <input type="text" name="name" />
+import { useForm } from '@inertiajs/react'
 
-        {errors.name && <div>{errors.name}</div>}
+export default () => {
+    const { data, setData, post, processing, errors, reset } = useForm({
+        name: '',
+    });
 
-        <button type="submit" disabled={processing}>
-            {processing ? 'Creating...' : 'Create User'}
-        </button>
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        post('/users', {
+            preserveScroll: true,
+            onSuccess: () => {
+                reset();
+            },
+        });
+    };
 
-        {wasSuccessful && <div>User created successfully!</div>}
-        </>
-    )}
-    </Form>
-)
+    return (
+        <form onSubmit={handleSubmit}>
+            <input
+                type="text"
+                value={data.name}
+                onChange={(e) => setData('name', e.target.value)}
+            />
+
+            {errors.name && <div>{errors.name}</div>}
+
+            <button type="submit" disabled={processing}>
+                {processing ? 'Creating...' : 'Create User'}
+            </button>
+        </form>
+    );
+}
 
 </code-snippet>
 
