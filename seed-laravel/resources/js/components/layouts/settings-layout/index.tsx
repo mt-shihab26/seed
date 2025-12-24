@@ -41,10 +41,8 @@ export const SettingsLayout = ({ title, children }: { title: string; children: R
                         </nav>
                     </aside>
                     <Separator className="my-6 lg:hidden" />
-                    <div className="flex-1 md:max-w-2xl">
-                        <section className="max-w-xl space-y-12 overflow-y-auto pr-2.5 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-muted">
-                            {children}
-                        </section>
+                    <div className="max-h-[calc(100vh-12rem)] flex-1 overflow-y-auto pr-2.5 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-muted">
+                        <section className="max-w-xl space-y-12">{children}</section>
                     </div>
                 </div>
             </div>
