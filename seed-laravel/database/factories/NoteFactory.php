@@ -22,7 +22,7 @@ class NoteFactory extends Factory
             'user_id' => User::inRandomOrder()->first()?->id,
             'folder_id' => Folder::inRandomOrder()->first()?->id,
             'title' => fake()->sentence(),
-            'content' => fake()->paragraphs(3, true),
+            'content' => fake()->paragraphs(10, true),
         ];
     }
 
