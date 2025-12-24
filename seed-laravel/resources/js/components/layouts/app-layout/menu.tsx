@@ -131,7 +131,7 @@ export const Menu = () => {
                     />
                 </div>
                 <DropdownMenuSeparator />
-                <div className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-2 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-muted">
+                <div className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-2 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-border [&::-webkit-scrollbar-track]:bg-muted">
                     {!hasResults ? (
                         <div className="flex flex-col items-center justify-center gap-2 py-8 text-center">
                             <SearchX className="size-8 text-muted-foreground" />
