@@ -11,8 +11,6 @@ import { InputError } from '@/components/elements/input-error';
 
 import { SettingLayout } from '@/components/layouts/setting-layout';
 
-import SettingController from '@/actions/App/Http/Controllers/SettingController';
-
 const Password = () => {
     const passwordInput = useRef<HTMLInputElement>(null);
     const currentPasswordInput = useRef<HTMLInputElement>(null);
@@ -24,12 +22,10 @@ const Password = () => {
                     title="Update password"
                     description="Ensure your account is using a long, random password to stay secure"
                 />
-
                 <Form
-                    {...SettingController.updatePassword.form()}
-                    options={{
-                        preserveScroll: true,
-                    }}
+                    action={route('settings.password.update')}
+                    method="patch"
+                    options={{ preserveScroll: true }}
                     resetOnError={['password', 'password_confirmation', 'current_password']}
                     resetOnSuccess
                     onError={(errors) => {

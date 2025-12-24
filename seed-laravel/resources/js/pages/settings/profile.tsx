@@ -22,8 +22,6 @@ import { InputError } from '@/components/elements/input-error';
 
 import { SettingLayout } from '@/components/layouts/setting-layout';
 
-import SettingController from '@/actions/App/Http/Controllers/SettingController';
-
 const Profile = ({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status?: string }) => {
     const { props } = usePage<TShared>();
 
@@ -52,9 +50,10 @@ const Profile = ({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status
                     </Avatar>
                 </div>
                 <Form
-                    {...SettingController.updateProfile.form()}
-                    options={{ preserveScroll: true }}
+                    action={route('settings.profile.update')}
+                    method="patch"
                     className="space-y-6"
+                    options={{ preserveScroll: true }}
                 >
                     {({ processing, recentlySuccessful, errors }) => (
                         <>

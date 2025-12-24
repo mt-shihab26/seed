@@ -1,12 +1,3 @@
-import { PencilIcon, PlusIcon, TagIcon, TrashIcon } from 'lucide-react';
-import { useState } from 'react';
-
-import type { TTag } from '@/types/models';
-
-import { destroy, store, update } from '@/actions/App/Http/Controllers/TagController';
-
-import { ColorGrid } from '@/components/elements/color-grid';
-import { Button } from '@/components/ui/button';
 import {
     Dialog,
     DialogContent,
@@ -15,13 +6,21 @@ import {
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+
+import type { TColor } from '@/types/enums';
+import type { TTag } from '@/types/models';
+
+import { getColorClasses } from '@/lib/colors';
+import { router, useForm } from '@inertiajs/react';
+import { useState } from 'react';
+
+import { ColorGrid } from '@/components/elements/color-grid';
+import { Button } from '@/components/ui/button';
+import { PencilIcon, PlusIcon, TagIcon, TrashIcon } from 'lucide-react';
 
 import { SettingLayout } from '@/components/layouts/setting-layout';
-import { getColorClasses } from '@/lib/colors';
-import type { TColor } from '@/types/enums';
-import { router, useForm } from '@inertiajs/react';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 const Tags = ({ tags }: { tags: TTag[] }) => {
     const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
@@ -35,9 +34,7 @@ const Tags = ({ tags }: { tags: TTag[] }) => {
 
     const handleDelete = (tag: TTag) => {
         if (confirm(`Are you sure you want to delete "${tag.name}"?`)) {
-            router.delete(destroy.url(tag), {
-                preserveScroll: true,
-            });
+            router.delete(route('tags.destroy', tag), { preserveScroll: true });
         }
     };
 
@@ -133,7 +130,7 @@ function CreateTagDialog({
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        post(store.url(), {
+        post(route('tags.store'), {
             preserveScroll: true,
             onSuccess: () => {
                 onOpenChange(false);
@@ -212,7 +209,7 @@ function EditTagDialog({
         e.preventDefault();
         if (!tag) return;
 
-        patch(update.url(tag), {
+        patch(route('tags.update', tag), {
             preserveScroll: true,
             onSuccess: () => {
                 onOpenChange(false);

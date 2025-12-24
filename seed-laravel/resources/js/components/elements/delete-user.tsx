@@ -18,8 +18,6 @@ import { Form } from '@inertiajs/react';
 import { HeadingSmall } from '@/components/elements/heading-small';
 import { InputError } from '@/components/elements/input-error';
 
-import SettingController from '@/actions/App/Http/Controllers/SettingController';
-
 export const DeleteUser = () => {
     const passwordInput = useRef<HTMLInputElement>(null);
 
@@ -50,7 +48,8 @@ export const DeleteUser = () => {
                         </DialogDescription>
 
                         <Form
-                            {...SettingController.destroyProfile.form()}
+                            action={route('settings.profile.destroy')}
+                            method="delete"
                             options={{ preserveScroll: true }}
                             onError={() => passwordInput.current?.focus()}
                             resetOnSuccess

@@ -1,13 +1,3 @@
-import { FolderIcon, PencilIcon, PlusIcon, TrashIcon } from 'lucide-react';
-import { useState } from 'react';
-
-import type { TColor } from '@/types/enums';
-import type { TFolder } from '@/types/models';
-
-import { destroy, store, update } from '@/actions/App/Http/Controllers/FolderController';
-
-import { ColorGrid } from '@/components/elements/color-grid';
-import { Button } from '@/components/ui/button';
 import {
     Dialog,
     DialogContent,
@@ -16,12 +6,22 @@ import {
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
+
+import type { TColor } from '@/types/enums';
+import type { TFolder } from '@/types/models';
+
+import { getColorClasses } from '@/lib/colors';
+import { router, useForm } from '@inertiajs/react';
+import { useState } from 'react';
+
+import { ColorGrid } from '@/components/elements/color-grid';
+import { Button } from '@/components/ui/button';
+import { FolderIcon, PencilIcon, PlusIcon, TrashIcon } from 'lucide-react';
+
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 import { SettingLayout } from '@/components/layouts/setting-layout';
-import { getColorClasses } from '@/lib/colors';
-import { router, useForm } from '@inertiajs/react';
 
 const Folders = ({ folders }: { folders: TFolder[] }) => {
     const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
@@ -35,9 +35,7 @@ const Folders = ({ folders }: { folders: TFolder[] }) => {
 
     const handleDelete = (folder: TFolder) => {
         if (confirm(`Are you sure you want to delete "${folder.name}"?`)) {
-            router.delete(destroy.url(folder), {
-                preserveScroll: true,
-            });
+            router.delete(route('folders.destroy', folder), { preserveScroll: true });
         }
     };
 
@@ -133,7 +131,7 @@ function CreateFolderDialog({
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        post(store.url(), {
+        post(route('folders.store'), {
             preserveScroll: true,
             onSuccess: () => {
                 onOpenChange(false);
@@ -212,7 +210,7 @@ function EditFolderDialog({
         e.preventDefault();
         if (!folder) return;
 
-        patch(update.url(folder), {
+        patch(route('folders.update', folder), {
             preserveScroll: true,
             onSuccess: () => {
                 onOpenChange(false);

@@ -4,17 +4,17 @@ import {
     DropdownMenuShortcut,
 } from '@/components/ui/dropdown-menu';
 
-import type { ColorName } from '@/lib/colors';
+import type { TColor } from '@/types/enums';
 import type { TShared } from '@/types/props';
 import type { TLink } from '@/types/utils';
 
 import { getColorClasses } from '@/lib/colors';
 import { getHref, isActiveHref } from '@/lib/href';
+import { cn } from '@/lib/utils';
 import { router, usePage } from '@inertiajs/react';
 
 import { Icon } from '@/components/elements/icon';
 import { RenderKDB } from '@/components/elements/render-kbd';
-import { cn } from '@/lib/utils';
 
 export const MenuGroup = ({ links }: { links: TLink[] }) => {
     const { url } = usePage<TShared>();
@@ -22,7 +22,7 @@ export const MenuGroup = ({ links }: { links: TLink[] }) => {
     return (
         <DropdownMenuGroup>
             {links.map((link) => {
-                const colorClasses = link.color ? getColorClasses(link.color as ColorName) : null;
+                const colorClasses = link.color ? getColorClasses(link.color as TColor) : null;
 
                 return (
                     <DropdownMenuItem

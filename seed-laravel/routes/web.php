@@ -21,7 +21,7 @@ Route::prefix('/settings')->middleware('auth')->group(function () {
     Route::delete('/profile', [SettingController::class, 'destroyProfile'])->name('settings.profile.destroy');
 
     Route::get('/password', [SettingController::class, 'editPassword'])->name('settings.password.edit');
-    Route::put('/password', [SettingController::class, 'updatePassword'])->middleware('throttle:6,1')->name('settings.password.update');
+    Route::patch('/password', [SettingController::class, 'updatePassword'])->middleware('throttle:6,1')->name('settings.password.update');
 
     Route::get('/two-factor', [SettingController::class, 'twoFactorShow'])->middleware('two-factor.password.confirm')->name('settings.two-factor.show');
 
