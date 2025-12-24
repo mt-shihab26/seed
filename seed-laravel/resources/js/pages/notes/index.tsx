@@ -7,7 +7,11 @@ import { NoteCard } from '@/components/screens/notes/list/note-card';
 
 const Index = ({ notes, title }: { notes: TNote[]; title: string }) => {
     return (
-        <NoteLayout title={title} header={<Header count={notes?.length} title={title} />}>
+        <NoteLayout
+            title={title}
+            header={<Header count={notes?.length} title={title} />}
+            className="max-w-7xl"
+        >
             {notes.length === 0 ? (
                 <NoNotesMessage />
             ) : (
