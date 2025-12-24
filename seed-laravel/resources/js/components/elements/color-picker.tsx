@@ -1,17 +1,19 @@
-import { CheckIcon } from 'lucide-react';
-
-import type { TColor } from '@/types/models';
+import type { TColor } from '@/types/enums';
 
 import { COLOR_ARRAY, getColorClasses } from '@/lib/colors';
 import { cn } from '@/lib/utils';
 
-interface ColorPickerProps {
+import { CheckIcon } from 'lucide-react';
+
+export const ColorPicker = ({
+    value,
+    onChange,
+    className,
+}: {
     value: TColor;
     onChange: (color: TColor) => void;
     className?: string;
-}
-
-export const ColorPicker = ({ value, onChange, className }: ColorPickerProps) => {
+}) => {
     return (
         <div className={cn('grid grid-cols-5 gap-2', className)}>
             {COLOR_ARRAY.map((color) => {
