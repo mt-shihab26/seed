@@ -6,7 +6,8 @@ import { useForm } from '@inertiajs/react';
 import { InputError } from '@/components/elements/input-error';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { FolderIcon, SaveIcon, XIcon } from 'lucide-react';
+import { SaveIcon, XIcon } from 'lucide-react';
+import { Folders } from './folders';
 import { Tags } from './tags';
 
 export const NoteForm = ({
@@ -23,10 +24,12 @@ export const NoteForm = ({
     const { errors, processing, data, setData } = useForm<{
         title: string;
         content: string;
+        folder_id: string;
         tags: TTag[];
     }>({
         title: note?.title || '',
         content: note?.content || '',
+        folder_id: note?.folder_id || '',
         tags: note?.tags || [],
     });
 
@@ -58,25 +61,11 @@ export const NoteForm = ({
                 required
             />
 
-            <div className="space-y-3">
-                <div className="relative">
-                    <FolderIcon className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
-                    <select
-                        id="folder_id"
-                        name="folder_id"
-                        defaultValue={note?.folder_id || ''}
-                        required
-                        className="flex h-10 w-full rounded-md border border-input bg-background py-2 pr-3 pl-10 text-base ring-offset-background transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-                    >
-                        <option value="">Select a folder</option>
-                        {folders.map((folder) => (
-                            <option key={folder.id} value={folder.id}>
-                                {folder.name}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-            </div>
+            <Folders
+                value={data.folder_id}
+                onChange={(value) => setData('folder_id', value)}
+                folders={folders}
+            />
 
             <Tags values={data.tags} onChange={(values) => setData('tags', values)} tags={tags} />
 
