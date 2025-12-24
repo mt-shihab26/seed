@@ -4,8 +4,8 @@ import { formatDateTime } from '@/lib/format';
 
 import { BackButton } from '@/components/elements/back-button';
 import { EditButton } from '@/components/elements/edit-button';
+import { NoteActionLink } from '@/components/elements/note-action-link';
 import { NoteLayout } from '@/components/layouts/note-layout';
-import { NoteActionLink } from '@/components/screens/notes/list/note-action-link';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { ArchiveIcon, FolderIcon, StarIcon, TrashIcon } from 'lucide-react';
