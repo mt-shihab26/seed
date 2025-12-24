@@ -1,16 +1,23 @@
 import {
+    codeBlockLanguages,
+    defaultCodeBlockLanguage,
     imageAutocompleteSuggestions,
     imageUploadHandler,
     linkAutocompleteSuggestions,
+    sandpackConfig,
 } from './params';
 
 import {
+    codeBlockPlugin,
+    codeMirrorPlugin,
+    diffSourcePlugin,
     headingsPlugin,
     imagePlugin,
     linkDialogPlugin,
     linkPlugin,
     listsPlugin,
     quotePlugin,
+    sandpackPlugin,
     tablePlugin,
     thematicBreakPlugin,
     toolbarPlugin,
@@ -22,11 +29,13 @@ import { KitchenSinkToolbar, MDXEditor } from '@mdxeditor/editor';
 
 export const Editor = ({
     value,
+    diffValue,
     onChange,
     placeholder,
     className,
 }: {
     value: string;
+    diffValue: string;
     onChange: (value: string) => void;
     placeholder?: string;
     className?: string;
@@ -54,6 +63,14 @@ export const Editor = ({
                 imagePlugin({ imageUploadHandler, imageAutocompleteSuggestions }),
                 // Tables
                 tablePlugin(),
+                // Code blocks
+                codeBlockPlugin({ defaultCodeBlockLanguage }),
+                sandpackPlugin({ sandpackConfig }),
+                codeMirrorPlugin({ codeBlockLanguages }),
+
+                // Diff/source mode
+                diffSourcePlugin({ diffMarkdown: diffValue, viewMode: 'rich-text' }),
+
                 //
                 toolbarPlugin({ toolbarContents: () => <KitchenSinkToolbar /> }),
             ]}

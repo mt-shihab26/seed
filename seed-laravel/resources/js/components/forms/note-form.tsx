@@ -65,13 +65,11 @@ export const NoteForm = ({
             />
 
             <Editor
-                id="content"
-                name="content"
                 placeholder="Write your note content here..."
-                className="h-auto! resize-y py-3! text-base!"
+                className="text-base!"
                 value={data.content}
+                diffValue={note?.content || ''}
                 onChange={(value) => setData('content', value)}
-                required
             />
 
             <div className="space-y-3 border border-border bg-muted/30 p-4">
