@@ -3,7 +3,7 @@ import type { TFolder, TTag } from '@/types/models';
 import { Head, Link } from '@inertiajs/react';
 import { ArrowLeftIcon } from 'lucide-react';
 
-import { NoteForm } from '@/components/screens/notes/form/note-form';
+import { NoteForm } from '@/components/forms/note-form';
 
 import { AppLayout } from '@/components/layouts/app-layout';
 

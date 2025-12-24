@@ -1,5 +1,6 @@
 import type { TFolder, TNote, TTag } from '@/types/models';
 
+import { InputError } from '@/components/elements/input-error';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,8 +11,6 @@ import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { Form } from '@inertiajs/react';
 import { FolderIcon, SaveIcon, XIcon } from 'lucide-react';
-
-import { InputError } from '@/components/elements/input-error';
 
 type NoteFormProps = {
     note?: TNote;
@@ -33,11 +32,7 @@ export const NoteForm = ({
     isEditing = false,
 }: NoteFormProps) => {
     return (
-        <Form
-            {...formProps}
-            options={{ preserveScroll: true }}
-            className="space-y-6"
-        >
+        <Form {...formProps} options={{ preserveScroll: true }} className="space-y-6">
             {({ processing, errors, recentlySuccessful }) => (
                 <>
                     <Card>
@@ -97,7 +92,7 @@ export const NoteForm = ({
                                         name="folder_id"
                                         defaultValue={note?.folder_id || ''}
                                         required
-                                        className="flex h-10 w-full rounded-md border border-input bg-background py-2 pr-3 pl-10 text-base ring-offset-background transition-colors file:border-0 file:bg-transparent file:font-medium file:text-foreground file:text-sm placeholder:text-muted-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+                                        className="flex h-10 w-full rounded-md border border-input bg-background py-2 pr-3 pl-10 text-base ring-offset-background transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
                                     >
                                         <option value="">Select a folder</option>
                                         {folders.map((folder) => (
@@ -113,7 +108,7 @@ export const NoteForm = ({
                             {/* Tags selection */}
                             <div className="space-y-3">
                                 <Label>Tags</Label>
-                                <p className="text-muted-foreground text-sm">
+                                <p className="text-sm text-muted-foreground">
                                     Select tags to organize your note
                                 </p>
                                 {tags.length > 0 ? (
@@ -139,7 +134,10 @@ export const NoteForm = ({
                                                             htmlFor={`tag-${tag.id}`}
                                                             className="flex flex-1 cursor-pointer items-center gap-2 font-normal"
                                                         >
-                                                            <Badge variant="secondary" className="text-xs">
+                                                            <Badge
+                                                                variant="secondary"
+                                                                className="text-xs"
+                                                            >
                                                                 {tag.name}
                                                             </Badge>
                                                         </Label>
@@ -150,7 +148,7 @@ export const NoteForm = ({
                                     </div>
                                 ) : (
                                     <div className="rounded-lg border border-dashed border-border bg-muted/30 p-6 text-center">
-                                        <p className="text-muted-foreground text-sm">
+                                        <p className="text-sm text-muted-foreground">
                                             No tags available. Create tags in settings to organize
                                             your notes.
                                         </p>
@@ -205,7 +203,7 @@ export const NoteForm = ({
 
                     {recentlySuccessful && (
                         <div className="rounded-lg border border-green-200 bg-green-50 p-4 dark:border-green-800 dark:bg-green-950">
-                            <p className="text-green-800 text-sm dark:text-green-200">
+                            <p className="text-sm text-green-800 dark:text-green-200">
                                 {isEditing
                                     ? 'Note updated successfully!'
                                     : 'Note created successfully!'}
