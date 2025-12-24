@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Head, Link } from '@inertiajs/react';
 
-export const SettingsLayout = ({ title, children }: { title: string; children: ReactNode }) => {
+export const SettingLayout = ({ title, children }: { title: string; children: ReactNode }) => {
     const { url } = usePage();
 
     return (

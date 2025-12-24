@@ -9,7 +9,7 @@ import { Form } from '@inertiajs/react';
 import { HeadingSmall } from '@/components/elements/heading-small';
 import { InputError } from '@/components/elements/input-error';
 
-import { SettingsLayout } from '@/components/layouts/settings-layout';
+import { SettingLayout } from '@/components/layouts/setting-layout';
 
 import SettingController from '@/actions/App/Http/Controllers/SettingController';
 
@@ -18,7 +18,7 @@ const Password = () => {
     const currentPasswordInput = useRef<HTMLInputElement>(null);
 
     return (
-        <SettingsLayout title="Password settings">
+        <SettingLayout title="Password settings">
             <div className="space-y-6">
                 <HeadingSmall
                     title="Update password"
@@ -111,7 +111,7 @@ const Password = () => {
                     )}
                 </Form>
             </div>
-        </SettingsLayout>
+        </SettingLayout>
     );
 };
 

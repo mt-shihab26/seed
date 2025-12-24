@@ -20,7 +20,7 @@ import { DeleteUser } from '@/components/elements/delete-user';
 import { HeadingSmall } from '@/components/elements/heading-small';
 import { InputError } from '@/components/elements/input-error';
 
-import { SettingsLayout } from '@/components/layouts/settings-layout';
+import { SettingLayout } from '@/components/layouts/setting-layout';
 
 import SettingController from '@/actions/App/Http/Controllers/SettingController';
 
@@ -34,7 +34,7 @@ const Profile = ({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status
     };
 
     return (
-        <SettingsLayout title="Profile settings">
+        <SettingLayout title="Profile settings">
             <div className="space-y-6">
                 <HeadingSmall
                     title="Profile information"
@@ -187,7 +187,7 @@ const Profile = ({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status
             </div>
 
             <DeleteUser />
-        </SettingsLayout>
+        </SettingLayout>
     );
 };
 

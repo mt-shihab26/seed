@@ -10,7 +10,7 @@ import { ShieldBan, ShieldCheck } from 'lucide-react';
 import { HeadingSmall } from '@/components/elements/heading-small';
 import { TwoFactorRecoveryCodes } from '@/components/elements/two-factor-recovery-codes';
 import { TwoFactorSetupModal } from '@/components/elements/two-factor-setup-modal';
-import { SettingsLayout } from '@/components/layouts/settings-layout';
+import { SettingLayout } from '@/components/layouts/setting-layout';
 
 const TwoFactor = ({
     requiresConfirmation = false,
@@ -33,7 +33,7 @@ const TwoFactor = ({
     const [showSetupModal, setShowSetupModal] = useState<boolean>(false);
 
     return (
-        <SettingsLayout title="Two-Factor Auth Settings">
+        <SettingLayout title="Two-Factor Auth Settings">
             <div className="space-y-6">
                 <HeadingSmall
                     title="Two-Factor Authentication"
@@ -109,7 +109,7 @@ const TwoFactor = ({
                     errors={errors}
                 />
             </div>
-        </SettingsLayout>
+        </SettingLayout>
     );
 };
 

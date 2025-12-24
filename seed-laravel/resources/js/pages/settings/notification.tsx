@@ -5,14 +5,14 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
 
-import { SettingsLayout } from '@/components/layouts/settings-layout';
+import { SettingLayout } from '@/components/layouts/setting-layout';
 
 const Notification = () => {
     const [emailNotifications, setEmailNotifications] = useState(true);
     const [autoSave, setAutoSave] = useState(true);
 
     return (
-        <SettingsLayout title="Notification settings">
+        <SettingLayout title="Notification settings">
             <Card>
                 <CardHeader>
                     <CardTitle>Notifications</CardTitle>
@@ -44,7 +44,7 @@ const Notification = () => {
                     </div>
                 </CardContent>
             </Card>
-        </SettingsLayout>
+        </SettingLayout>
     );
 };
 

@@ -1,10 +1,10 @@
 import { Calendar } from 'lucide-react';
 
-import { SettingsLayout } from '@/components/layouts/settings-layout';
+import { SettingLayout } from '@/components/layouts/setting-layout';
 
 const Notes = () => {
     return (
-        <SettingsLayout title="Notes settings">
+        <SettingLayout title="Notes settings">
             <div className="grid gap-4 rounded-lg border border-border bg-muted/30 p-4 sm:grid-cols-3">
                 <div className="text-center">
                     <p className="text-2xl font-bold text-foreground">47</p>
@@ -26,7 +26,7 @@ const Notes = () => {
                     <span className="text-foreground">January 2024</span>
                 </div>
             </div>
-        </SettingsLayout>
+        </SettingLayout>
     );
 };
 

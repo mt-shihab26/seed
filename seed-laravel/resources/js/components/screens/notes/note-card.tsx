@@ -1,2 +1,0 @@
-
-./list/note-action-link
