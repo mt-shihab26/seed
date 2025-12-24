@@ -52,10 +52,6 @@ export const Menu = () => {
         registerLinks(foldersLinks);
     }, [registerLinks, registerShortcut, foldersLinks]);
 
-    useEffect(() => {
-        if (!open) setSearch('');
-    }, [open]);
-
     const links = [
         {
             key: 'folders',
@@ -87,8 +83,15 @@ export const Menu = () => {
     const hasResults =
         filteredPagesLinks.length > 0 || filteredAccordionLinks.some((l) => l.links.length > 0);
 
+    const handleOpenChange = (isOpen: boolean) => {
+        setOpen(isOpen);
+        if (!isOpen) {
+            setSearch('');
+        }
+    };
+
     return (
-        <DropdownMenu open={open} onOpenChange={setOpen}>
+        <DropdownMenu open={open} onOpenChange={handleOpenChange}>
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="lg" className="h-14">
                     <div className="flex items-center space-x-2">
