@@ -6,12 +6,13 @@ import { useForm } from '@inertiajs/react';
 import { ColoredBadge } from '@/components/elements/colored-badge';
 import { InputError } from '@/components/elements/input-error';
 import { FolderForm } from '@/components/forms/folder-form';
+import { TagForm } from '@/components/forms/tag-form';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Textarea } from '@/components/ui/textarea';
 import { SaveIcon, XIcon } from 'lucide-react';
-import { Tags } from './tags';
 
 export const NoteForm = ({
     note,
@@ -93,7 +94,38 @@ export const NoteForm = ({
                 <FolderForm />
             </div>
 
-            <Tags values={data.tags} onChange={(values) => setData('tags', values)} tags={tags} />
+            <div className="space-y-3 border border-border bg-muted/30 p-4">
+                <Label>Select tags to organize your note</Label>
+                <div className="grid grid-cols-4 gap-2">
+                    {tags.map((tag) => (
+                        <div key={tag.id} className="flex items-center space-x-2">
+                            <Checkbox
+                                id={`tag-${tag.id}`}
+                                name={`tag-${tag.id}`}
+                                value={tag.id}
+                                checked={data.tags?.some((t) => t.id === tag.id)}
+                                onCheckedChange={(checked) => {
+                                    setData(
+                                        'tags',
+                                        checked
+                                            ? [...data.tags, tag]
+                                            : data.tags.filter((t) => t.id !== tag.id),
+                                    );
+                                }}
+                            />
+                            <Label
+                                htmlFor={`tag-${tag.id}`}
+                                className="flex flex-1 cursor-pointer items-center gap-2 font-normal"
+                            >
+                                <ColoredBadge type="tag" color={tag.color} className="text-xs">
+                                    {tag.name}
+                                </ColoredBadge>
+                            </Label>
+                        </div>
+                    ))}
+                </div>
+                <TagForm />
+            </div>
 
             <div className="flex flex-row justify-between gap-4">
                 <Button
