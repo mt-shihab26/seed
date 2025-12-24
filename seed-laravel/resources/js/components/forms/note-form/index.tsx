@@ -5,7 +5,6 @@ import { useForm } from '@inertiajs/react';
 
 import { InputError } from '@/components/elements/input-error';
 import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { FolderIcon, SaveIcon, XIcon } from 'lucide-react';
 import { Tags } from './tags';
@@ -60,9 +59,6 @@ export const NoteForm = ({
             />
 
             <div className="space-y-3">
-                <Label htmlFor="folder_id">
-                    Folder <span className="text-destructive">*</span>
-                </Label>
                 <div className="relative">
                     <FolderIcon className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
                     <select
