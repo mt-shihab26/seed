@@ -182,9 +182,9 @@ all things Inertia.
 - When using deferred props on the frontend, you should add a nice empty state with pulsing / animated skeleton.
 
 ### Inertia Form General Guidance
-- The recommended way to build forms when using Inertia is with the `<Form>` component - a useful example is below. Use `search-docs` with a query of `form component` for guidance.
-- Forms can also be built using the `useForm` helper for more programmatic control, or to follow existing conventions. Use `search-docs` with a query of `useForm helper` for guidance.
-- `resetOnError`, `resetOnSuccess`, and `setDefaultsOnSuccess` are available on the `<Form>` component. Use `search-docs` with a query of 'form component resetting' for guidance.
+- **ALWAYS use the `useForm` helper for building forms** - this is the preferred and required approach in this application. Use `search-docs` with a query of `useForm helper` for guidance.
+- The `useForm` helper provides programmatic control over form state, submission, and validation.
+- **DO NOT use the `<Form>` component** - all forms must be built with the `useForm` helper and regular HTML `<form>` elements.
 
 
 === laravel/core rules ===

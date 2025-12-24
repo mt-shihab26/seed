@@ -1,7 +1,7 @@
 import { PencilIcon, PlusIcon, TagIcon, TrashIcon } from 'lucide-react';
 import { useState } from 'react';
 
-import type { TColor, TTag } from '@/types/models';
+import type { TTag } from '@/types/models';
 
 import { destroy, store, update } from '@/actions/App/Http/Controllers/TagController';
 
@@ -20,7 +20,8 @@ import { Label } from '@/components/ui/label';
 
 import { SettingLayout } from '@/components/layouts/setting-layout';
 import { getColorClasses } from '@/lib/colors';
-import { Form, router } from '@inertiajs/react';
+import type { TColor } from '@/types/enums';
+import { router, useForm } from '@inertiajs/react';
 
 const Tags = ({ tags }: { tags: TTag[] }) => {
     const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
@@ -125,69 +126,69 @@ function CreateTagDialog({
     open: boolean;
     onOpenChange: (open: boolean) => void;
 }) {
+    const { data, setData, post, processing, errors, reset } = useForm({
+        name: '',
+        color: 'gray' as TColor,
+    });
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        post(store.url(), {
+            preserveScroll: true,
+            onSuccess: () => {
+                onOpenChange(false);
+                reset();
+            },
+        });
+    };
+
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent>
-                <Form
-                    {...store.form()}
-                    onSuccess={() => onOpenChange(false)}
-                    resetOnSuccess
-                    className="space-y-4"
-                >
-                    {({ data, setData, errors }) => (
-                        <>
-                            <DialogHeader>
-                                <DialogTitle>Create Tag</DialogTitle>
-                                <DialogDescription>
-                                    Add a new tag to categorize your notes
-                                </DialogDescription>
-                            </DialogHeader>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    <DialogHeader>
+                        <DialogTitle>Create Tag</DialogTitle>
+                        <DialogDescription>
+                            Add a new tag to categorize your notes
+                        </DialogDescription>
+                    </DialogHeader>
 
-                            <div className="space-y-4">
-                                <div>
-                                    <Label htmlFor="name">Name</Label>
-                                    <Input
-                                        id="name"
-                                        name="name"
-                                        value={data.name || ''}
-                                        onChange={(e) => setData('name', e.target.value)}
-                                        placeholder="Enter tag name"
-                                        autoFocus
-                                    />
-                                    {errors.name && (
-                                        <p className="mt-1 text-sm text-destructive">
-                                            {errors.name}
-                                        </p>
-                                    )}
-                                </div>
+                    <div className="space-y-4">
+                        <div>
+                            <Label htmlFor="name">Name</Label>
+                            <Input
+                                id="name"
+                                value={data.name}
+                                onChange={(e) => setData('name', e.target.value)}
+                                placeholder="Enter tag name"
+                                autoFocus
+                            />
+                            {errors.name && (
+                                <p className="mt-1 text-sm text-destructive">{errors.name}</p>
+                            )}
+                        </div>
 
-                                <div>
-                                    <Label>Color</Label>
-                                    <ColorPicker
-                                        value={(data.color as TColor) || 'gray'}
-                                        onChange={(color) => setData('color', color)}
-                                    />
-                                    {errors.color && (
-                                        <p className="mt-1 text-sm text-destructive">
-                                            {errors.color}
-                                        </p>
-                                    )}
-                                </div>
-                            </div>
+                        <div>
+                            <Label>Color</Label>
+                            <ColorPicker
+                                value={data.color}
+                                onChange={(color) => setData('color', color)}
+                            />
+                            {errors.color && (
+                                <p className="mt-1 text-sm text-destructive">{errors.color}</p>
+                            )}
+                        </div>
+                    </div>
 
-                            <DialogFooter>
-                                <Button
-                                    type="button"
-                                    variant="outline"
-                                    onClick={() => onOpenChange(false)}
-                                >
-                                    Cancel
-                                </Button>
-                                <Button type="submit">Create</Button>
-                            </DialogFooter>
-                        </>
-                    )}
-                </Form>
+                    <DialogFooter>
+                        <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+                            Cancel
+                        </Button>
+                        <Button type="submit" disabled={processing}>
+                            {processing ? 'Creating...' : 'Create'}
+                        </Button>
+                    </DialogFooter>
+                </form>
             </DialogContent>
         </Dialog>
     );
@@ -202,69 +203,70 @@ function EditTagDialog({
     onOpenChange: (open: boolean) => void;
     tag: TTag | null;
 }) {
+    const { data, setData, patch, processing, errors } = useForm({
+        name: tag?.name || '',
+        color: (tag?.color || 'gray') as TColor,
+    });
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!tag) return;
+
+        patch(update.url(tag), {
+            preserveScroll: true,
+            onSuccess: () => {
+                onOpenChange(false);
+            },
+        });
+    };
+
     if (!tag) return null;
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent>
-                <Form
-                    {...update.form(tag)}
-                    method="patch"
-                    onSuccess={() => onOpenChange(false)}
-                    className="space-y-4"
-                >
-                    {({ data, setData, errors }) => (
-                        <>
-                            <DialogHeader>
-                                <DialogTitle>Edit Tag</DialogTitle>
-                                <DialogDescription>Update tag name and color</DialogDescription>
-                            </DialogHeader>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    <DialogHeader>
+                        <DialogTitle>Edit Tag</DialogTitle>
+                        <DialogDescription>Update tag name and color</DialogDescription>
+                    </DialogHeader>
 
-                            <div className="space-y-4">
-                                <div>
-                                    <Label htmlFor="name">Name</Label>
-                                    <Input
-                                        id="name"
-                                        name="name"
-                                        defaultValue={tag.name}
-                                        onChange={(e) => setData('name', e.target.value)}
-                                        placeholder="Enter tag name"
-                                        autoFocus
-                                    />
-                                    {errors.name && (
-                                        <p className="mt-1 text-sm text-destructive">
-                                            {errors.name}
-                                        </p>
-                                    )}
-                                </div>
+                    <div className="space-y-4">
+                        <div>
+                            <Label htmlFor="edit-name">Name</Label>
+                            <Input
+                                id="edit-name"
+                                value={data.name}
+                                onChange={(e) => setData('name', e.target.value)}
+                                placeholder="Enter tag name"
+                                autoFocus
+                            />
+                            {errors.name && (
+                                <p className="mt-1 text-sm text-destructive">{errors.name}</p>
+                            )}
+                        </div>
 
-                                <div>
-                                    <Label>Color</Label>
-                                    <ColorPicker
-                                        value={(data.color as TColor) || tag.color}
-                                        onChange={(color) => setData('color', color)}
-                                    />
-                                    {errors.color && (
-                                        <p className="mt-1 text-sm text-destructive">
-                                            {errors.color}
-                                        </p>
-                                    )}
-                                </div>
-                            </div>
+                        <div>
+                            <Label>Color</Label>
+                            <ColorPicker
+                                value={data.color}
+                                onChange={(color) => setData('color', color)}
+                            />
+                            {errors.color && (
+                                <p className="mt-1 text-sm text-destructive">{errors.color}</p>
+                            )}
+                        </div>
+                    </div>
 
-                            <DialogFooter>
-                                <Button
-                                    type="button"
-                                    variant="outline"
-                                    onClick={() => onOpenChange(false)}
-                                >
-                                    Cancel
-                                </Button>
-                                <Button type="submit">Save Changes</Button>
-                            </DialogFooter>
-                        </>
-                    )}
-                </Form>
+                    <DialogFooter>
+                        <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+                            Cancel
+                        </Button>
+                        <Button type="submit" disabled={processing}>
+                            {processing ? 'Saving...' : 'Save Changes'}
+                        </Button>
+                    </DialogFooter>
+                </form>
             </DialogContent>
         </Dialog>
     );
