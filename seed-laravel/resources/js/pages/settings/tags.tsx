@@ -5,7 +5,7 @@ import type { TTag } from '@/types/models';
 
 import { destroy, store, update } from '@/actions/App/Http/Controllers/TagController';
 
-import { ColorPicker } from '@/components/elements/color-picker';
+import { ColorGrid } from '@/components/elements/color-grid';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -170,7 +170,7 @@ function CreateTagDialog({
 
                         <div>
                             <Label>Color</Label>
-                            <ColorPicker
+                            <ColorGrid
                                 value={data.color}
                                 onChange={(color) => setData('color', color)}
                             />
@@ -248,7 +248,7 @@ function EditTagDialog({
 
                         <div>
                             <Label>Color</Label>
-                            <ColorPicker
+                            <ColorGrid
                                 value={data.color}
                                 onChange={(color) => setData('color', color)}
                             />
