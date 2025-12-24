@@ -67,9 +67,9 @@ export const NoteForm = ({
                 id="content"
                 name="content"
                 placeholder="Write your note content here..."
+                className="h-auto! resize-y text-base!"
                 value={data.content}
                 onChange={(e) => setData('content', e.target.value)}
-                className="text-base"
                 required
             />
 
