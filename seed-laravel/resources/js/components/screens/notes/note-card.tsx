@@ -39,7 +39,7 @@ export const NoteCard = ({ note }: { note: TNote }) => {
             )}
             <div className="flex items-center justify-between">
                 <span className="text-xs text-muted-foreground">
-                    {formatDateTime(note.updated_at)}
+                    {formatDateTime(note.created_at)}
                 </span>
                 <div className="flex gap-1" onClick={(e) => e.stopPropagation()}>
                     <NoteActionLink
