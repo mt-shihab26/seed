@@ -32,36 +32,32 @@ export const NoteForm = ({
     });
 
     return (
-        <div className="space-y-4 pb-6">
+        <div className="space-y-4 pb-4">
+            <InputError message={errors.title || errors.content} />
             {note && (
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <span>{formatDateTime(note?.created_at)}</span>
                 </div>
             )}
-
-            <InputError message={errors.title || errors.content} />
-
-            <div>
-                <Textarea
-                    id="title"
-                    name="title"
-                    placeholder="Enter note title"
-                    className="h-auto! resize-y py-3! text-3xl! font-bold"
-                    value={data.title}
-                    onChange={(e) => setData('title', e.target.value)}
-                    autoFocus
-                    required
-                />
-                <Textarea
-                    id="content"
-                    name="content"
-                    placeholder="Write your note content here..."
-                    className="h-auto! resize-y text-base!"
-                    value={data.content}
-                    onChange={(e) => setData('content', e.target.value)}
-                    required
-                />
-            </div>
+            <Textarea
+                id="title"
+                name="title"
+                placeholder="Enter note title"
+                className="h-auto! resize-y py-3! text-3xl! font-bold"
+                value={data.title}
+                onChange={(e) => setData('title', e.target.value)}
+                autoFocus
+                required
+            />
+            <Textarea
+                id="content"
+                name="content"
+                placeholder="Write your note content here..."
+                className="h-auto! resize-y text-base!"
+                value={data.content}
+                onChange={(e) => setData('content', e.target.value)}
+                required
+            />
 
             <div className="space-y-3">
                 <Label htmlFor="folder_id">
@@ -88,7 +84,7 @@ export const NoteForm = ({
 
             <Tags values={data.tags} onChange={(values) => setData('tags', values)} tags={tags} />
 
-            <div className="flex flex-col gap-4 pt-6 sm:flex-row sm:justify-between">
+            <div className="flex flex-row justify-between gap-4">
                 <Button
                     type="button"
                     variant="outline"

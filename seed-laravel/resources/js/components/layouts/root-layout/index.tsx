@@ -11,7 +11,7 @@ export const RootLayout = ({ children }: { children: ReactNode }) => {
     return (
         <ShortcutsProvider>
             {children}
-            <Toaster />
+            <Toaster position="top-right" />
         </ShortcutsProvider>
     );
 };
