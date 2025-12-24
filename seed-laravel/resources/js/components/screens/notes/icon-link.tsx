@@ -13,10 +13,7 @@ interface TProps extends ComponentPropsWithoutRef<typeof Link> {
 
 export const IconLink = ({ icon: Icon, variant = 'default', className, ...props }: TProps) => {
     return (
-        <Link
-            className={cn(buttonVariants({ variant, size: 'icon' }), 'rounded-full', className)}
-            {...props}
-        >
+        <Link className={cn(buttonVariants({ variant, size: 'icon' }), className)} {...props}>
             <Icon className="size-5" />
         </Link>
     );

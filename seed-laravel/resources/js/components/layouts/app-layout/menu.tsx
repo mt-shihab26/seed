@@ -90,7 +90,7 @@ export const Menu = () => {
     return (
         <DropdownMenu open={open} onOpenChange={setOpen}>
             <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="lg" className="h-14 rounded-full">
+                <Button variant="ghost" size="lg" className="h-14">
                     <div className="flex items-center space-x-2">
                         <div className="flex aspect-square size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
                             <AppLogoIcon className="size-5 fill-current text-white dark:text-black" />
