@@ -21,9 +21,14 @@ export const NoteForm = ({
     tags: TTag[];
     onCancel?: () => void;
 }) => {
-    const { errors, processing, data, setData } = useForm<{ title: string; content: string }>({
+    const { errors, processing, data, setData } = useForm<{
+        title: string;
+        content: string;
+        tags: TTag[];
+    }>({
         title: note?.title || '',
         content: note?.content || '',
+        tags: note?.tags || [],
     });
 
     return (
