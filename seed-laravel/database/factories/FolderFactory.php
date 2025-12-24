@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\Color;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -20,6 +21,7 @@ class FolderFactory extends Factory
         return [
             'user_id' => User::inRandomOrder()->first()?->id,
             'name' => fake()->words(2, true),
+            'color' => fake()->randomElement(Color::cases())->value,
         ];
     }
 }

@@ -13,6 +13,7 @@ export const useFoldersLinks = () => {
             href: route('folders.show', { folder }),
             icon: Folder,
             shortcut: [`${index + 1}`],
+            color: folder.color,
         })) || [];
 
     return {
@@ -28,6 +29,7 @@ export const useTagsLinks = () => {
             title: `${tag.name} (${tag.notes_count || 0})`,
             href: route('tags.show', { tag }),
             icon: Tag,
+            color: tag.color,
         })) || [];
 
     return {

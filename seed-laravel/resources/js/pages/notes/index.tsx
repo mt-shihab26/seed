@@ -13,10 +13,10 @@ import type { TNote } from '@/types/models';
 
 import { formatDateTime } from '@/lib/format';
 
+import { ColoredBadge } from '@/components/elements/colored-badge';
 import { IconLink } from '@/components/elements/icon-link';
 import { NoteActionLink } from '@/components/elements/note-action-link';
 import { NoteLayout } from '@/components/layouts/note-layout';
-import { Badge } from '@/components/ui/badge';
 import { Link } from '@inertiajs/react';
 
 const Index = ({ notes, title }: { notes: TNote[]; title: string }) => {
@@ -64,13 +64,14 @@ const Index = ({ notes, title }: { notes: TNote[]; title: string }) => {
                             className="group relative flex cursor-pointer flex-col gap-3 rounded-xl border border-border bg-card p-6 text-card-foreground shadow-none transition-all hover:shadow-xs"
                         >
                             {note.folder && (
-                                <Badge
-                                    variant="outline"
-                                    className="flex items-center gap-1.5 text-xs text-muted-foreground"
+                                <ColoredBadge
+                                    type="folder"
+                                    color={note.folder.color}
+                                    className="flex items-center gap-1.5 text-xs"
                                 >
                                     <FolderIcon className="size-3.5" />
                                     <span>{note.folder.name}</span>
-                                </Badge>
+                                </ColoredBadge>
                             )}
                             <h3 className="text-lg font-semibold text-balance text-card-foreground">
                                 {note.title}
@@ -81,9 +82,14 @@ const Index = ({ notes, title }: { notes: TNote[]; title: string }) => {
                             {note.tags.length > 0 && (
                                 <div className="flex flex-wrap gap-1">
                                     {note.tags.map((tag) => (
-                                        <Badge key={tag.id} variant="secondary" className="text-xs">
+                                        <ColoredBadge
+                                            type="tag"
+                                            key={tag.id}
+                                            color={tag.color}
+                                            className="text-xs"
+                                        >
                                             {tag.name}
-                                        </Badge>
+                                        </ColoredBadge>
                                     ))}
                                 </div>
                             )}

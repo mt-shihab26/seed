@@ -1,6 +1,6 @@
 import type { TTag } from '@/types/models';
 
-import { Badge } from '@/components/ui/badge';
+import { ColoredBadge } from '@/components/elements/colored-badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 
@@ -36,9 +36,9 @@ export const Tags = ({
                             htmlFor={`tag-${tag.id}`}
                             className="flex flex-1 cursor-pointer items-center gap-2 font-normal"
                         >
-                            <Badge variant="secondary" className="text-xs">
+                            <ColoredBadge type="tag" color={tag.color} className="text-xs">
                                 {tag.name}
-                            </Badge>
+                            </ColoredBadge>
                         </Label>
                     </div>
                 ))}

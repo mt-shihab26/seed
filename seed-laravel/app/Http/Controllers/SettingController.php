@@ -25,6 +25,30 @@ class SettingController extends Controller
     }
 
     /**
+     * Show the user's folders management page.
+     */
+    public function editFolders(Request $request)
+    {
+        $folders = $request->user()->folders()->withCount('notes')->orderBy('name')->get();
+
+        return inertia('settings/folders', [
+            'folders' => $folders,
+        ]);
+    }
+
+    /**
+     * Show the user's tags management page.
+     */
+    public function editTags(Request $request)
+    {
+        $tags = $request->user()->tags()->withCount('notes')->orderBy('name')->get();
+
+        return inertia('settings/tags', [
+            'tags' => $tags,
+        ]);
+    }
+
+    /**
      * Show the user's profile settings page.
      */
     public function editProfile(Request $request)

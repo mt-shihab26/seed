@@ -1,11 +1,13 @@
 import {
     Archive,
     ChartBar,
+    Folder,
     KeyRound,
     Palette,
     ShieldCheck,
     Star,
     StickyNote,
+    Tag,
     Trash2,
     UserCircle,
 } from 'lucide-react';
@@ -44,6 +46,16 @@ export const settingsLinks: TLink[] = [
         title: 'Notes',
         route: 'settings.notes.show',
         icon: ChartBar,
+    },
+    {
+        title: 'Folders',
+        route: 'settings.folders.show',
+        icon: Folder,
+    },
+    {
+        title: 'Tags',
+        route: 'settings.tags.show',
+        icon: Tag,
     },
     {
         title: 'Profile',

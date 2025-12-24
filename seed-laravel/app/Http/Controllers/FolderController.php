@@ -2,13 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Color;
 use App\Models\Folder;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
 
 class FolderController extends Controller
 {
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'color' => ['required', 'string', Rule::enum(Color::class)],
+        ]);
+
+        $request->user()->folders()->create($validated);
+
+        return redirect()->back()->with('success', 'Folder created successfully');
+    }
+
     /**
      * Display the specified resource.
      */
@@ -33,6 +50,7 @@ class FolderController extends Controller
 
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'color' => ['required', 'string', Rule::enum(Color::class)],
         ]);
 
         $folder->update($validated);

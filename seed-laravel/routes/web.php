@@ -13,6 +13,8 @@ Route::prefix('/settings')->middleware('auth')->group(function () {
     Route::redirect('/', '/settings/notes')->name('settings.redirect');
 
     Route::get('/notes', [SettingController::class, 'editNotes'])->name('settings.notes.show');
+    Route::get('/folders', [SettingController::class, 'editFolders'])->name('settings.folders.show');
+    Route::get('/tags', [SettingController::class, 'editTags'])->name('settings.tags.show');
 
     Route::get('/profile', [SettingController::class, 'editProfile'])->name('settings.profile.edit');
     Route::patch('/profile', [SettingController::class, 'updateProfile'])->name('settings.profile.update');
@@ -47,12 +49,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::prefix('/folders')->group(function () {
+        Route::post('/', [FolderController::class, 'store'])->name('folders.store');
         Route::get('/{folder}', [FolderController::class, 'show'])->name('folders.show');
         Route::patch('/{folder}', [FolderController::class, 'update'])->name('folders.update');
         Route::delete('/{folder}', [FolderController::class, 'destroy'])->name('folders.destroy');
     });
 
     Route::prefix('/tags')->group(function () {
+        Route::post('/', [TagController::class, 'store'])->name('tags.store');
         Route::get('/{tag}', [TagController::class, 'show'])->name('tags.show');
         Route::patch('/{tag}', [TagController::class, 'update'])->name('tags.update');
         Route::delete('/{tag}', [TagController::class, 'destroy'])->name('tags.destroy');

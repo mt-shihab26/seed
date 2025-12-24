@@ -9,6 +9,7 @@ export type TLink = {
     title: string;
     icon?: LucideIcon;
     shortcut?: string[];
+    color?: string;
 } & ({ route: string; href?: never } | { route?: never; href: string });
 
 export type TAccordionLink = {

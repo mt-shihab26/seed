@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Color;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -20,7 +21,20 @@ class Tag extends Model
      */
     protected $fillable = [
         'name',
+        'color',
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'color' => Color::class,
+        ];
+    }
 
     /**
      * Get the user that owns the tag.
