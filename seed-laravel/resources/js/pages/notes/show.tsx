@@ -3,10 +3,10 @@ import type { TNote } from '@/types/models';
 import { formatDateTime } from '@/lib/format';
 
 import { BackButton } from '@/components/elements/back-button';
+import { ColoredBadge } from '@/components/elements/colored-badge';
 import { EditButton } from '@/components/elements/edit-button';
 import { NoteActionLink } from '@/components/elements/note-action-link';
 import { NoteLayout } from '@/components/layouts/note-layout';
-import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { ArchiveIcon, FolderIcon, StarIcon, TrashIcon } from 'lucide-react';
 
@@ -27,10 +27,10 @@ const Show = ({ note }: { note: TNote }) => {
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         {note.folder && (
                             <>
-                                <Badge variant="outline" className="flex items-center gap-1.5">
+                                <ColoredBadge type="folder" color={note.folder.color}>
                                     <FolderIcon className="size-3.5" />
                                     <span>{note.folder.name}</span>
-                                </Badge>
+                                </ColoredBadge>
                                 <span className="hidden sm:inline">•</span>
                             </>
                         )}
@@ -41,9 +41,9 @@ const Show = ({ note }: { note: TNote }) => {
                         {note.tags.length > 0 && (
                             <div className="flex flex-wrap gap-2">
                                 {note.tags.map((tag) => (
-                                    <Badge key={tag.id} variant="secondary">
+                                    <ColoredBadge type="tag" key={tag.id} color={tag.color}>
                                         {tag.name}
-                                    </Badge>
+                                    </ColoredBadge>
                                 ))}
                             </div>
                         )}
@@ -71,7 +71,7 @@ const Show = ({ note }: { note: TNote }) => {
                     </div>
                 </div>
                 <Separator />
-                <div className="prose prose-neutral dark:prose-invert max-w-none">
+                <div className="prose max-w-none prose-neutral dark:prose-invert">
                     <p className="text-base leading-relaxed text-pretty whitespace-pre-wrap">
                         {note.content}
                     </p>

@@ -1,4 +1,4 @@
-import type { ColorName } from '@/lib/colors';
+import type { TColor } from '@/types/enums';
 import type { ReactNode } from 'react';
 
 import { getColorClasses } from '@/lib/colors';
@@ -13,7 +13,7 @@ export const ColoredBadge = ({
     className,
 }: {
     type: 'folder' | 'tag';
-    color: ColorName;
+    color: TColor;
     children: ReactNode;
     className?: string;
 }) => {
