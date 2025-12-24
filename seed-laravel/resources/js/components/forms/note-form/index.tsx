@@ -75,44 +75,34 @@ export const NoteForm = ({
                 </div>
             </div>
 
-            <div className="space-y-3">
-                <Label>Tags</Label>
-                <p className="text-sm text-muted-foreground">Select tags to organize your note</p>
-                {tags.length > 0 ? (
-                    <div className="space-y-3 rounded-lg border border-border bg-muted/30 p-4">
-                        <div className="grid gap-3 sm:grid-cols-2">
-                            {tags.map((tag) => {
-                                const isChecked =
-                                    note?.tags?.some((noteTag) => noteTag.id === tag.id) || false;
-                                return (
-                                    <div key={tag.id} className="flex items-center space-x-2">
-                                        <Checkbox
-                                            id={`tag-${tag.id}`}
-                                            name="tags[]"
-                                            value={tag.id}
-                                            defaultChecked={isChecked}
-                                        />
-                                        <Label
-                                            htmlFor={`tag-${tag.id}`}
-                                            className="flex flex-1 cursor-pointer items-center gap-2 font-normal"
-                                        >
-                                            <Badge variant="secondary" className="text-xs">
-                                                {tag.name}
-                                            </Badge>
-                                        </Label>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div>
-                ) : (
-                    <div className="rounded-lg border border-dashed border-border bg-muted/30 p-6 text-center">
-                        <p className="text-sm text-muted-foreground">
-                            No tags available. Create tags in settings to organize your notes.
-                        </p>
-                    </div>
-                )}
+            <div className="space-y-2">
+                <Label>Select tags to organize your note</Label>
+                <div className="grid gap-3 space-y-3 rounded-lg border border-border bg-muted/30 p-4 sm:grid-cols-2">
+                    {tags.map((tag) => {
+                        const isChecked =
+                            note?.tags?.some((noteTag) => noteTag.id === tag.id) || false;
+                        return (
+                            <div key={tag.id} className="flex items-center space-x-2">
+                                <Checkbox
+                                    id={`tag-${tag.id}`}
+                                    name="tags[]"
+                                    value={tag.id}
+                                    defaultChecked={isChecked}
+                                />
+                                <Label
+                                    htmlFor={`tag-${tag.id}`}
+                                    className="flex flex-1 cursor-pointer items-center gap-2 font-normal"
+                                >
+                                    <Badge variant="secondary" className="text-xs">
+                                        {tag.name}
+                                    </Badge>
+                                </Label>
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
+
             <div className="flex flex-col gap-4 pt-6 sm:flex-row sm:justify-between">
                 <Button
                     type="button"
