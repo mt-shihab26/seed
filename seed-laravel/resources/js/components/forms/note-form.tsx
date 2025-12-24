@@ -4,6 +4,7 @@ import { formatDateTime } from '@/lib/format';
 import { useForm } from '@inertiajs/react';
 
 import { ColoredBadge } from '@/components/elements/colored-badge';
+import { Editor } from '@/components/elements/editor';
 import { InputError } from '@/components/elements/input-error';
 import { FolderForm } from '@/components/forms/folder-form';
 import { TagForm } from '@/components/forms/tag-form';
@@ -63,14 +64,13 @@ export const NoteForm = ({
                 required
             />
 
-            <Textarea
+            <Editor
                 id="content"
                 name="content"
                 placeholder="Write your note content here..."
                 className="h-auto! resize-y py-3! text-base!"
                 value={data.content}
-                onChange={(e) => setData('content', e.target.value)}
-                rows={24}
+                onChange={(value) => setData('content', value)}
                 required
             />
 
