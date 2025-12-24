@@ -1,43 +1,22 @@
 import type { TFolder, TTag } from '@/types/models';
 
-import { Head, Link } from '@inertiajs/react';
-import { ArrowLeftIcon } from 'lucide-react';
-
+import { BackButton } from '@/components/elements/back-button';
 import { NoteForm } from '@/components/forms/note-form';
-
-import { AppLayout } from '@/components/layouts/app-layout';
-
-import NoteController from '@/actions/App/Http/Controllers/NoteController';
+import { NoteLayout } from '@/components/layouts/note-layout';
 
 const Create = ({ folders, tags }: { folders: TFolder[]; tags: TTag[] }) => {
     return (
-        <AppLayout>
-            <Head title="Create New Note" />
-            <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col overflow-hidden px-4 sm:px-6">
-                <div className="flex-1 space-y-6 overflow-y-auto pr-2.5 pb-6 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-muted">
-                    {/* Header with back button */}
-                    <div className="flex items-center justify-between gap-4 pt-6">
-                        <Link
-                            href={route('notes.index')}
-                            className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
-                        >
-                            <ArrowLeftIcon className="size-4" />
-                            <span className="hidden sm:inline">Back to notes</span>
-                            <span className="sm:hidden">Back</span>
-                        </Link>
-                    </div>
-
-                    {/* Create form */}
-                    <NoteForm
-                        folders={folders}
-                        tags={tags}
-                        formProps={NoteController.store.form()}
-                        cancelHref={route('notes.index')}
-                        isEditing={false}
-                    />
+        <NoteLayout
+            title="Create New Note"
+            className="max-w-4xl"
+            header={
+                <div className="flex w-full items-center justify-between gap-4">
+                    <BackButton href={route('notes.index')} largeLabel="Back to notes" />
                 </div>
-            </main>
-        </AppLayout>
+            }
+        >
+            <NoteForm folders={folders} tags={tags} />
+        </NoteLayout>
     );
 };
 

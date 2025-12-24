@@ -29,22 +29,29 @@ export const NoteForm = ({
         title: string;
         content: string;
         folder_id: string;
-        tags: TTag[];
+        tag_ids: string[];
     }>({
         title: note?.title || '',
         content: note?.content || '',
         folder_id: note?.folder_id || '',
-        tags: note?.tags || [],
+        tag_ids: note?.tags?.map((tag) => tag.id) || [],
     });
 
     return (
-        <div className="space-y-4 pb-4">
+        <form
+            onSubmit={(e) => {
+                e.preventDefault();
+            }}
+            className="space-y-4 pb-4"
+        >
             <InputError message={errors.title || errors.content} />
+
             {note && (
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <span>{formatDateTime(note?.created_at)}</span>
+                    <span>{formatDateTime(note.created_at)}</span>
                 </div>
             )}
+
             <Textarea
                 id="title"
                 name="title"
@@ -55,6 +62,7 @@ export const NoteForm = ({
                 autoFocus
                 required
             />
+
             <Textarea
                 id="content"
                 name="content"
@@ -101,15 +109,13 @@ export const NoteForm = ({
                         <div key={tag.id} className="flex items-center space-x-2">
                             <Checkbox
                                 id={`tag-${tag.id}`}
-                                name={`tag-${tag.id}`}
-                                value={tag.id}
-                                checked={data.tags?.some((t) => t.id === tag.id)}
+                                checked={data.tag_ids.includes(tag.id)}
                                 onCheckedChange={(checked) => {
                                     setData(
-                                        'tags',
+                                        'tag_ids',
                                         checked
-                                            ? [...data.tags, tag]
-                                            : data.tags.filter((t) => t.id !== tag.id),
+                                            ? [...data.tag_ids, tag.id]
+                                            : data.tag_ids.filter((id) => id !== tag.id),
                                     );
                                 }}
                             />
@@ -137,6 +143,7 @@ export const NoteForm = ({
                     <XIcon className="mr-2 size-4" />
                     Cancel
                 </Button>
+
                 <Button type="submit" disabled={processing} className="w-full sm:w-auto">
                     <SaveIcon className="mr-2 size-4" />
                     {processing
@@ -148,6 +155,6 @@ export const NoteForm = ({
                           : 'Create Note'}
                 </Button>
             </div>
-        </div>
+        </form>
     );
 };
