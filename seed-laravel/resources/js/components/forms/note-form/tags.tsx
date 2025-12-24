@@ -13,16 +13,6 @@ export const Tags = ({
     onChange: (values: TTag[]) => void;
     tags: TTag[];
 }) => {
-    const handleTagChange = (tag: TTag, checked: boolean) => {
-        if (checked) {
-            // Add tag to values if not already present
-            onChange([...values, tag]);
-        } else {
-            // Remove tag from values
-            onChange(values.filter((t) => t.id !== tag.id));
-        }
-    };
-
     return (
         <div className="space-y-2">
             <Label>Select tags to organize your note</Label>
@@ -34,9 +24,13 @@ export const Tags = ({
                             name={`tag-${tag.id}`}
                             value={tag.id}
                             checked={values?.some((t) => t.id === tag.id)}
-                            onCheckedChange={(checked) =>
-                                handleTagChange(tag, checked as boolean)
-                            }
+                            onCheckedChange={(checked) => {
+                                onChange(
+                                    checked
+                                        ? [...values, tag]
+                                        : values.filter((t) => t.id !== tag.id),
+                                );
+                            }}
                         />
                         <Label
                             htmlFor={`tag-${tag.id}`}
