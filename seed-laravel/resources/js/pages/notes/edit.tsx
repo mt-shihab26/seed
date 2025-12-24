@@ -4,8 +4,6 @@ import { BackButton } from '@/components/elements/back-button';
 import { NoteForm } from '@/components/forms/note-form';
 import { NoteLayout } from '@/components/layouts/note-layout';
 
-import NoteController from '@/actions/App/Http/Controllers/NoteController';
-
 const Edit = ({ note, folders, tags }: { note: TNote; folders: TFolder[]; tags: TTag[] }) => {
     return (
         <NoteLayout
@@ -17,14 +15,7 @@ const Edit = ({ note, folders, tags }: { note: TNote; folders: TFolder[]; tags: 
                 </div>
             }
         >
-            <NoteForm
-                note={note}
-                folders={folders}
-                tags={tags}
-                formProps={NoteController.update.form(note)}
-                cancelHref={route('notes.show', note)}
-                isEditing={true}
-            />
+            <NoteForm note={note} folders={folders} tags={tags} />
         </NoteLayout>
     );
 };

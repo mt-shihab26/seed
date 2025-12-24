@@ -1,5 +1,6 @@
 import type { TFolder, TNote, TTag } from '@/types/models';
 
+import { formatDateTime } from '@/lib/format';
 import { useForm } from '@inertiajs/react';
 
 import { InputError } from '@/components/elements/input-error';
@@ -32,6 +33,12 @@ export const NoteForm = ({
 
     return (
         <div className="space-y-4 pb-6">
+            {note && (
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <span>{formatDateTime(note?.created_at)}</span>
+                </div>
+            )}
+
             <InputError message={errors.title || errors.content} />
 
             <div>
