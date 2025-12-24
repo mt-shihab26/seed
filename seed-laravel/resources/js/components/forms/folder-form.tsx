@@ -45,7 +45,7 @@ export const FolderForm = ({ folder }: { folder?: TFolder }) => {
                     className="h-7"
                 />
                 <ColorPicker value={data.color} onChange={(color) => setData('color', color)} />
-                <Button type="submit" disabled={processing} size="sm">
+                <Button variant="outline" type="submit" disabled={processing} size="sm">
                     {folder ? (
                         <>
                             <SaveIcon className="mr-2 size-4" />

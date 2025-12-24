@@ -45,7 +45,7 @@ export const TagForm = ({ tag }: { tag?: TTag }) => {
                     className="h-7"
                 />
                 <ColorPicker value={data.color} onChange={(color) => setData('color', color)} />
-                <Button type="submit" disabled={processing} size="sm">
+                <Button variant="outline" type="submit" disabled={processing} size="sm">
                     {tag ? (
                         <>
                             <SaveIcon className="mr-2 size-4" />
