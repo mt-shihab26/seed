@@ -3,11 +3,14 @@ import type { TFolder, TNote, TTag } from '@/types/models';
 import { formatDateTime } from '@/lib/format';
 import { useForm } from '@inertiajs/react';
 
+import { ColoredBadge } from '@/components/elements/colored-badge';
 import { InputError } from '@/components/elements/input-error';
+import { FolderForm } from '@/components/forms/folder-form';
 import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Textarea } from '@/components/ui/textarea';
 import { SaveIcon, XIcon } from 'lucide-react';
-import { Folders } from './folders';
 import { Tags } from './tags';
 
 export const NoteForm = ({
@@ -61,11 +64,34 @@ export const NoteForm = ({
                 required
             />
 
-            <Folders
-                value={data.folder_id}
-                onChange={(value) => setData('folder_id', value)}
-                folders={folders}
-            />
+            <div className="space-y-3 border border-border bg-muted/30 p-4">
+                <Label>Select folder to organize your note</Label>
+                <RadioGroup
+                    value={data.folder_id}
+                    onValueChange={(folderId) => setData('folder_id', folderId)}
+                >
+                    <div className="grid grid-cols-2 gap-2">
+                        {folders.map((folder) => (
+                            <div key={folder.id} className="flex items-center space-x-2">
+                                <RadioGroupItem value={folder.id} id={`folder-${folder.id}`} />
+                                <Label
+                                    htmlFor={`folder-${folder.id}`}
+                                    className="flex flex-1 cursor-pointer items-center gap-2 font-normal"
+                                >
+                                    <ColoredBadge
+                                        type="folder"
+                                        color={folder.color}
+                                        className="text-xs"
+                                    >
+                                        {folder.name}
+                                    </ColoredBadge>
+                                </Label>
+                            </div>
+                        ))}
+                    </div>
+                </RadioGroup>
+                <FolderForm />
+            </div>
 
             <Tags values={data.tags} onChange={(values) => setData('tags', values)} tags={tags} />
 
