@@ -67,7 +67,6 @@ export const Editor = ({
                 codeBlockPlugin({ defaultCodeBlockLanguage }),
                 sandpackPlugin({ sandpackConfig }),
                 codeMirrorPlugin({ codeBlockLanguages }),
-
                 // Diff/source mode
                 diffSourcePlugin({ diffMarkdown: diffValue, viewMode: 'rich-text' }),
 
