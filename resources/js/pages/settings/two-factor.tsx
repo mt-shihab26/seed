@@ -1,5 +1,4 @@
 import { useTwoFactorAuth } from '@/hooks/use-two-factor-auth';
-import { disable, enable } from '@/routes/two-factor';
 import { useState } from 'react';
 
 import { Badge } from '@/components/ui/badge';
@@ -55,7 +54,7 @@ const TwoFactor = ({
                         />
 
                         <div className="relative inline">
-                            <Form {...disable.form()}>
+                            <Form action={route('two-factor.disable')} method="delete">
                                 {({ processing }) => (
                                     <Button
                                         variant="destructive"
@@ -84,7 +83,11 @@ const TwoFactor = ({
                                     Continue Setup
                                 </Button>
                             ) : (
-                                <Form {...enable.form()} onSuccess={() => setShowSetupModal(true)}>
+                                <Form
+                                    action={route('two-factor.enable')}
+                                    method="post"
+                                    onSuccess={() => setShowSetupModal(true)}
+                                >
                                     {({ processing }) => (
                                         <Button type="submit" disabled={processing}>
                                             <ShieldCheck />

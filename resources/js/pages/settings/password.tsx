@@ -3,7 +3,6 @@ import { useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Transition } from '@headlessui/react';
 import { Form } from '@inertiajs/react';
 
 import { HeadingSmall } from '@/components/elements/heading-small';
@@ -39,7 +38,7 @@ const Password = () => {
                     }}
                     className="space-y-6"
                 >
-                    {({ errors, processing, recentlySuccessful }) => (
+                    {({ errors, processing }) => (
                         <>
                             <div className="grid gap-2">
                                 <Label htmlFor="current_password">Current password</Label>
@@ -92,16 +91,9 @@ const Password = () => {
                                 <Button disabled={processing} data-test="update-password-button">
                                     Save password
                                 </Button>
-
-                                <Transition
-                                    show={recentlySuccessful}
-                                    enter="transition ease-in-out"
-                                    enterFrom="opacity-0"
-                                    leave="transition ease-in-out"
-                                    leaveTo="opacity-0"
-                                >
-                                    <p className="text-sm text-neutral-600">Saved</p>
-                                </Transition>
+                                <Button type="submit" disabled={processing}>
+                                    {processing ? 'Saving...' : 'Save Changes'}
+                                </Button>
                             </div>
                         </>
                     )}

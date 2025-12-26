@@ -1,6 +1,3 @@
-import { logout } from '@/routes';
-import { send } from '@/routes/verification';
-
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { Form, Head } from '@inertiajs/react';
@@ -23,7 +20,11 @@ const VerifyEmail = ({ status }: { status?: string }) => {
                 </div>
             )}
 
-            <Form {...send.form()} className="space-y-6 text-center">
+            <Form
+                action={route('verification.send')}
+                method="post"
+                className="space-y-6 text-center"
+            >
                 {({ processing }) => (
                     <>
                         <Button disabled={processing} variant="secondary">
@@ -31,7 +32,7 @@ const VerifyEmail = ({ status }: { status?: string }) => {
                             Resend verification email
                         </Button>
 
-                        <TextLink href={logout()} className="mx-auto block text-sm">
+                        <TextLink href={route('logout')} className="mx-auto block text-sm">
                             Log out
                         </TextLink>
                     </>

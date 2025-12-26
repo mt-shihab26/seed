@@ -2,7 +2,6 @@ import type { TShared } from '@/types/props';
 
 import { formatInitials } from '@/lib/format';
 import { toast } from '@/lib/toast';
-import { send } from '@/routes/verification';
 import { usePage } from '@inertiajs/react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -12,7 +11,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
-import { Transition } from '@headlessui/react';
 import { Form, Link } from '@inertiajs/react';
 import { MapPin, Save } from 'lucide-react';
 
@@ -55,7 +53,7 @@ const Profile = ({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status
                     className="space-y-6"
                     options={{ preserveScroll: true }}
                 >
-                    {({ processing, recentlySuccessful, errors }) => (
+                    {({ processing, errors }) => (
                         <>
                             <div className="grid gap-2">
                                 <Label htmlFor="name">Name</Label>
@@ -114,7 +112,7 @@ const Profile = ({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status
                                     <p className="-mt-4 text-sm text-muted-foreground">
                                         Your email address is unverified.{' '}
                                         <Link
-                                            href={send()}
+                                            href={route('verification.send')}
                                             as="button"
                                             className="text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"
                                         >
@@ -134,15 +132,6 @@ const Profile = ({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status
                                 <Button disabled={processing} data-test="update-profile-button">
                                     Save
                                 </Button>
-                                <Transition
-                                    show={recentlySuccessful}
-                                    enter="transition ease-in-out"
-                                    enterFrom="opacity-0"
-                                    leave="transition ease-in-out"
-                                    leaveTo="opacity-0"
-                                >
-                                    <p className="text-sm text-neutral-600">Saved</p>
-                                </Transition>
                             </div>
                         </>
                     )}

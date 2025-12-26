@@ -1,5 +1,3 @@
-import { update } from '@/routes/password';
-
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -15,7 +13,8 @@ const ResetPassword = ({ token, email }: { token: string; email: string }) => {
             <Head title="Reset password" />
 
             <Form
-                {...update.form()}
+                action={route('password.update')}
+                method="post"
                 transform={(data) => ({ ...data, token, email })}
                 resetOnSuccess={['password', 'password_confirmation']}
             >
