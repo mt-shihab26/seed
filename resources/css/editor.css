@@ -1,5 +1,5 @@
 /* MDXEditor Theming - Light Mode */
-:root {
+.mdxeditor {
     /* Accent colors (blue tones for editor actions) */
     --accentBase: oklch(0.99 0.01 240);
     --accentBgSubtle: oklch(0.98 0.02 240);
@@ -14,7 +14,7 @@
     --accentText: oklch(0.45 0.20 240);
     --accentTextContrast: oklch(0.20 0.10 240);
 
-    /* Base colors (grays) */
+    /* Base colors (grays) - LIGHT backgrounds */
     --baseBase: oklch(0.99 0 0);
     --baseBgSubtle: oklch(0.97 0 0);
     --baseBg: oklch(0.95 0 0);
@@ -41,11 +41,14 @@
     --admonitionNoteBorder: oklch(0.78 0 0);
 
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-    --basePageBg: var(--background);
+    --basePageBg: oklch(1 0 0);
+
+    color: var(--baseText);
+    background: var(--basePageBg);
 }
 
-/* MDXEditor Dark Mode */
-.dark {
+/* MDXEditor Dark Mode - ACTUALLY DARK */
+.dark .mdxeditor {
     /* Accent colors (blue tones for editor actions) */
     --accentBase: oklch(0.15 0.02 240);
     --accentBgSubtle: oklch(0.18 0.04 240);
@@ -60,52 +63,51 @@
     --accentText: oklch(0.70 0.18 240);
     --accentTextContrast: oklch(0.98 0.02 240);
 
-    /* Base colors (grays) - aligned with your theme */
-    --baseBase: oklch(0.145 0 0);
-    --baseBgSubtle: oklch(0.18 0 0);
-    --baseBg: oklch(0.22 0 0);
-    --baseBgHover: oklch(0.26 0 0);
-    --baseBgActive: oklch(0.30 0 0);
-    --baseLine: oklch(0.34 0 0);
-    --baseBorder: oklch(0.40 0 0);
-    --baseBorderHover: oklch(0.50 0 0);
+    /* Base colors (grays) - DARK backgrounds */
+    --baseBase: oklch(0.08 0 0);
+    --baseBgSubtle: oklch(0.12 0 0);
+    --baseBg: oklch(0.16 0 0);
+    --baseBgHover: oklch(0.20 0 0);
+    --baseBgActive: oklch(0.24 0 0);
+    --baseLine: oklch(0.28 0 0);
+    --baseBorder: oklch(0.35 0 0);
+    --baseBorderHover: oklch(0.45 0 0);
     --baseSolid: oklch(0.56 0 0);
     --baseSolidHover: oklch(0.60 0 0);
     --baseText: oklch(0.708 0 0);
     --baseTextContrast: oklch(0.985 0 0);
 
     /* Admonitions */
-    --admonitionTipBg: oklch(0.20 0.04 200);
+    --admonitionTipBg: oklch(0.18 0.04 200);
     --admonitionTipBorder: oklch(0.50 0.12 200);
-    --admonitionInfoBg: oklch(0.20 0.04 150);
+    --admonitionInfoBg: oklch(0.18 0.04 150);
     --admonitionInfoBorder: oklch(0.50 0.12 150);
-    --admonitionCautionBg: oklch(0.20 0.06 90);
+    --admonitionCautionBg: oklch(0.18 0.06 90);
     --admonitionCautionBorder: oklch(0.55 0.15 90);
-    --admonitionDangerBg: oklch(0.20 0.04 30);
+    --admonitionDangerBg: oklch(0.18 0.04 30);
     --admonitionDangerBorder: oklch(0.55 0.15 30);
-    --admonitionNoteBg: oklch(0.26 0 0);
-    --admonitionNoteBorder: oklch(0.50 0 0);
+    --admonitionNoteBg: oklch(0.20 0 0);
+    --admonitionNoteBorder: oklch(0.45 0 0);
 
-    --basePageBg: var(--background);
-}
+    --basePageBg: oklch(0.145 0 0);
 
-/* MDXEditor component styling */
-.mdxeditor {
     color: var(--baseText);
     background: var(--basePageBg);
 }
 
+/* Toolbar styling */
 .mdxeditor-toolbar {
     background: var(--baseBg);
     border-color: var(--baseBorder);
 }
 
+/* Content area */
 .mdxeditor-root-contenteditable {
     background: var(--basePageBg);
     color: var(--baseTextContrast);
 }
 
-/* Code blocks styling */
+/* Code blocks */
 .mdxeditor .cm-editor {
     background: var(--baseBg) !important;
 }
@@ -119,7 +121,7 @@
     color: var(--baseTextContrast);
 }
 
-/* Popups and dialogs */
+/* Popups */
 .mdxeditor-popup-container {
     z-index: 50;
 }
