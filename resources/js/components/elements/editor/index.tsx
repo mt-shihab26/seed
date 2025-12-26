@@ -1,31 +1,24 @@
 import {
-    codeBlockLanguages,
-    defaultCodeBlockLanguage,
     imageAutocompleteSuggestions,
     imageUploadHandler,
     linkAutocompleteSuggestions,
-    sandpackConfig,
 } from './params';
 
 import {
-    codeBlockPlugin,
-    codeMirrorPlugin,
-    diffSourcePlugin,
     headingsPlugin,
     imagePlugin,
     linkDialogPlugin,
     linkPlugin,
     listsPlugin,
     quotePlugin,
-    sandpackPlugin,
-    tablePlugin,
     thematicBreakPlugin,
     toolbarPlugin,
 } from '@mdxeditor/editor';
 
 import { cn } from '@/lib/utils';
 
-import { KitchenSinkToolbar, MDXEditor } from '@mdxeditor/editor';
+import { MDXEditor } from '@mdxeditor/editor';
+import { Toolbar } from './toolbar';
 
 export const Editor = ({
     value,
@@ -61,17 +54,8 @@ export const Editor = ({
                 linkDialogPlugin({ linkAutocompleteSuggestions }),
                 // Images
                 imagePlugin({ imageUploadHandler, imageAutocompleteSuggestions }),
-                // Tables
-                tablePlugin(),
-                // Code blocks
-                codeBlockPlugin({ defaultCodeBlockLanguage }),
-                sandpackPlugin({ sandpackConfig }),
-                codeMirrorPlugin({ codeBlockLanguages }),
-                // Diff/source mode
-                diffSourcePlugin({ diffMarkdown: diffValue, viewMode: 'rich-text' }),
 
-                //
-                toolbarPlugin({ toolbarContents: () => <KitchenSinkToolbar /> }),
+                toolbarPlugin({ toolbarContents: () => <Toolbar /> }),
             ]}
         />
     );
