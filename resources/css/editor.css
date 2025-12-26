@@ -103,6 +103,7 @@
     border-top: 1px solid oklch(0.86 0 0) !important;
     border-bottom: 1px solid oklch(0.86 0 0) !important;
     border-radius: 0;
+    margin-bottom: 6px;
 }
 
 /* Toolbar styling - Dark Mode */

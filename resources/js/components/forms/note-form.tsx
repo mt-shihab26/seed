@@ -43,7 +43,7 @@ export const NoteForm = ({
             onSubmit={(e) => {
                 e.preventDefault();
             }}
-            className="space-y-4 pb-4"
+            className="space-y-4"
         >
             <InputError message={errors.title || errors.content} />
 
@@ -55,15 +55,13 @@ export const NoteForm = ({
 
             <MDInput
                 placeholder="Enter note title"
-                className="h-auto! resize-y py-3! text-3xl! font-bold"
-                value={data.title}
+                value={`# ${data.title.trim()}`}
                 onChange={(value) => setData('title', value)}
                 autoFocus={true}
             />
 
             <MDEditor
                 placeholder="Write your note content here..."
-                className="text-base!"
                 value={data.content}
                 onChange={(value) => setData('content', value)}
             />

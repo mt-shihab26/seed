@@ -1,6 +1,7 @@
 import type { RealmPlugin } from '@mdxeditor/editor';
 
 import { basePlugins } from '@/lib/markdown';
+import { cn } from '@/lib/utils';
 
 import { MDXEditor } from '@mdxeditor/editor';
 
@@ -22,15 +23,17 @@ export const MDBase = ({
     autoFocus?: boolean;
 }) => {
     return (
-        <MDXEditor
-            placeholder={placeholder}
-            className={className}
-            markdown={value}
-            onChange={(value) => onChange && onChange(value)}
-            contentEditableClassName="prose dark:prose-invert"
-            plugins={[...basePlugins(), ...plugins]}
-            readOnly={readOnly}
-            autoFocus={autoFocus}
-        />
+        <div>
+            <MDXEditor
+                placeholder={placeholder}
+                className={cn('m-0! p-0!', className)}
+                markdown={value}
+                onChange={(value) => onChange && onChange(value)}
+                contentEditableClassName="prose dark:prose-invert p-0!"
+                plugins={[...basePlugins(), ...plugins]}
+                readOnly={readOnly}
+                autoFocus={autoFocus}
+            />
+        </div>
     );
 };
