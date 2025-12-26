@@ -3,6 +3,7 @@ import type { ImageUploadHandler, SandpackConfig } from '@mdxeditor/editor';
 export const linkAutocompleteSuggestions = ['https://mdxeditor.dev'];
 
 export const imageUploadHandler: ImageUploadHandler = (image) => {
+    console.log(image);
     return Promise.resolve('https://picsum.photos/200/300');
 };
 

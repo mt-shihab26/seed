@@ -1,6 +1,3 @@
-import { login } from '@/routes';
-import { email } from '@/routes/password';
-
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -24,7 +21,7 @@ const ForgotPassword = ({ status }: { status?: string }) => {
             )}
 
             <div className="space-y-6">
-                <Form {...email.form()}>
+                <Form action={route('password.email')} method="post">
                     {({ processing, errors }) => (
                         <>
                             <div className="grid gap-2">
@@ -59,7 +56,7 @@ const ForgotPassword = ({ status }: { status?: string }) => {
 
                 <div className="space-x-1 text-center text-sm text-muted-foreground">
                     <span>Or, return to</span>
-                    <TextLink href={login()}>log in</TextLink>
+                    <TextLink href={route('login')}>log in</TextLink>
                 </div>
             </div>
         </AuthLayout>

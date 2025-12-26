@@ -1,7 +1,3 @@
-import { register } from '@/routes';
-import { store } from '@/routes/login';
-import { request } from '@/routes/password';
-
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
@@ -29,7 +25,12 @@ const Login = ({
         >
             <Head title="Log in" />
 
-            <Form {...store.form()} resetOnSuccess={['password']} className="flex flex-col gap-6">
+            <Form
+                action={route('login.store')}
+                method="post"
+                resetOnSuccess={['password']}
+                className="flex flex-col gap-6"
+            >
                 {({ processing, errors }) => (
                     <>
                         <div className="grid gap-6">
@@ -53,7 +54,7 @@ const Login = ({
                                     <Label htmlFor="password">Password</Label>
                                     {canResetPassword && (
                                         <TextLink
-                                            href={request()}
+                                            href={route('request')}
                                             className="ml-auto text-sm"
                                             tabIndex={5}
                                         >
@@ -93,7 +94,7 @@ const Login = ({
                         {canRegister && (
                             <div className="text-center text-sm text-muted-foreground">
                                 Don't have an account?{' '}
-                                <TextLink href={register()} tabIndex={5}>
+                                <TextLink href={route('password.request')} tabIndex={5}>
                                     Sign up
                                 </TextLink>
                             </div>
