@@ -97,12 +97,19 @@
     background: var(--basePageBg);
 }
 
-/* Toolbar styling */
+/* Toolbar styling - Light Mode */
 .mdxeditor-toolbar {
-    background: transparent;
-    border-top: 1px solid var(--baseBorder);
-    border-bottom: 1px solid var(--baseBorder);
+    background: oklch(1 0 0) !important;
+    border-top: 1px solid oklch(0.86 0 0) !important;
+    border-bottom: 1px solid oklch(0.86 0 0) !important;
     border-radius: 0;
+}
+
+/* Toolbar styling - Dark Mode */
+.dark .mdxeditor-toolbar {
+    background: oklch(0.16 0 0) !important;
+    border-top: 1px solid oklch(0.35 0 0) !important;
+    border-bottom: 1px solid oklch(0.35 0 0) !important;
 }
 
 /* Content area */

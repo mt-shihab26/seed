@@ -4,10 +4,10 @@ import { formatDateTime } from '@/lib/format';
 import { useForm } from '@inertiajs/react';
 
 import { ColoredBadge } from '@/components/elements/colored-badge';
-import { Editor } from '@/components/elements/editor';
 import { InputError } from '@/components/elements/input-error';
 import { FolderForm } from '@/components/forms/folder-form';
 import { TagForm } from '@/components/forms/tag-form';
+import { Editor } from '@/components/markdown/editor';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';

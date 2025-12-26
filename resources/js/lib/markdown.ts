@@ -1,3 +1,19 @@
+import {
+    codeBlockPlugin,
+    codeMirrorPlugin,
+    diffSourcePlugin,
+    headingsPlugin,
+    imagePlugin,
+    linkDialogPlugin,
+    linkPlugin,
+    listsPlugin,
+    markdownShortcutPlugin,
+    quotePlugin,
+    sandpackPlugin,
+    tablePlugin,
+    thematicBreakPlugin,
+} from '@mdxeditor/editor';
+
 import type { ImageUploadHandler, SandpackConfig } from '@mdxeditor/editor';
 
 export const linkAutocompleteSuggestions = ['https://mdxeditor.dev'];
@@ -42,3 +58,27 @@ export const sandpackConfig: SandpackConfig = {
 };
 
 export const codeBlockLanguages = { js: 'JavaScript', css: 'CSS' };
+
+export const basePlugins = () => {
+    return [
+        // Basic Formatting
+        headingsPlugin(),
+        quotePlugin(),
+        listsPlugin(),
+        thematicBreakPlugin(),
+        // Links
+        linkPlugin(),
+        linkDialogPlugin({ linkAutocompleteSuggestions }),
+        // Images
+        imagePlugin({ imageUploadHandler, imageAutocompleteSuggestions }),
+        // Tables
+        tablePlugin(),
+        // Code blocks
+        codeBlockPlugin({ defaultCodeBlockLanguage, codeBlockEditorDescriptors: [] }),
+        codeMirrorPlugin({ codeBlockLanguages }),
+        sandpackPlugin({ sandpackConfig }),
+        diffSourcePlugin(),
+        // Markdown shortcuts
+        markdownShortcutPlugin(),
+    ];
+};
