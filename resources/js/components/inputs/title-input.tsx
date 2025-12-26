@@ -1,16 +1,18 @@
-import { MDBase } from './md-base';
+import { MDBase } from '@/components/markdown/md-base';
 
-export const MDInput = ({
+export const TitleInput = ({
     value,
     onChange,
     placeholder,
     className,
+    readOnly,
     autoFocus,
 }: {
     value: string;
     onChange: (value: string) => void;
     placeholder?: string;
     className?: string;
+    readOnly?: boolean;
     autoFocus?: boolean;
 }) => {
     return (
@@ -19,6 +21,7 @@ export const MDInput = ({
             onChange={onChange}
             placeholder={placeholder}
             className={className}
+            readOnly={readOnly}
             autoFocus={autoFocus}
         />
     );

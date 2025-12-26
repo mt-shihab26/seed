@@ -5,15 +5,13 @@ import { useForm } from '@inertiajs/react';
 
 import { ColoredBadge } from '@/components/elements/colored-badge';
 import { InputError } from '@/components/elements/input-error';
-import { FolderForm } from '@/components/forms/folder-form';
-import { TagForm } from '@/components/forms/tag-form';
 import { MDEditor } from '@/components/markdown/md-editor';
-import { MDInput } from '@/components/markdown/md-input';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { SaveIcon, XIcon } from 'lucide-react';
+import { TitleInput } from '../inputs/title-input';
 
 export const NoteForm = ({
     note,
@@ -53,9 +51,9 @@ export const NoteForm = ({
                 </div>
             )}
 
-            <MDInput
+            <TitleInput
                 placeholder="Enter note title"
-                value={`# ${data.title.trim()}`}
+                value={data.title}
                 onChange={(value) => setData('title', value)}
                 autoFocus={true}
             />
@@ -92,7 +90,6 @@ export const NoteForm = ({
                         ))}
                     </div>
                 </RadioGroup>
-                <FolderForm />
             </div>
 
             <div className="space-y-3 border border-border bg-muted/30 p-4">
@@ -123,7 +120,6 @@ export const NoteForm = ({
                         </div>
                     ))}
                 </div>
-                <TagForm />
             </div>
 
             <div className="flex flex-row justify-between gap-4">
