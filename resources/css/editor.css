@@ -99,8 +99,10 @@
 
 /* Toolbar styling */
 .mdxeditor-toolbar {
-    background: var(--baseBg);
-    border-color: var(--baseBorder);
+    background: transparent;
+    border-top: 1px solid var(--baseBorder);
+    border-bottom: 1px solid var(--baseBorder);
+    border-radius: 0;
 }
 
 /* Content area */
