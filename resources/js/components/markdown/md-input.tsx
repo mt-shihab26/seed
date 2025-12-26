@@ -1,26 +1,25 @@
-import { toolbarPlugin } from '@mdxeditor/editor';
+import { MDBase } from './md-base';
 
-import { BaseEditor } from './base';
-import { Toolbar } from './toolbar';
-
-export const Editor = ({
+export const MDInput = ({
     value,
     onChange,
     placeholder,
     className,
+    autoFocus,
 }: {
     value: string;
     onChange: (value: string) => void;
     placeholder?: string;
     className?: string;
+    autoFocus?: boolean;
 }) => {
     return (
-        <BaseEditor
+        <MDBase
             value={value}
             onChange={onChange}
             placeholder={placeholder}
             className={className}
-            plugins={[toolbarPlugin({ toolbarContents: () => <Toolbar /> })]}
+            autoFocus={autoFocus}
         />
     );
 };

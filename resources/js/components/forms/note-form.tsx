@@ -7,12 +7,12 @@ import { ColoredBadge } from '@/components/elements/colored-badge';
 import { InputError } from '@/components/elements/input-error';
 import { FolderForm } from '@/components/forms/folder-form';
 import { TagForm } from '@/components/forms/tag-form';
-import { Editor } from '@/components/markdown/editor';
+import { MDEditor } from '@/components/markdown/md-editor';
+import { MDInput } from '@/components/markdown/md-input';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Textarea } from '@/components/ui/textarea';
 import { SaveIcon, XIcon } from 'lucide-react';
 
 export const NoteForm = ({
@@ -53,18 +53,15 @@ export const NoteForm = ({
                 </div>
             )}
 
-            <Textarea
-                id="title"
-                name="title"
+            <MDInput
                 placeholder="Enter note title"
                 className="h-auto! resize-y py-3! text-3xl! font-bold"
                 value={data.title}
-                onChange={(e) => setData('title', e.target.value)}
-                autoFocus
-                required
+                onChange={(value) => setData('title', value)}
+                autoFocus={true}
             />
 
-            <Editor
+            <MDEditor
                 placeholder="Write your note content here..."
                 className="text-base!"
                 value={data.content}

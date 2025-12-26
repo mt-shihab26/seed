@@ -11,7 +11,7 @@ import {
     UndoRedo,
 } from '@mdxeditor/editor';
 
-export const Toolbar = () => {
+export const MDToolbar = () => {
     return (
         <>
             <UndoRedo />
