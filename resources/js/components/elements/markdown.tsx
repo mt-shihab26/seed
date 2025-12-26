@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 
 import { MDXEditor } from '@mdxeditor/editor';
 
-export const MDBase = ({
+export const Markdown = ({
     value,
     onChange,
     placeholder,

@@ -1,4 +1,6 @@
-import { MDBase } from '@/components/markdown/md-base';
+import { cn } from '@/lib/utils';
+
+import { Markdown } from '@/components/elements/markdown';
 
 export const TitleInput = ({
     value,
@@ -16,11 +18,11 @@ export const TitleInput = ({
     autoFocus?: boolean;
 }) => {
     return (
-        <MDBase
+        <Markdown
             value={value}
             onChange={onChange}
             placeholder={placeholder}
-            className={className}
+            className={cn('font-bold prose-p:text-3xl', className)}
             readOnly={readOnly}
             autoFocus={autoFocus}
         />

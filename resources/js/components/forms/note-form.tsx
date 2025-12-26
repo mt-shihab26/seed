@@ -5,7 +5,7 @@ import { useForm } from '@inertiajs/react';
 
 import { ColoredBadge } from '@/components/elements/colored-badge';
 import { InputError } from '@/components/elements/input-error';
-import { MDEditor } from '@/components/markdown/md-editor';
+import { EditorInput } from '@/components/inputs/editor-input';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
@@ -58,10 +58,11 @@ export const NoteForm = ({
                 autoFocus={true}
             />
 
-            <MDEditor
+            <EditorInput
                 placeholder="Write your note content here..."
                 value={data.content}
                 onChange={(value) => setData('content', value)}
+                readOnly={true}
             />
 
             <div className="space-y-3 border border-border bg-muted/30 p-4">
