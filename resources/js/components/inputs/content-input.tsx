@@ -32,7 +32,7 @@ const Toolbar = () => {
     );
 };
 
-export const EditorInput = ({
+export const ContentInput = ({
     value,
     onChange,
     placeholder,
@@ -41,7 +41,7 @@ export const EditorInput = ({
     autoFocus,
 }: {
     value: string;
-    onChange: (value: string) => void;
+    onChange?: (value: string) => void;
     placeholder?: string;
     className?: string;
     readOnly?: boolean;

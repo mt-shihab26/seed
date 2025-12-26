@@ -6,6 +6,8 @@ import { BackButton } from '@/components/elements/back-button';
 import { ColoredBadge } from '@/components/elements/colored-badge';
 import { EditButton } from '@/components/elements/edit-button';
 import { NoteActionLink } from '@/components/elements/note-action-link';
+import { ContentInput } from '@/components/inputs/content-input';
+import { TitleInput } from '@/components/inputs/title-input';
 import { NoteLayout } from '@/components/layouts/note-layout';
 import { Separator } from '@/components/ui/separator';
 import { ArchiveIcon, FolderIcon, StarIcon, TrashIcon } from 'lucide-react';
@@ -36,7 +38,7 @@ const Show = ({ note }: { note: TNote }) => {
                         )}
                         <span>{formatDateTime(note.created_at)}</span>
                     </div>
-                    <h1 className="text-2xl font-bold sm:text-3xl">{note.title}</h1>
+                    <TitleInput value={note.title} readOnly />
                     <div className="flex flex-wrap items-center justify-between gap-2 text-sm text-muted-foreground">
                         {note.tags.length > 0 && (
                             <div className="flex flex-wrap gap-2">
@@ -71,11 +73,7 @@ const Show = ({ note }: { note: TNote }) => {
                     </div>
                 </div>
                 <Separator />
-                <div className="prose max-w-none prose-neutral dark:prose-invert">
-                    <p className="text-base leading-relaxed text-pretty whitespace-pre-wrap">
-                        {note.content}
-                    </p>
-                </div>
+                <ContentInput value={note.content} readOnly />
             </div>
         </NoteLayout>
     );

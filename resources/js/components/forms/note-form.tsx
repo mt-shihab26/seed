@@ -5,7 +5,7 @@ import { useForm } from '@inertiajs/react';
 
 import { ColoredBadge } from '@/components/elements/colored-badge';
 import { InputError } from '@/components/elements/input-error';
-import { EditorInput } from '@/components/inputs/editor-input';
+import { ContentInput } from '@/components/inputs/content-input';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
@@ -58,7 +58,7 @@ export const NoteForm = ({
                 autoFocus={true}
             />
 
-            <EditorInput
+            <ContentInput
                 placeholder="Write your note content here..."
                 value={data.content}
                 onChange={(value) => setData('content', value)}

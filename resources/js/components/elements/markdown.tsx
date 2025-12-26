@@ -29,7 +29,7 @@ export const Markdown = ({
                 className={cn('m-0! p-0!', className)}
                 markdown={value}
                 onChange={(value) => onChange && onChange(value)}
-                contentEditableClassName="prose dark:prose-invert p-0!"
+                contentEditableClassName="prose max-w-full prose-neutral dark:prose-invert p-0!"
                 plugins={[...basePlugins(), ...plugins]}
                 readOnly={readOnly}
                 autoFocus={autoFocus}

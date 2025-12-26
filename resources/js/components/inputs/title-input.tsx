@@ -11,7 +11,7 @@ export const TitleInput = ({
     autoFocus,
 }: {
     value: string;
-    onChange: (value: string) => void;
+    onChange?: (value: string) => void;
     placeholder?: string;
     className?: string;
     readOnly?: boolean;
