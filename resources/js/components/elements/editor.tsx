@@ -5,7 +5,7 @@ import {
     imageUploadHandler,
     linkAutocompleteSuggestions,
     sandpackConfig,
-} from './params';
+} from '@/lib/editor';
 
 import {
     codeBlockPlugin,
@@ -24,10 +24,21 @@ import {
     toolbarPlugin,
 } from '@mdxeditor/editor';
 
-import { cn } from '@/lib/utils';
+import {
+    BlockTypeSelect,
+    BoldItalicUnderlineToggles,
+    CodeToggle,
+    CreateLink,
+    HighlightToggle,
+    InsertImage,
+    InsertTable,
+    ListsToggle,
+    MDXEditor,
+    StrikeThroughSupSubToggles,
+    UndoRedo,
+} from '@mdxeditor/editor';
 
-import { MDXEditor } from '@mdxeditor/editor';
-import { Toolbar } from './toolbar';
+import { cn } from '@/lib/utils';
 
 export const Editor = ({
     value,
@@ -46,7 +57,7 @@ export const Editor = ({
             className={cn('full-demo-mdxeditor', className)}
             markdown={value}
             onChange={(value) => onChange(value)}
-            contentEditableClassName="prose max-w-full font-sans"
+            contentEditableClassName="prose dark:prose-invert"
             plugins={[
                 // Basic Formatting
                 headingsPlugin(),
@@ -67,9 +78,23 @@ export const Editor = ({
                 diffSourcePlugin(),
                 // Markdown shortcuts
                 markdownShortcutPlugin(),
-
                 // Toolbar
-                toolbarPlugin({ toolbarContents: () => <Toolbar /> }),
+                toolbarPlugin({
+                    toolbarContents: () => (
+                        <>
+                            <UndoRedo />
+                            <BlockTypeSelect />
+                            <BoldItalicUnderlineToggles />
+                            <StrikeThroughSupSubToggles />
+                            <HighlightToggle />
+                            <CreateLink />
+                            <CodeToggle />
+                            <ListsToggle />
+                            <InsertImage />
+                            <InsertTable />
+                        </>
+                    ),
+                }),
             ]}
         />
     );

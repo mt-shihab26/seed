@@ -4,6 +4,7 @@
 @import '@fontsource-variable/jetbrains-mono';
 @import './theme.css';
 @import '@mdxeditor/editor/style.css';
+@import './editor.css';
 @plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
