@@ -3,6 +3,7 @@ import type { TFolder, TNote, TTag } from '@/types/models';
 import { formatDateTime } from '@/lib/format';
 import { useForm } from '@inertiajs/react';
 
+import { CancelButton } from '@/components/elements/cancel-button';
 import { ColoredBadge } from '@/components/elements/colored-badge';
 import { InputError } from '@/components/elements/input-error';
 import { ContentInput } from '@/components/inputs/content-input';
@@ -11,7 +12,8 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { SaveIcon, XIcon } from 'lucide-react';
+import { Spinner } from '@/components/ui/spinner';
+import { PlusIcon, SaveIcon } from 'lucide-react';
 
 export const NoteForm = ({
     note,
@@ -53,7 +55,9 @@ export const NoteForm = ({
             }}
             className="space-y-4"
         >
-            <InputError message={errors.title || errors.content} />
+            <InputError
+                message={errors.title || errors.content || errors.folder_id || errors.tags}
+            />
 
             {note && (
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -72,6 +76,7 @@ export const NoteForm = ({
                 placeholder="Write your note content here..."
                 value={data.content}
                 onChange={(value) => setData('content', value)}
+                className="min-h-80"
             />
 
             <div className="space-y-3 border border-border bg-muted/30 p-4">
@@ -131,27 +136,17 @@ export const NoteForm = ({
                     ))}
                 </div>
             </div>
-
-            <div className="flex flex-row justify-between gap-4">
-                <Button
-                    type="button"
-                    variant="outline"
-                    onClick={onCancel}
-                    className="w-full sm:w-auto"
-                >
-                    <XIcon className="mr-2 size-4" />
-                    Cancel
-                </Button>
-
-                <Button type="submit" disabled={processing} className="w-full sm:w-auto">
-                    <SaveIcon className="mr-2 size-4" />
-                    {processing
-                        ? note
-                            ? 'Saving...'
-                            : 'Creating...'
-                        : note
-                          ? 'Save Changes'
-                          : 'Create Note'}
+            <div className="flex flex-row items-center justify-end gap-4">
+                {onCancel && <CancelButton onClick={onCancel} />}
+                <Button type="submit" disabled={processing}>
+                    {processing ? (
+                        <Spinner className="size-4" />
+                    ) : note ? (
+                        <SaveIcon className="size-4" />
+                    ) : (
+                        <PlusIcon className="size-4" />
+                    )}
+                    {note ? 'Save Changes' : 'Create Note'}
                 </Button>
             </div>
         </form>
