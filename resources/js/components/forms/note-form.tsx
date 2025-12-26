@@ -72,14 +72,21 @@ export const NoteForm = ({
                     value={data.folder_id}
                     onValueChange={(folderId) => setData('folder_id', folderId)}
                 >
-                    <SelectTrigger className="p-0! py-0 pl-0">
-                        <SelectValue placeholder="Select a folder" />
+                    <SelectTrigger className="h-auto border-0 bg-transparent p-0!">
+                        <SelectValue
+                            className="h-auto border-0 bg-transparent p-0!"
+                            placeholder="Select a folder"
+                        />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectGroup>
                             <SelectLabel>Folders</SelectLabel>
                             {folders.map((folder) => (
-                                <SelectItem key={folder.id} value={folder.id}>
+                                <SelectItem
+                                    key={folder.id}
+                                    value={folder.id}
+                                    className="hover:text-current"
+                                >
                                     <ColoredBadge type="folder" color={folder.color}>
                                         {folder.name}
                                     </ColoredBadge>
