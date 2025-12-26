@@ -183,6 +183,74 @@ all things Inertia.
 - **DO NOT use the `<Form>` component** - all forms must be built with the `useForm` helper and regular HTML `<form>` elements.
 
 
+=== ziggy/core rules ===
+
+## Ziggy - Laravel Route Helper for JavaScript
+
+Ziggy provides a `route()` helper function in JavaScript that mirrors Laravel's `route()` helper, allowing you to use Laravel named routes in your frontend code.
+
+### Using Ziggy Routes
+- **ALWAYS use Ziggy's `route()` helper** for generating URLs to Laravel routes in your JavaScript/React code.
+- The `route()` function is globally available and doesn't need to be imported.
+- Use named routes defined in your Laravel routes files (e.g., `routes/web.php`).
+
+### Basic Usage
+
+<code-snippet name="Ziggy Route Helper Examples" lang="typescript">
+// Simple route
+route('notes.index') // "/notes"
+
+// Route with parameter
+route('notes.show', note) // "/notes/123"
+route('notes.show', { note: 123 }) // "/notes/123"
+
+// Route with multiple parameters
+route('posts.comments.show', { post: 1, comment: 2 }) // "/posts/1/comments/2"
+
+// Route with query parameters
+route('notes.index', { _query: { filter: 'active' } }) // "/notes?filter=active"
+</code-snippet>
+
+### Using with Inertia Forms
+
+<code-snippet name="Ziggy with useForm" lang="typescript">
+import { useForm } from '@inertiajs/react'
+
+const { data, post, patch } = useForm({ title: '', content: '' })
+
+// Creating a resource
+const handleCreate = (e) => {
+    e.preventDefault()
+    post(route('notes.store'), {
+        preserveScroll: true,
+    })
+}
+
+// Updating a resource
+const handleUpdate = (e) => {
+    e.preventDefault()
+    patch(route('notes.update', note), {
+        preserveScroll: true,
+    })
+}
+</code-snippet>
+
+### Using with Inertia Link Component
+
+<code-snippet name="Ziggy with Link Component" lang="typescript">
+import { Link } from '@inertiajs/react'
+
+<Link href={route('notes.show', note)}>
+    View Note
+</Link>
+</code-snippet>
+
+### Important Notes
+- Route parameters can be passed as a single value (for single parameter routes) or as an object
+- Always use named routes - avoid hardcoding URLs
+- The `route()` helper automatically handles URL encoding and parameter binding
+
+
 === laravel/core rules ===
 
 ## Do Things the Laravel Way - Use

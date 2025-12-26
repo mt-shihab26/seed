@@ -1,3 +1,13 @@
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
+
 import type { TFolder, TNote, TTag } from '@/types/models';
 
 import { formatDateTime } from '@/lib/format';
@@ -57,11 +67,29 @@ export const NoteForm = ({
                 message={errors.title || errors.content || errors.folder_id || errors.tags}
             />
 
-            {note && (
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <span>{formatDateTime(note.created_at)}</span>
-                </div>
-            )}
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Select
+                    value={data.folder_id}
+                    onValueChange={(folderId) => setData('folder_id', folderId)}
+                >
+                    <SelectTrigger className="p-0! py-0 pl-0">
+                        <SelectValue placeholder="Select a folder" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup>
+                            <SelectLabel>Folders</SelectLabel>
+                            {folders.map((folder) => (
+                                <SelectItem key={folder.id} value={folder.id}>
+                                    <ColoredBadge type="folder" color={folder.color}>
+                                        {folder.name}
+                                    </ColoredBadge>
+                                </SelectItem>
+                            ))}
+                        </SelectGroup>
+                    </SelectContent>
+                </Select>
+                {note && <span>{formatDateTime(note.created_at)}</span>}
+            </div>
 
             <TitleInput
                 placeholder="Enter note title"
