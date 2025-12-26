@@ -68,7 +68,6 @@ export const NoteForm = ({
                 placeholder="Write your note content here..."
                 className="text-base!"
                 value={data.content}
-                diffValue={note?.content || ''}
                 onChange={(value) => setData('content', value)}
             />
 

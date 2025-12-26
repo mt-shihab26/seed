@@ -1,15 +1,21 @@
 import {
+    codeBlockLanguages,
+    defaultCodeBlockLanguage,
     imageAutocompleteSuggestions,
     imageUploadHandler,
     linkAutocompleteSuggestions,
 } from './params';
 
 import {
+    codeBlockPlugin,
+    codeMirrorPlugin,
+    directivesPlugin,
     headingsPlugin,
     imagePlugin,
     linkDialogPlugin,
     linkPlugin,
     listsPlugin,
+    markdownShortcutPlugin,
     quotePlugin,
     thematicBreakPlugin,
     toolbarPlugin,
@@ -17,18 +23,16 @@ import {
 
 import { cn } from '@/lib/utils';
 
-import { MDXEditor } from '@mdxeditor/editor';
+import { AdmonitionDirectiveDescriptor, MDXEditor } from '@mdxeditor/editor';
 import { Toolbar } from './toolbar';
 
 export const Editor = ({
     value,
-    diffValue,
     onChange,
     placeholder,
     className,
 }: {
     value: string;
-    diffValue: string;
     onChange: (value: string) => void;
     placeholder?: string;
     className?: string;
@@ -54,7 +58,14 @@ export const Editor = ({
                 linkDialogPlugin({ linkAutocompleteSuggestions }),
                 // Images
                 imagePlugin({ imageUploadHandler, imageAutocompleteSuggestions }),
-
+                // Code blocks
+                codeBlockPlugin({ defaultCodeBlockLanguage, codeBlockEditorDescriptors: [] }),
+                codeMirrorPlugin({ codeBlockLanguages }),
+                // Admonitions/Directives
+                directivesPlugin({ directiveDescriptors: [AdmonitionDirectiveDescriptor] }),
+                // Markdown shortcuts
+                markdownShortcutPlugin(),
+                // Toolbar
                 toolbarPlugin({ toolbarContents: () => <Toolbar /> }),
             ]}
         />
