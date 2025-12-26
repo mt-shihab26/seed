@@ -6,14 +6,12 @@ import { useForm } from '@inertiajs/react';
 import { CancelButton } from '@/components/elements/cancel-button';
 import { ColoredBadge } from '@/components/elements/colored-badge';
 import { InputError } from '@/components/elements/input-error';
+import { SubmitButton } from '@/components/elements/submit-button';
 import { ContentInput } from '@/components/inputs/content-input';
 import { TitleInput } from '@/components/inputs/title-input';
-import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Spinner } from '@/components/ui/spinner';
-import { PlusIcon, SaveIcon } from 'lucide-react';
 
 export const NoteForm = ({
     note,
@@ -138,16 +136,7 @@ export const NoteForm = ({
             </div>
             <div className="flex flex-row items-center justify-end gap-4">
                 {onCancel && <CancelButton onClick={onCancel} />}
-                <Button type="submit" disabled={processing}>
-                    {processing ? (
-                        <Spinner className="size-4" />
-                    ) : note ? (
-                        <SaveIcon className="size-4" />
-                    ) : (
-                        <PlusIcon className="size-4" />
-                    )}
-                    {note ? 'Save Changes' : 'Create Note'}
-                </Button>
+                <SubmitButton editing={!!note} processing={processing} />
             </div>
         </form>
     );
