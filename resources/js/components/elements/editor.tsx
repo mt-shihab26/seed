@@ -38,8 +38,6 @@ import {
     UndoRedo,
 } from '@mdxeditor/editor';
 
-import { cn } from '@/lib/utils';
-
 export const Editor = ({
     value,
     onChange,
@@ -54,7 +52,7 @@ export const Editor = ({
     return (
         <MDXEditor
             placeholder={placeholder}
-            className={cn('full-demo-mdxeditor', className)}
+            className={className}
             markdown={value}
             onChange={(value) => onChange(value)}
             contentEditableClassName="prose dark:prose-invert"
