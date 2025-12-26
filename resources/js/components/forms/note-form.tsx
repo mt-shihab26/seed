@@ -1,13 +1,3 @@
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
-
 import type { TFolder, TNote, TTag } from '@/types/models';
 
 import { formatDateTime } from '@/lib/format';
@@ -21,7 +11,7 @@ import { ContentInput } from '@/components/inputs/content-input';
 import { TitleInput } from '@/components/inputs/title-input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { FolderSelect } from '../inputs/folder-select';
 
 export const NoteForm = ({
     note,
@@ -68,26 +58,11 @@ export const NoteForm = ({
             />
 
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Select
-                    value={data.folder_id}
-                    onValueChange={(folderId) => setData('folder_id', folderId)}
-                >
-                    <SelectTrigger className="h-auto! border-0! bg-transparent! p-0! pr-1!">
-                        <SelectValue placeholder="Select a folder" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectGroup>
-                            <SelectLabel>Folders</SelectLabel>
-                            {folders.map((folder) => (
-                                <SelectItem key={folder.id} value={folder.id}>
-                                    <ColoredBadge type="folder" color={folder.color}>
-                                        {folder.name}
-                                    </ColoredBadge>
-                                </SelectItem>
-                            ))}
-                        </SelectGroup>
-                    </SelectContent>
-                </Select>
+                <FolderSelect
+                    value={folders.find((f) => f.id === data.folder_id) || null}
+                    onChange={(folder) => setData('folder_id', folder?.id || '')}
+                    folders={folders}
+                />
                 {note && <span>{formatDateTime(note.created_at)}</span>}
             </div>
 
@@ -104,34 +79,6 @@ export const NoteForm = ({
                 onChange={(value) => setData('content', value)}
                 className="min-h-80"
             />
-
-            <div className="space-y-3 border border-border bg-muted/30 p-4">
-                <Label>Select folder to organize your note</Label>
-                <RadioGroup
-                    value={data.folder_id}
-                    onValueChange={(folderId) => setData('folder_id', folderId)}
-                >
-                    <div className="grid grid-cols-2 gap-2">
-                        {folders.map((folder) => (
-                            <div key={folder.id} className="flex items-center space-x-2">
-                                <RadioGroupItem value={folder.id} id={`folder-${folder.id}`} />
-                                <Label
-                                    htmlFor={`folder-${folder.id}`}
-                                    className="flex flex-1 cursor-pointer items-center gap-2 font-normal"
-                                >
-                                    <ColoredBadge
-                                        type="folder"
-                                        color={folder.color}
-                                        className="text-xs"
-                                    >
-                                        {folder.name}
-                                    </ColoredBadge>
-                                </Label>
-                            </div>
-                        ))}
-                    </div>
-                </RadioGroup>
-            </div>
 
             <div className="space-y-3 border border-border bg-muted/30 p-4">
                 <Label>Select tags to organize your note</Label>
