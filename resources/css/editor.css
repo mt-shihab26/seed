@@ -5,14 +5,14 @@
     --accentBgSubtle: oklch(0.98 0.02 240);
     --accentBg: oklch(0.96 0.04 240);
     --accentBgHover: oklch(0.94 0.05 240);
-    --accentBgActive: oklch(0.90 0.07 240);
+    --accentBgActive: oklch(0.9 0.07 240);
     --accentLine: oklch(0.85 0.09 240);
     --accentBorder: oklch(0.77 0.12 240);
     --accentBorderHover: oklch(0.65 0.16 240);
     --accentSolid: oklch(0.55 0.22 240);
-    --accentSolidHover: oklch(0.50 0.24 240);
-    --accentText: oklch(0.45 0.20 240);
-    --accentTextContrast: oklch(0.20 0.10 240);
+    --accentSolidHover: oklch(0.5 0.24 240);
+    --accentText: oklch(0.45 0.2 240);
+    --accentTextContrast: oklch(0.2 0.1 240);
 
     /* Base colors (grays) - LIGHT backgrounds */
     --baseBase: oklch(0.99 0 0);
@@ -32,7 +32,7 @@
     --admonitionTipBg: oklch(0.95 0.05 200);
     --admonitionTipBorder: oklch(0.65 0.12 200);
     --admonitionInfoBg: oklch(0.95 0.05 150);
-    --admonitionInfoBorder: oklch(0.60 0.12 150);
+    --admonitionInfoBorder: oklch(0.6 0.12 150);
     --admonitionCautionBg: oklch(0.95 0.08 90);
     --admonitionCautionBorder: oklch(0.65 0.15 90);
     --admonitionDangerBg: oklch(0.95 0.05 30);
@@ -40,7 +40,9 @@
     --admonitionNoteBg: oklch(0.93 0 0);
     --admonitionNoteBorder: oklch(0.78 0 0);
 
-    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+    --font-mono:
+        ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+        monospace;
     --basePageBg: oklch(1 0 0);
 
     color: var(--baseText);
@@ -54,39 +56,39 @@
     --accentBgSubtle: oklch(0.18 0.04 240);
     --accentBg: oklch(0.22 0.06 240);
     --accentBgHover: oklch(0.25 0.08 240);
-    --accentBgActive: oklch(0.28 0.10 240);
+    --accentBgActive: oklch(0.28 0.1 240);
     --accentLine: oklch(0.32 0.12 240);
-    --accentBorder: oklch(0.40 0.15 240);
+    --accentBorder: oklch(0.4 0.15 240);
     --accentBorderHover: oklch(0.55 0.22 240);
     --accentSolid: oklch(0.55 0.22 240);
-    --accentSolidHover: oklch(0.65 0.20 240);
-    --accentText: oklch(0.70 0.18 240);
+    --accentSolidHover: oklch(0.65 0.2 240);
+    --accentText: oklch(0.7 0.18 240);
     --accentTextContrast: oklch(0.98 0.02 240);
 
     /* Base colors (grays) - DARK backgrounds */
     --baseBase: oklch(0.08 0 0);
     --baseBgSubtle: oklch(0.12 0 0);
     --baseBg: oklch(0.16 0 0);
-    --baseBgHover: oklch(0.20 0 0);
+    --baseBgHover: oklch(0.2 0 0);
     --baseBgActive: oklch(0.24 0 0);
     --baseLine: oklch(0.28 0 0);
     --baseBorder: oklch(0.35 0 0);
     --baseBorderHover: oklch(0.45 0 0);
     --baseSolid: oklch(0.56 0 0);
-    --baseSolidHover: oklch(0.60 0 0);
+    --baseSolidHover: oklch(0.6 0 0);
     --baseText: oklch(0.708 0 0);
     --baseTextContrast: oklch(0.985 0 0);
 
     /* Admonitions */
     --admonitionTipBg: oklch(0.18 0.04 200);
-    --admonitionTipBorder: oklch(0.50 0.12 200);
+    --admonitionTipBorder: oklch(0.5 0.12 200);
     --admonitionInfoBg: oklch(0.18 0.04 150);
-    --admonitionInfoBorder: oklch(0.50 0.12 150);
+    --admonitionInfoBorder: oklch(0.5 0.12 150);
     --admonitionCautionBg: oklch(0.18 0.06 90);
     --admonitionCautionBorder: oklch(0.55 0.15 90);
     --admonitionDangerBg: oklch(0.18 0.04 30);
     --admonitionDangerBorder: oklch(0.55 0.15 30);
-    --admonitionNoteBg: oklch(0.20 0 0);
+    --admonitionNoteBg: oklch(0.2 0 0);
     --admonitionNoteBorder: oklch(0.45 0 0);
 
     --basePageBg: oklch(0.145 0 0);
