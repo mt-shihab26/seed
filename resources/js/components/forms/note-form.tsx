@@ -6,12 +6,12 @@ import { useForm } from '@inertiajs/react';
 import { ColoredBadge } from '@/components/elements/colored-badge';
 import { InputError } from '@/components/elements/input-error';
 import { ContentInput } from '@/components/inputs/content-input';
+import { TitleInput } from '@/components/inputs/title-input';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { SaveIcon, XIcon } from 'lucide-react';
-import { TitleInput } from '../inputs/title-input';
 
 export const NoteForm = ({
     note,
@@ -24,22 +24,32 @@ export const NoteForm = ({
     tags: TTag[];
     onCancel?: () => void;
 }) => {
-    const { errors, processing, data, setData } = useForm<{
+    const { errors, processing, data, setData, post, patch } = useForm<{
         title: string;
         content: string;
         folder_id: string;
-        tag_ids: string[];
+        tags: string[];
     }>({
         title: note?.title || '',
         content: note?.content || '',
         folder_id: note?.folder_id || '',
-        tag_ids: note?.tags?.map((tag) => tag.id) || [],
+        tags: note?.tags?.map((tag) => tag.id) || [],
     });
 
     return (
         <form
             onSubmit={(e) => {
                 e.preventDefault();
+
+                if (note) {
+                    patch(route('notes.update', note), {
+                        preserveScroll: true,
+                    });
+                } else {
+                    post(route('notes.store'), {
+                        preserveScroll: true,
+                    });
+                }
             }}
             className="space-y-4"
         >
@@ -62,7 +72,6 @@ export const NoteForm = ({
                 placeholder="Write your note content here..."
                 value={data.content}
                 onChange={(value) => setData('content', value)}
-                readOnly={true}
             />
 
             <div className="space-y-3 border border-border bg-muted/30 p-4">
@@ -100,13 +109,13 @@ export const NoteForm = ({
                         <div key={tag.id} className="flex items-center space-x-2">
                             <Checkbox
                                 id={`tag-${tag.id}`}
-                                checked={data.tag_ids.includes(tag.id)}
+                                checked={data.tags.includes(tag.id)}
                                 onCheckedChange={(checked) => {
                                     setData(
-                                        'tag_ids',
+                                        'tags',
                                         checked
-                                            ? [...data.tag_ids, tag.id]
-                                            : data.tag_ids.filter((id) => id !== tag.id),
+                                            ? [...data.tags, tag.id]
+                                            : data.tags.filter((id) => id !== tag.id),
                                     );
                                 }}
                             />

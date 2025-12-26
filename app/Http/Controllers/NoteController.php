@@ -156,7 +156,7 @@ class NoteController extends Controller
             $note->tags()->sync($validated['tags']);
         }
 
-        return redirect()->route('notes.index')->with('success', 'Note updated successfully');
+        return redirect()->back()->with('success', 'Note updated successfully');
     }
 
     /**
