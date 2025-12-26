@@ -4,12 +4,13 @@ import {
     imageAutocompleteSuggestions,
     imageUploadHandler,
     linkAutocompleteSuggestions,
+    sandpackConfig,
 } from './params';
 
 import {
     codeBlockPlugin,
     codeMirrorPlugin,
-    directivesPlugin,
+    diffSourcePlugin,
     headingsPlugin,
     imagePlugin,
     linkDialogPlugin,
@@ -17,13 +18,15 @@ import {
     listsPlugin,
     markdownShortcutPlugin,
     quotePlugin,
+    sandpackPlugin,
+    tablePlugin,
     thematicBreakPlugin,
     toolbarPlugin,
 } from '@mdxeditor/editor';
 
 import { cn } from '@/lib/utils';
 
-import { AdmonitionDirectiveDescriptor, MDXEditor } from '@mdxeditor/editor';
+import { MDXEditor } from '@mdxeditor/editor';
 import { Toolbar } from './toolbar';
 
 export const Editor = ({
@@ -45,26 +48,26 @@ export const Editor = ({
             onChange={(value) => onChange(value)}
             contentEditableClassName="prose max-w-full font-sans"
             plugins={[
-                // Headings
+                // Basic Formatting
                 headingsPlugin(),
-                // Quotes
                 quotePlugin(),
-                // Lists
                 listsPlugin(),
-                // Thematic Break (hr)
                 thematicBreakPlugin(),
                 // Links
                 linkPlugin(),
                 linkDialogPlugin({ linkAutocompleteSuggestions }),
                 // Images
                 imagePlugin({ imageUploadHandler, imageAutocompleteSuggestions }),
+                // Tables
+                tablePlugin(),
                 // Code blocks
                 codeBlockPlugin({ defaultCodeBlockLanguage, codeBlockEditorDescriptors: [] }),
                 codeMirrorPlugin({ codeBlockLanguages }),
-                // Admonitions/Directives
-                directivesPlugin({ directiveDescriptors: [AdmonitionDirectiveDescriptor] }),
+                sandpackPlugin({ sandpackConfig }),
+                diffSourcePlugin(),
                 // Markdown shortcuts
                 markdownShortcutPlugin(),
+
                 // Toolbar
                 toolbarPlugin({ toolbarContents: () => <Toolbar /> }),
             ]}
