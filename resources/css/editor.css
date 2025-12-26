@@ -143,17 +143,19 @@
     border: 1px solid oklch(0.86 0 0) !important;
     border-radius: 4px !important;
     padding: 4px !important;
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+    box-shadow:
+        0 4px 6px -1px rgb(0 0 0 / 0.1),
+        0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
 }
 
 /* Select items - Light Mode */
-.mdxeditor-select-content [role="option"],
+.mdxeditor-select-content [role='option'],
 .mdxeditor-select-content button {
     background: transparent !important;
     color: oklch(0.145 0 0) !important;
 }
 
-.mdxeditor-select-content [role="option"]:hover,
+.mdxeditor-select-content [role='option']:hover,
 .mdxeditor-select-content button:hover {
     background: oklch(0.93 0 0) !important;
 }
@@ -169,17 +171,19 @@
 
 .dark .mdxeditor-select-content {
     border: 1px solid oklch(0.35 0 0) !important;
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.3) !important;
+    box-shadow:
+        0 4px 6px -1px rgb(0 0 0 / 0.5),
+        0 2px 4px -2px rgb(0 0 0 / 0.3) !important;
 }
 
 /* Select items - Dark Mode */
-.dark .mdxeditor-select-content [role="option"],
+.dark .mdxeditor-select-content [role='option'],
 .dark .mdxeditor-select-content button {
     background: transparent !important;
     color: oklch(0.985 0 0) !important;
 }
 
-.dark .mdxeditor-select-content [role="option"]:hover,
+.dark .mdxeditor-select-content [role='option']:hover,
 .dark .mdxeditor-select-content button:hover {
-    background: oklch(0.20 0 0) !important;
+    background: oklch(0.2 0 0) !important;
 }

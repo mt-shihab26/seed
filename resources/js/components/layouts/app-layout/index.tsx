@@ -6,7 +6,7 @@ import { Menu } from './menu';
 export const AppLayout = ({ children }: { children: ReactNode }) => {
     return (
         <RootLayout>
-            <div className="flex h-screen w-full flex-col pb-3">
+            <div className="flex h-full w-full flex-col pb-4">
                 <div className="flex flex-col items-center justify-center py-1">
                     <Menu />
                 </div>
