@@ -61,6 +61,7 @@ export const ContentInput = ({
             className={className}
             plugins={plugins}
             autoFocus={autoFocus}
+            readOnly={readOnly}
         />
     );
 };

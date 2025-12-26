@@ -73,7 +73,7 @@ const Show = ({ note }: { note: TNote }) => {
                     </div>
                 </div>
                 <Separator />
-                <ContentInput value={note.content} readOnly />
+                <ContentInput value={note.content} readOnly={true} />
             </div>
         </NoteLayout>
     );
