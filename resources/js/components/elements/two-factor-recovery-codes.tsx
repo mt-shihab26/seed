@@ -1,4 +1,3 @@
-import { regenerateRecoveryCodes } from '@/routes/two-factor';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -72,7 +71,8 @@ export const TwoFactorRecoveryCodes = ({
 
                     {canRegenerateCodes && (
                         <Form
-                            {...regenerateRecoveryCodes.form()}
+                            action={route('two-factor.regenerate-recovery-codes')}
+                            method="post"
                             options={{ preserveScroll: true }}
                             onSuccess={fetchRecoveryCodes}
                         >

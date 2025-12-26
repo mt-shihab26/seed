@@ -6,21 +6,19 @@ import {
     DialogTitle,
 } from '@/components/ui/dialog';
 
-import { Button } from '@/components/ui/button';
-import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
-import { Spinner } from '@/components/ui/spinner';
-
-import { InputError } from '@/components/elements/input-error';
-
 import { useClipboard } from '@/hooks/use-clipboard';
 import { OTP_MAX_LENGTH } from '@/hooks/use-two-factor-auth';
-import { confirm } from '@/routes/two-factor';
 import { REGEXP_ONLY_DIGITS } from 'input-otp';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import { Button } from '@/components/ui/button';
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
+import { Spinner } from '@/components/ui/spinner';
 import { Form } from '@inertiajs/react';
 import { Check, Copy, ScanLine } from 'lucide-react';
+
 import { AlertError } from './alert-error';
+import { InputError } from './input-error';
 
 function GridScanIcon() {
     return (
@@ -147,7 +145,13 @@ function TwoFactorVerificationStep({
     }, []);
 
     return (
-        <Form {...confirm.form()} onSuccess={() => onClose()} resetOnError resetOnSuccess>
+        <Form
+            action={route('two-factor.confirm')}
+            method="post"
+            onSuccess={() => onClose()}
+            resetOnError
+            resetOnSuccess
+        >
             {({
                 processing,
                 errors,
