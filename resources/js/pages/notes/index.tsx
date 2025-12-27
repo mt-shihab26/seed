@@ -70,7 +70,7 @@ const Index = ({
                         <div
                             key={note.id}
                             onClick={() => router.visit(route('notes.show', note))}
-                            className="group relative flex cursor-pointer flex-col gap-3 rounded-xl border border-border bg-card p-6 text-card-foreground shadow-none transition-all hover:shadow-xs"
+                            className="group relative flex cursor-pointer flex-col gap-3 rounded-xl border border-border bg-background p-6 text-foreground shadow-none transition-all hover:shadow-xs"
                         >
                             {note.folder && (
                                 <ColoredBadge
@@ -83,7 +83,9 @@ const Index = ({
                                 </ColoredBadge>
                             )}
                             <TitleInput value={note.title} readOnly />
-                            <ContentInput value={note.content} readOnly excerpt />
+                            <div className="flex-1">
+                                <ContentInput value={note.content} readOnly excerpt />
+                            </div>
                             <TagsInput value={note.tags} readOnly />
                             <div className="flex items-center justify-between">
                                 <span className="text-xs text-muted-foreground">
