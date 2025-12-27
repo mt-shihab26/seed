@@ -10,6 +10,7 @@ import {
 import type { TColor } from '@/types/enums';
 import type { TFolder } from '@/types/models';
 
+import { useUser } from '@/hooks/use-user';
 import { getColorClasses } from '@/lib/colors';
 import { router, useForm } from '@inertiajs/react';
 import { useState } from 'react';
@@ -23,7 +24,10 @@ import { Label } from '@/components/ui/label';
 
 import { SettingLayout } from '@/components/layouts/setting-layout';
 
-const Folders = ({ folders }: { folders: TFolder[] }) => {
+const Folders = () => {
+    const { user } = useUser();
+    const { folders } = user;
+
     const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const [editingFolder, setEditingFolder] = useState<TFolder | null>(null);
@@ -52,8 +56,8 @@ const Folders = ({ folders }: { folders: TFolder[] }) => {
                     </Button>
                 </div>
 
-                <div className="grid gap-4">
-                    {folders.map((folder) => {
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {folders?.map((folder) => {
                         const colorClasses = getColorClasses(folder.color);
                         return (
                             <div
@@ -91,8 +95,7 @@ const Folders = ({ folders }: { folders: TFolder[] }) => {
                         );
                     })}
                 </div>
-
-                {folders.length === 0 && (
+                {folders?.length === 0 && (
                     <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border py-12 text-center">
                         <FolderIcon className="mb-4 size-12 text-muted-foreground" />
                         <h3 className="mb-2 text-lg font-semibold">No folders yet</h3>
@@ -106,7 +109,6 @@ const Folders = ({ folders }: { folders: TFolder[] }) => {
                     </div>
                 )}
             </div>
-
             <CreateFolderDialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen} />
             <EditFolderDialog
                 open={isEditDialogOpen}

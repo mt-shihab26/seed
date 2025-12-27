@@ -27,13 +27,9 @@ class SettingController extends Controller
     /**
      * Show the user's folders management page.
      */
-    public function editFolders(Request $request)
+    public function folders()
     {
-        $folders = $request->user()->folders()->withCount('notes')->orderBy('name')->get();
-
-        return inertia('settings/folders', [
-            'folders' => $folders,
-        ]);
+        return inertia('settings/folders');
     }
 
     /**

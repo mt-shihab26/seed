@@ -13,7 +13,7 @@ Route::prefix('/settings')->middleware('auth')->group(function () {
     Route::redirect('/', '/settings/notes')->name('settings.redirect');
 
     Route::get('/notes', [SettingController::class, 'editNotes'])->name('settings.notes.show');
-    Route::get('/folders', [SettingController::class, 'editFolders'])->name('settings.folders.show');
+    Route::get('/folders', [SettingController::class, 'folders'])->name('settings.folders.show');
     Route::get('/tags', [SettingController::class, 'editTags'])->name('settings.tags.show');
 
     Route::get('/profile', [SettingController::class, 'editProfile'])->name('settings.profile.edit');
