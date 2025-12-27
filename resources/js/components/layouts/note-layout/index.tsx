@@ -19,7 +19,7 @@ export const NoteLayout = ({
     return (
         <AppLayout>
             <Head title={title} />
-            <main className={cn('mx-auto flex w-full flex-1 flex-col space-y-6', className)}>
+            <main className={cn('mx-auto flex w-full flex-1 flex-col space-y-6 px-4', className)}>
                 {header}
                 <div className="flex-1 space-y-6">{children}</div>
             </main>

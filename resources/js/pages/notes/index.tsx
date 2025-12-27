@@ -16,7 +16,9 @@ import { ActionLink } from '@/components/elements/action-link';
 import { BackButton } from '@/components/elements/back-button';
 import { ColoredBadge } from '@/components/elements/colored-badge';
 import { IconLink } from '@/components/elements/icon-link';
+import { TagsInput } from '@/components/inputs/tags-input';
 import { NoteLayout } from '@/components/layouts/note-layout';
+import { useUser } from '@/hooks/use-user';
 import { Link } from '@inertiajs/react';
 
 const Index = ({
@@ -28,6 +30,8 @@ const Index = ({
     title: string;
     back: string | null;
 }) => {
+    const {} = useUser();
+
     return (
         <NoteLayout
             title={title}
@@ -85,20 +89,7 @@ const Index = ({
                             <p className="line-clamp-3 flex-1 text-sm leading-relaxed text-pretty text-muted-foreground">
                                 {note.content}
                             </p>
-                            {note.tags.length > 0 && (
-                                <div className="flex flex-wrap gap-1">
-                                    {note.tags.map((tag) => (
-                                        <ColoredBadge
-                                            type="tag"
-                                            key={tag.id}
-                                            color={tag.color}
-                                            className="text-xs"
-                                        >
-                                            {tag.name}
-                                        </ColoredBadge>
-                                    ))}
-                                </div>
-                            )}
+                            <TagsInput value={note.tags} readOnly />
                             <div className="flex items-center justify-between">
                                 <span className="text-xs text-muted-foreground">
                                     {formatDateTime(note.created_at)}

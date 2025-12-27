@@ -111,7 +111,7 @@ export const Menu = () => {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
-                className="relative flex max-h-[calc(100vh-2.5rem)] min-w-full flex-col space-y-3 overflow-hidden rounded-4xl p-4 md:min-w-120"
+                className="relative flex max-h-[calc(100vh-2.5rem)] w-full min-w-full flex-col space-y-3 overflow-hidden rounded-4xl p-4 md:min-w-120"
                 align="center"
                 sideOffset={-44}
             >
