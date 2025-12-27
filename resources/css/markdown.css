@@ -140,11 +140,7 @@
 
 /* Popup dialogs - Light Mode */
 .mdxeditor-popup-container,
-.mdxeditor-popup-container *,
-[data-radix-popper-content-wrapper],
-[data-radix-popper-content-wrapper] *,
-[role='dialog'],
-[role='dialog'] * {
+.mdxeditor-popup-container * {
     background: oklch(0.95 0 0) !important;
     background-color: oklch(0.95 0 0) !important;
     color: oklch(0.145 0 0) !important;
@@ -152,11 +148,7 @@
 
 /* Popup dialogs - Dark Mode */
 .dark .mdxeditor-popup-container,
-.dark .mdxeditor-popup-container *,
-.dark [data-radix-popper-content-wrapper],
-.dark [data-radix-popper-content-wrapper] *,
-.dark [role='dialog'],
-.dark [role='dialog'] * {
+.dark .mdxeditor-popup-container * {
     background: oklch(0.16 0 0) !important;
     background-color: oklch(0.16 0 0) !important;
     color: oklch(0.985 0 0) !important;
@@ -164,9 +156,7 @@
 
 /* Dropdown/Select styling - Light Mode */
 .mdxeditor-select-content,
-.mdxeditor-select-content > div,
-[data-radix-select-content],
-[data-radix-select-viewport] {
+.mdxeditor-select-content > div {
     background: oklch(0.95 0 0) !important;
     color: oklch(0.145 0 0) !important;
 }
@@ -194,9 +184,7 @@
 
 /* Dropdown/Select styling - Dark Mode */
 .dark .mdxeditor-select-content,
-.dark .mdxeditor-select-content > div,
-.dark [data-radix-select-content],
-.dark [data-radix-select-viewport] {
+.dark .mdxeditor-select-content > div {
     background: oklch(0.16 0 0) !important;
     color: oklch(0.985 0 0) !important;
 }

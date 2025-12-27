@@ -1,13 +1,12 @@
-import { useState } from 'react';
-
 import type { TFolder } from '@/types/models';
+
+import { useState } from 'react';
 
 import { ColoredBadge } from '@/components/elements/colored-badge';
 import { FolderForm } from '@/components/forms/folder-form';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Separator } from '@/components/ui/separator';
 import { CheckIcon, FolderIcon } from 'lucide-react';
 
 export const FolderSelect = ({
@@ -36,11 +35,12 @@ export const FolderSelect = ({
                 >
                     {value ? (
                         <ColoredBadge type="folder" color={value.color}>
+                            <FolderIcon className="size-3.5" />
                             {value.name}
                         </ColoredBadge>
                     ) : (
                         <span className="flex items-center gap-1 text-sm text-muted-foreground">
-                            <FolderIcon className="size-4" />
+                            <FolderIcon className="size-3.5" />
                             Select folder
                         </span>
                     )}
@@ -50,15 +50,16 @@ export const FolderSelect = ({
                 <div className="space-y-4">
                     <div className="space-y-2">
                         <Label className="text-xs text-muted-foreground">Your Folders</Label>
-                        <div className="grid max-h-60 gap-2 overflow-y-auto">
+                        <div className="folder-selector-scrollbar grid gap-2 overflow-y-auto">
                             {folders.map((folder) => (
                                 <button
                                     key={folder.id}
                                     type="button"
                                     onClick={() => handleFolderSelect(folder)}
-                                    className="flex items-center justify-between rounded-md border border-border p-2 text-left transition-colors hover:bg-muted"
+                                    className="flex items-center justify-between text-left transition-colors hover:bg-muted"
                                 >
                                     <ColoredBadge type="folder" color={folder.color}>
+                                        <FolderIcon className="size-3.5" />
                                         {folder.name}
                                     </ColoredBadge>
                                     {value?.id === folder.id && (
@@ -68,7 +69,6 @@ export const FolderSelect = ({
                             ))}
                         </div>
                     </div>
-                    <Separator />
                     <div className="space-y-2">
                         <FolderForm />
                     </div>

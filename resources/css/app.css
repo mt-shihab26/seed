@@ -4,7 +4,8 @@
 @import '@fontsource-variable/jetbrains-mono';
 @import './theme.css';
 @import '@mdxeditor/editor/style.css';
-@import './editor.css';
+@import './markdown.css';
+
 @plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
@@ -60,5 +61,15 @@
     }
     html {
         @apply font-sans;
+    }
+}
+
+@layer utilities {
+    .page-scrollbar {
+        @apply [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-border [&::-webkit-scrollbar-track]:bg-muted;
+    }
+
+    .folder-selector-scrollbar {
+        @apply [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-border [&::-webkit-scrollbar-track]:bg-muted;
     }
 }

@@ -8,10 +8,10 @@ import { ColoredBadge } from '@/components/elements/colored-badge';
 import { InputError } from '@/components/elements/input-error';
 import { SubmitButton } from '@/components/elements/submit-button';
 import { ContentInput } from '@/components/inputs/content-input';
+import { FolderSelect } from '@/components/inputs/folder-select';
 import { TitleInput } from '@/components/inputs/title-input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import { FolderSelect } from '../inputs/folder-select';
 import { TagForm } from './tag-form';
 
 export const NoteForm = ({
@@ -72,7 +72,6 @@ export const NoteForm = ({
                 placeholder="Write your note content here..."
                 value={data.content}
                 onChange={(value) => setData('content', value)}
-                className="min-h-80"
             />
             <div className="space-y-3 border border-border bg-muted/30 p-4">
                 <Label>Select tags to organize your note</Label>
