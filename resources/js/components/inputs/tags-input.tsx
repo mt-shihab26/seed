@@ -34,7 +34,7 @@ export const TagsInput = ({
                                     type="button"
                                     className="group relative"
                                     onClick={() => {
-                                        if (readOnly || !onChange) return;
+                                        if (!onChange) return;
                                         onChange((value || []).filter((t) => t.id !== tag.id));
                                     }}
                                 >
@@ -78,7 +78,7 @@ export const TagsInput = ({
                                                 key={tag.id}
                                                 type="button"
                                                 onClick={() => {
-                                                    if (readOnly || !onChange) return;
+                                                    if (!onChange) return;
 
                                                     const currentTags = value || [];
                                                     const isSelected = currentTags.some(

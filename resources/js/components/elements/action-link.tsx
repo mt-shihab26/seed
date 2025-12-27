@@ -12,7 +12,7 @@ interface TProps extends ComponentPropsWithoutRef<typeof Link> {
     variant?: 'default' | 'destructive';
 }
 
-export const NoteActionLink = ({
+export const ActionLink = ({
     icon: Icon,
     active = false,
     variant = 'default',

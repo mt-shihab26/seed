@@ -13,17 +13,23 @@ export const FolderInput = ({
     value,
     onChange,
     folders,
+    readOnly = false,
 }: {
     value: TFolder | null;
-    onChange: (folder: TFolder | null) => void;
-    folders: TFolder[];
+    onChange?: (folder: TFolder | null) => void;
+    folders?: TFolder[];
+    readOnly?: boolean;
 }) => {
     const [open, setOpen] = useState(false);
 
-    const handleFolderSelect = (folder: TFolder) => {
-        onChange(folder);
-        setOpen(false);
-    };
+    if (readOnly) {
+        return value ? (
+            <ColoredBadge type="folder" color={value.color}>
+                <FolderIcon className="size-4" />
+                {value.name}
+            </ColoredBadge>
+        ) : null;
+    }
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
@@ -52,12 +58,16 @@ export const FolderInput = ({
                     <div className="space-y-2">
                         <Label className="text-xs text-muted-foreground">Your Folders</Label>
                         <div className="folder-selector-scrollbar grid gap-2 overflow-y-auto">
-                            {folders.map((folder) => (
+                            {folders?.map((folder) => (
                                 <button
                                     key={folder.id}
                                     type="button"
-                                    onClick={() => handleFolderSelect(folder)}
                                     className="flex items-center justify-between text-left transition-colors hover:bg-muted"
+                                    onClick={() => {
+                                        if (!onChange) return;
+                                        onChange(folder);
+                                        setOpen(false);
+                                    }}
                                 >
                                     <ColoredBadge type="folder" color={folder.color}>
                                         <FolderIcon className="size-4" />

@@ -3,9 +3,9 @@ import type { TFolder, TNote, TTag } from '@/types/models';
 import { formatDateTime } from '@/lib/format';
 import { useForm } from '@inertiajs/react';
 
+import { ActionLink } from '@/components/elements/action-link';
 import { CancelButton } from '@/components/elements/cancel-button';
 import { InputError } from '@/components/elements/input-error';
-import { NoteActionLink } from '@/components/elements/note-action-link';
 import { SubmitButton } from '@/components/elements/submit-button';
 import { ContentInput } from '@/components/inputs/content-input';
 import { FolderInput } from '@/components/inputs/folder-input';
@@ -18,11 +18,13 @@ export const NoteForm = ({
     folders,
     tags,
     onCancel,
+    readOnly = false,
 }: {
     note?: TNote;
-    folders: TFolder[];
-    tags: TTag[];
+    folders?: TFolder[];
+    tags?: TTag[];
     onCancel?: () => void;
+    readOnly?: boolean;
 }) => {
     const { errors, processing, data, setData, post, patch } = useForm<{
         title: string;
@@ -36,28 +38,19 @@ export const NoteForm = ({
         tags: note?.tags?.map((tag) => tag.id) || [],
     });
 
-    const handleSubmit = () => {
-        if (note) {
-            patch(route('notes.update', note), {
-                preserveScroll: true,
-            });
-        } else {
-            post(route('notes.store'), {
-                preserveScroll: true,
-            });
-        }
-    };
-
     return (
         <div className="space-y-4">
-            <InputError
-                message={errors.title || errors.content || errors.folder_id || errors.tags}
-            />
+            {!readOnly && (
+                <InputError
+                    message={errors.title || errors.content || errors.folder_id || errors.tags}
+                />
+            )}
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <FolderInput
-                    value={folders.find((f) => f.id === data.folder_id) || null}
+                    value={note?.folder || folders?.find((f) => f.id === data.folder_id) || null}
                     onChange={(folder) => setData('folder_id', folder?.id || '')}
                     folders={folders}
+                    readOnly={readOnly}
                 />
                 {note && <span>{formatDateTime(note.created_at)}</span>}
             </div>
@@ -66,11 +59,11 @@ export const NoteForm = ({
                 value={data.title}
                 onChange={(value) => setData('title', value)}
                 readOnly={readOnly}
-                autoFocus={true}
+                autoFocus={!readOnly}
             />
             <div className="flex flex-wrap items-center justify-between gap-2 text-sm text-muted-foreground">
                 <TagsInput
-                    value={data.tags.map((tag) => tags.find((t) => t.id === tag) as TTag)}
+                    value={data.tags.map((tag) => tags?.find((t) => t.id === tag) as TTag)}
                     onChange={(tags) =>
                         setData(
                             'tags',
@@ -78,23 +71,23 @@ export const NoteForm = ({
                         )
                     }
                     tags={tags}
+                    readOnly={readOnly}
                 />
-
                 {note && (
                     <div className="flex gap-1">
-                        <NoteActionLink
+                        <ActionLink
                             icon={StarIcon}
                             href={route('notes.toggle-favorite', note)}
                             method="patch"
                             active={!!note.favorited_at}
                         />
-                        <NoteActionLink
+                        <ActionLink
                             icon={ArchiveIcon}
                             href={route('notes.toggle-archive', note)}
                             method="patch"
                             active={!!note.archived_at}
                         />
-                        <NoteActionLink
+                        <ActionLink
                             icon={TrashIcon}
                             href={route('notes.destroy', note)}
                             method="delete"
@@ -108,11 +101,24 @@ export const NoteForm = ({
                 placeholder="Write your note content here..."
                 value={data.content}
                 onChange={(value) => setData('content', value)}
+                readOnly={readOnly}
             />
-            <div className="flex flex-row items-center justify-end gap-4">
-                {onCancel && <CancelButton onClick={onCancel} />}
-                <SubmitButton onClick={handleSubmit} editing={!!note} processing={processing} />
-            </div>
+            {!readOnly && (
+                <div className="flex flex-row items-center justify-end gap-4">
+                    {onCancel && <CancelButton onClick={onCancel} />}
+                    <SubmitButton
+                        onClick={() => {
+                            if (note) {
+                                patch(route('notes.update', note), { preserveScroll: true });
+                            } else {
+                                post(route('notes.store'), { preserveScroll: true });
+                            }
+                        }}
+                        editing={!!note}
+                        processing={processing}
+                    />
+                </div>
+            )}
         </div>
     );
 };

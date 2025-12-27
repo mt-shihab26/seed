@@ -12,10 +12,10 @@ import type { TNote } from '@/types/models';
 
 import { formatDateTime } from '@/lib/format';
 
+import { ActionLink } from '@/components/elements/action-link';
 import { BackButton } from '@/components/elements/back-button';
 import { ColoredBadge } from '@/components/elements/colored-badge';
 import { IconLink } from '@/components/elements/icon-link';
-import { NoteActionLink } from '@/components/elements/note-action-link';
 import { NoteLayout } from '@/components/layouts/note-layout';
 import { Link } from '@inertiajs/react';
 
@@ -104,29 +104,26 @@ const Index = ({
                                     {formatDateTime(note.created_at)}
                                 </span>
                                 <div className="flex gap-1" onClick={(e) => e.stopPropagation()}>
-                                    <NoteActionLink
+                                    <ActionLink
                                         icon={StarIcon}
                                         href={route('notes.toggle-favorite', note)}
                                         method="patch"
                                         active={!!note.favorited_at}
                                     />
-                                    <NoteActionLink
+                                    <ActionLink
                                         icon={ArchiveIcon}
                                         href={route('notes.toggle-archive', note)}
                                         method="patch"
                                         active={!!note.archived_at}
                                     />
-                                    <NoteActionLink
+                                    <ActionLink
                                         icon={TrashIcon}
                                         href={route('notes.destroy', note)}
                                         method="delete"
                                         active={!!note.deleted_at}
                                         variant="destructive"
                                     />
-                                    <NoteActionLink
-                                        icon={EditIcon}
-                                        href={route('notes.edit', note)}
-                                    />
+                                    <ActionLink icon={EditIcon} href={route('notes.edit', note)} />
                                 </div>
                             </div>
                         </Link>
