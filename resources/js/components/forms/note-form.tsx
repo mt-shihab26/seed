@@ -1,10 +1,10 @@
 import type { TFolder, TNote, TTag } from '@/types/models';
 
-import { formatDateTime } from '@/lib/format';
 import { useForm } from '@inertiajs/react';
 
 import { CancelButton } from '@/components/elements/cancel-button';
 import { InputError } from '@/components/elements/input-error';
+import { RenderDateTime } from '@/components/elements/render-date-time';
 import { SubmitButton } from '@/components/elements/submit-button';
 import { ContentInput } from '@/components/inputs/content-input';
 import { FolderInput } from '@/components/inputs/folder-input';
@@ -51,7 +51,7 @@ export const NoteForm = ({
                     folders={folders}
                     readOnly={readOnly}
                 />
-                {note && <span>{formatDateTime(note.created_at)}</span>}
+                {note && <RenderDateTime value={note.created_at} />}
             </div>
             <TitleInput
                 placeholder="Enter note title"

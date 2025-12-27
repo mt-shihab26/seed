@@ -21,6 +21,7 @@ export const ActionLink = ({
 }: TProps) => {
     return (
         <Link
+            preserveScroll
             className={cn(buttonVariants({ size: 'icon', variant: 'ghost' }), className)}
             {...props}
         >
