@@ -5,6 +5,7 @@ import { getColorClasses } from '@/lib/colors';
 import { router } from '@inertiajs/react';
 import { useState } from 'react';
 
+import { ConfirmDelete } from '@/components/elements/confirm-delete';
 import { FolderForm } from '@/components/forms/folder-form';
 import { SettingLayout } from '@/components/layouts/setting-layout';
 import { Button } from '@/components/ui/button';
@@ -17,12 +18,7 @@ const Folders = () => {
 
     const [createOpen, setCreateOpen] = useState(false);
     const [editOpen, setEditOpen] = useState<TFolder | null>(null);
-
-    const handleDelete = (folder: TFolder) => {
-        if (confirm(`Are you sure you want to delete "${folder.name}"?`)) {
-            router.delete(route('folders.destroy', folder), { preserveScroll: true });
-        }
-    };
+    const [deleteOpen, setDeleteOpen] = useState<TFolder | null>(null);
 
     return (
         <SettingLayout title="Folders">
@@ -66,7 +62,7 @@ const Folders = () => {
                                     <Button
                                         variant="ghost"
                                         size="icon-sm"
-                                        onClick={() => handleDelete(folder)}
+                                        onClick={() => setDeleteOpen(folder)}
                                     >
                                         <TrashIcon className="size-4" />
                                     </Button>
@@ -97,7 +93,7 @@ const Folders = () => {
                     <FolderForm onSuccess={() => setCreateOpen(false)} />
                 </DialogContent>
             </Dialog>
-            <Dialog open={!!editOpen} onOpenChange={() => setEditOpen(null)}>
+            <Dialog open={!!editOpen} onOpenChange={(open) => !open && setEditOpen(null)}>
                 <DialogContent>
                     <DialogHeader>
                         <DialogTitle>Edit The Note</DialogTitle>
@@ -107,6 +103,19 @@ const Folders = () => {
                     )}
                 </DialogContent>
             </Dialog>
+            {deleteOpen && (
+                <ConfirmDelete
+                    open={!!deleteOpen}
+                    onChange={(open) => !open && setDeleteOpen(null)}
+                    title="Delete Folder"
+                    description={`Are you sure you want to delete "${deleteOpen.name}"? This action cannot be undone.`}
+                    onConfirm={() =>
+                        router.delete(route('folders.destroy', deleteOpen), {
+                            preserveScroll: true,
+                        })
+                    }
+                />
+            )}
         </SettingLayout>
     );
 };
