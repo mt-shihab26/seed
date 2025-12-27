@@ -13,8 +13,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { PencilIcon, PlusIcon, TagIcon, TrashIcon } from 'lucide-react';
 
 const Tags = () => {
-    const { user } = useUser();
-    const { tags } = user;
+    const { tags } = useUser().user;
 
     const [createOpen, setCreateOpen] = useState(false);
     const [editOpen, setEditOpen] = useState<TTag | null>(null);

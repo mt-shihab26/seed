@@ -13,8 +13,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { FolderIcon, PencilIcon, PlusIcon, TrashIcon } from 'lucide-react';
 
 const Folders = () => {
-    const { user } = useUser();
-    const { folders } = user;
+    const { folders } = useUser().user;
 
     const [createOpen, setCreateOpen] = useState(false);
     const [editOpen, setEditOpen] = useState<TFolder | null>(null);
