@@ -29,17 +29,11 @@ export const MenuGroup = ({ links }: { links: TLink[] }) => {
                         key={getHref(link)}
                         onClick={() => router.visit(getHref(link))}
                         data-active={isActiveHref(url, link)}
-                        className={cn(
-                            isActiveHref(url, link) ? 'bg-accent text-accent-foreground' : '',
-                        )}
                         style={{ color: colorClasses?.hex }}
+                        className={cn({
+                            'bg-accent text-accent-foreground': isActiveHref(url, link),
+                        })}
                     >
-                        {link.color && colorClasses && (
-                            <div
-                                className={`size-2 shrink-0 rounded-full ${colorClasses.bg}`}
-                                aria-hidden="true"
-                            />
-                        )}
                         {link.icon && <Icon node={link.icon} className="size-4" />}
                         {link.title}
                         {link.shortcut && (
