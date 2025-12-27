@@ -1,42 +1,24 @@
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-} from '@/components/ui/dialog';
-
-import type { TColor } from '@/types/enums';
 import type { TTag } from '@/types/models';
 
+import { useUser } from '@/hooks/use-user';
 import { getColorClasses } from '@/lib/colors';
-import { router, useForm } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
 import { useState } from 'react';
 
-import { ColorGrid } from '@/components/elements/color-grid';
+import { ConfirmDelete } from '@/components/elements/confirm-delete';
+import { TagForm } from '@/components/forms/tag-form';
+import { SettingLayout } from '@/components/layouts/setting-layout';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { PencilIcon, PlusIcon, TagIcon, TrashIcon } from 'lucide-react';
 
-import { SettingLayout } from '@/components/layouts/setting-layout';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+const Tags = () => {
+    const { user } = useUser();
+    const { tags } = user;
 
-const Tags = ({ tags }: { tags: TTag[] }) => {
-    const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-    const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-    const [editingTag, setEditingTag] = useState<TTag | null>(null);
-
-    const handleEdit = (tag: TTag) => {
-        setEditingTag(tag);
-        setIsEditDialogOpen(true);
-    };
-
-    const handleDelete = (tag: TTag) => {
-        if (confirm(`Are you sure you want to delete "${tag.name}"?`)) {
-            router.delete(route('tags.destroy', tag), { preserveScroll: true });
-        }
-    };
+    const [createOpen, setCreateOpen] = useState(false);
+    const [editOpen, setEditOpen] = useState<TTag | null>(null);
+    const [deleteOpen, setDeleteOpen] = useState<TTag | null>(null);
 
     return (
         <SettingLayout title="Tags">
@@ -45,14 +27,13 @@ const Tags = ({ tags }: { tags: TTag[] }) => {
                     <p className="text-sm text-muted-foreground">
                         Manage your tags and their colors
                     </p>
-                    <Button onClick={() => setIsCreateDialogOpen(true)}>
+                    <Button onClick={() => setCreateOpen(true)}>
                         <PlusIcon className="mr-2 size-4" />
                         New Tag
                     </Button>
                 </div>
-
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    {tags.map((tag) => {
+                    {tags?.map((tag) => {
                         const colorClasses = getColorClasses(tag.color);
                         return (
                             <div
@@ -74,14 +55,14 @@ const Tags = ({ tags }: { tags: TTag[] }) => {
                                     <Button
                                         variant="ghost"
                                         size="icon-sm"
-                                        onClick={() => handleEdit(tag)}
+                                        onClick={() => setEditOpen(tag)}
                                     >
                                         <PencilIcon className="size-4" />
                                     </Button>
                                     <Button
                                         variant="ghost"
                                         size="icon-sm"
-                                        onClick={() => handleDelete(tag)}
+                                        onClick={() => setDeleteOpen(tag)}
                                     >
                                         <TrashIcon className="size-4" />
                                     </Button>
@@ -90,183 +71,51 @@ const Tags = ({ tags }: { tags: TTag[] }) => {
                         );
                     })}
                 </div>
-
-                {tags.length === 0 && (
+                {tags?.length === 0 && (
                     <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border py-12 text-center">
                         <TagIcon className="mb-4 size-12 text-muted-foreground" />
                         <h3 className="mb-2 text-lg font-semibold">No tags yet</h3>
                         <p className="mb-4 text-sm text-muted-foreground">
                             Create your first tag to categorize your notes
                         </p>
-                        <Button onClick={() => setIsCreateDialogOpen(true)}>
+                        <Button onClick={() => setCreateOpen(true)}>
                             <PlusIcon className="mr-2 size-4" />
                             Create Tag
                         </Button>
                     </div>
                 )}
             </div>
-
-            <CreateTagDialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen} />
-            <EditTagDialog
-                open={isEditDialogOpen}
-                onOpenChange={setIsEditDialogOpen}
-                tag={editingTag}
-            />
+            <Dialog open={createOpen} onOpenChange={setCreateOpen}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Create New Tag</DialogTitle>
+                    </DialogHeader>
+                    <TagForm onSuccess={() => setCreateOpen(false)} />
+                </DialogContent>
+            </Dialog>
+            <Dialog open={!!editOpen} onOpenChange={(open) => !open && setEditOpen(null)}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Edit Tag</DialogTitle>
+                    </DialogHeader>
+                    {editOpen && <TagForm tag={editOpen} onSuccess={() => setEditOpen(null)} />}
+                </DialogContent>
+            </Dialog>
+            {deleteOpen && (
+                <ConfirmDelete
+                    open={!!deleteOpen}
+                    onChange={(open) => !open && setDeleteOpen(null)}
+                    title="Delete Tag"
+                    description={`Are you sure you want to delete "${deleteOpen.name}"? This action cannot be undone.`}
+                    onConfirm={() =>
+                        router.delete(route('tags.destroy', deleteOpen), {
+                            preserveScroll: true,
+                        })
+                    }
+                />
+            )}
         </SettingLayout>
     );
 };
-
-function CreateTagDialog({
-    open,
-    onOpenChange,
-}: {
-    open: boolean;
-    onOpenChange: (open: boolean) => void;
-}) {
-    const { data, setData, post, processing, errors, reset } = useForm({
-        name: '',
-        color: 'gray' as TColor,
-    });
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        post(route('tags.store'), {
-            preserveScroll: true,
-            onSuccess: () => {
-                onOpenChange(false);
-                reset();
-            },
-        });
-    };
-
-    return (
-        <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <DialogHeader>
-                        <DialogTitle>Create Tag</DialogTitle>
-                        <DialogDescription>
-                            Add a new tag to categorize your notes
-                        </DialogDescription>
-                    </DialogHeader>
-
-                    <div className="space-y-4">
-                        <div>
-                            <Label htmlFor="name">Name</Label>
-                            <Input
-                                id="name"
-                                value={data.name}
-                                onChange={(e) => setData('name', e.target.value)}
-                                placeholder="Enter tag name"
-                                autoFocus
-                            />
-                            {errors.name && (
-                                <p className="mt-1 text-sm text-destructive">{errors.name}</p>
-                            )}
-                        </div>
-
-                        <div>
-                            <Label>Color</Label>
-                            <ColorGrid
-                                value={data.color}
-                                onChange={(color) => setData('color', color)}
-                            />
-                            {errors.color && (
-                                <p className="mt-1 text-sm text-destructive">{errors.color}</p>
-                            )}
-                        </div>
-                    </div>
-
-                    <DialogFooter>
-                        <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-                            Cancel
-                        </Button>
-                        <Button type="submit" disabled={processing}>
-                            {processing ? 'Creating...' : 'Create'}
-                        </Button>
-                    </DialogFooter>
-                </form>
-            </DialogContent>
-        </Dialog>
-    );
-}
-
-function EditTagDialog({
-    open,
-    onOpenChange,
-    tag,
-}: {
-    open: boolean;
-    onOpenChange: (open: boolean) => void;
-    tag: TTag | null;
-}) {
-    const { data, setData, patch, processing, errors } = useForm({
-        name: tag?.name || '',
-        color: (tag?.color || 'gray') as TColor,
-    });
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!tag) return;
-
-        patch(route('tags.update', tag), {
-            preserveScroll: true,
-            onSuccess: () => {
-                onOpenChange(false);
-            },
-        });
-    };
-
-    if (!tag) return null;
-
-    return (
-        <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <DialogHeader>
-                        <DialogTitle>Edit Tag</DialogTitle>
-                        <DialogDescription>Update tag name and color</DialogDescription>
-                    </DialogHeader>
-
-                    <div className="space-y-4">
-                        <div>
-                            <Label htmlFor="edit-name">Name</Label>
-                            <Input
-                                id="edit-name"
-                                value={data.name}
-                                onChange={(e) => setData('name', e.target.value)}
-                                placeholder="Enter tag name"
-                                autoFocus
-                            />
-                            {errors.name && (
-                                <p className="mt-1 text-sm text-destructive">{errors.name}</p>
-                            )}
-                        </div>
-
-                        <div>
-                            <Label>Color</Label>
-                            <ColorGrid
-                                value={data.color}
-                                onChange={(color) => setData('color', color)}
-                            />
-                            {errors.color && (
-                                <p className="mt-1 text-sm text-destructive">{errors.color}</p>
-                            )}
-                        </div>
-                    </div>
-
-                    <DialogFooter>
-                        <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-                            Cancel
-                        </Button>
-                        <Button type="submit" disabled={processing}>
-                            {processing ? 'Saving...' : 'Save Changes'}
-                        </Button>
-                    </DialogFooter>
-                </form>
-            </DialogContent>
-        </Dialog>
-    );
-}
 
 export default Tags;

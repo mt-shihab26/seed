@@ -5,11 +5,10 @@ import { useForm } from '@inertiajs/react';
 
 import { ColorPicker } from '@/components/elements/color-picker';
 import { InputError } from '@/components/elements/input-error';
-import { Button } from '@/components/ui/button';
+import { SubmitButton } from '@/components/elements/submit-button';
 import { Input } from '@/components/ui/input';
-import { PlusIcon, SaveIcon } from 'lucide-react';
 
-export const TagForm = ({ tag }: { tag?: TTag }) => {
+export const TagForm = ({ tag, onSuccess }: { tag?: TTag; onSuccess?: () => void }) => {
     const { data, setData, post, patch, processing, errors, reset } = useForm({
         name: tag?.name || '',
         color: (tag?.color || 'gray') as TColor,
@@ -21,10 +20,11 @@ export const TagForm = ({ tag }: { tag?: TTag }) => {
                 e.preventDefault();
 
                 if (tag) {
-                    patch(route('tags.update'), {
+                    patch(route('tags.update', tag), {
                         preserveScroll: true,
                         onSuccess: () => {
                             reset();
+                            onSuccess?.();
                         },
                     });
                 } else {
@@ -32,6 +32,7 @@ export const TagForm = ({ tag }: { tag?: TTag }) => {
                         preserveScroll: true,
                         onSuccess: () => {
                             reset();
+                            onSuccess?.();
                         },
                     });
                 }
@@ -45,19 +46,13 @@ export const TagForm = ({ tag }: { tag?: TTag }) => {
                     className="h-7"
                 />
                 <ColorPicker value={data.color} onChange={(color) => setData('color', color)} />
-                <Button variant="outline" type="submit" disabled={processing} size="sm">
-                    {tag ? (
-                        <>
-                            <SaveIcon className="mr-2 size-4" />
-                            {processing ? 'Saving...' : 'Save'}
-                        </>
-                    ) : (
-                        <>
-                            <PlusIcon className="mr-2 size-4" />
-                            {processing ? 'Adding...' : 'Add'}
-                        </>
-                    )}
-                </Button>
+                <SubmitButton
+                    editing={!!tag}
+                    processing={processing}
+                    size="sm"
+                    editingLabel="Save"
+                    createLabel="Add"
+                />
             </div>
             <InputError message={errors.name || errors.color} />
         </form>
