@@ -6,12 +6,14 @@ import { useForm } from '@inertiajs/react';
 import { CancelButton } from '@/components/elements/cancel-button';
 import { ColoredBadge } from '@/components/elements/colored-badge';
 import { InputError } from '@/components/elements/input-error';
+import { NoteActionLink } from '@/components/elements/note-action-link';
 import { SubmitButton } from '@/components/elements/submit-button';
 import { ContentInput } from '@/components/inputs/content-input';
 import { FolderSelect } from '@/components/inputs/folder-select';
 import { TitleInput } from '@/components/inputs/title-input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
+import { ArchiveIcon, StarIcon, TrashIcon } from 'lucide-react';
 import { TagForm } from './tag-form';
 
 export const NoteForm = ({
@@ -68,6 +70,40 @@ export const NoteForm = ({
                 onChange={(value) => setData('title', value)}
                 autoFocus={true}
             />
+            <div className="flex flex-wrap items-center justify-between gap-2 text-sm text-muted-foreground">
+                {note?.tags && note.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-2">
+                        {note.tags.map((tag) => (
+                            <ColoredBadge type="tag" key={tag.id} color={tag.color}>
+                                {tag.name}
+                            </ColoredBadge>
+                        ))}
+                    </div>
+                )}
+                {note && (
+                    <div className="flex gap-1">
+                        <NoteActionLink
+                            icon={StarIcon}
+                            href={route('notes.toggle-favorite', note)}
+                            method="patch"
+                            active={!!note.favorited_at}
+                        />
+                        <NoteActionLink
+                            icon={ArchiveIcon}
+                            href={route('notes.toggle-archive', note)}
+                            method="patch"
+                            active={!!note.archived_at}
+                        />
+                        <NoteActionLink
+                            icon={TrashIcon}
+                            href={route('notes.destroy', note)}
+                            method="delete"
+                            active={!!note.deleted_at}
+                            variant="destructive"
+                        />
+                    </div>
+                )}
+            </div>
             <ContentInput
                 placeholder="Write your note content here..."
                 value={data.content}

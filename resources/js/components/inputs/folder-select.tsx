@@ -7,7 +7,7 @@ import { FolderForm } from '@/components/forms/folder-form';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { CheckIcon, FolderIcon } from 'lucide-react';
+import { CheckIcon, ChevronDownIcon, FolderIcon } from 'lucide-react';
 
 export const FolderSelect = ({
     value,
@@ -31,19 +31,20 @@ export const FolderSelect = ({
                 <Button
                     variant="ghost"
                     size="sm"
-                    className="h-auto border-0 bg-transparent p-0 pr-1 hover:bg-transparent"
+                    className="h-auto cursor-pointer gap-1 border-0 bg-transparent p-0 pr-1 hover:bg-transparent"
                 >
                     {value ? (
                         <ColoredBadge type="folder" color={value.color}>
-                            <FolderIcon className="size-3.5" />
+                            <FolderIcon className="size-4" />
                             {value.name}
                         </ColoredBadge>
                     ) : (
                         <span className="flex items-center gap-1 text-sm text-muted-foreground">
-                            <FolderIcon className="size-3.5" />
+                            <FolderIcon className="size-4" />
                             Select folder
                         </span>
                     )}
+                    <ChevronDownIcon className="size-4 text-muted-foreground" />
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-80" align="start">
@@ -59,7 +60,7 @@ export const FolderSelect = ({
                                     className="flex items-center justify-between text-left transition-colors hover:bg-muted"
                                 >
                                     <ColoredBadge type="folder" color={folder.color}>
-                                        <FolderIcon className="size-3.5" />
+                                        <FolderIcon className="size-4" />
                                         {folder.name}
                                     </ColoredBadge>
                                     {value?.id === folder.id && (

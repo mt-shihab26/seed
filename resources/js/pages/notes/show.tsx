@@ -33,7 +33,6 @@ const Show = ({ note }: { note: TNote }) => {
                                     <FolderIcon className="size-3.5" />
                                     <span>{note.folder.name}</span>
                                 </ColoredBadge>
-                                <span className="hidden sm:inline">•</span>
                             </>
                         )}
                         <span>{formatDateTime(note.created_at)}</span>
