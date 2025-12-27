@@ -11,15 +11,16 @@ import {
 import type { TNote } from '@/types/models';
 
 import { formatDateTime } from '@/lib/format';
+import { router } from '@inertiajs/react';
 
 import { ActionLink } from '@/components/elements/action-link';
 import { BackButton } from '@/components/elements/back-button';
 import { ColoredBadge } from '@/components/elements/colored-badge';
 import { IconLink } from '@/components/elements/icon-link';
+import { ContentInput } from '@/components/inputs/content-input';
 import { TagsInput } from '@/components/inputs/tags-input';
+import { TitleInput } from '@/components/inputs/title-input';
 import { NoteLayout } from '@/components/layouts/note-layout';
-import { useUser } from '@/hooks/use-user';
-import { Link } from '@inertiajs/react';
 
 const Index = ({
     notes,
@@ -30,8 +31,6 @@ const Index = ({
     title: string;
     back: string | null;
 }) => {
-    const {} = useUser();
-
     return (
         <NoteLayout
             title={title}
@@ -68,9 +67,9 @@ const Index = ({
             ) : (
                 <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
                     {notes.map((note) => (
-                        <Link
+                        <div
                             key={note.id}
-                            href={route('notes.show', note)}
+                            onClick={() => router.visit(route('notes.show', note))}
                             className="group relative flex cursor-pointer flex-col gap-3 rounded-xl border border-border bg-card p-6 text-card-foreground shadow-none transition-all hover:shadow-xs"
                         >
                             {note.folder && (
@@ -83,12 +82,8 @@ const Index = ({
                                     <span>{note.folder.name}</span>
                                 </ColoredBadge>
                             )}
-                            <h3 className="text-lg font-semibold text-balance text-card-foreground">
-                                {note.title}
-                            </h3>
-                            <p className="line-clamp-3 flex-1 text-sm leading-relaxed text-pretty text-muted-foreground">
-                                {note.content}
-                            </p>
+                            <TitleInput value={note.title} readOnly />
+                            <ContentInput value={note.content} readOnly />
                             <TagsInput value={note.tags} readOnly />
                             <div className="flex items-center justify-between">
                                 <span className="text-xs text-muted-foreground">
@@ -117,7 +112,7 @@ const Index = ({
                                     <ActionLink icon={EditIcon} href={route('notes.edit', note)} />
                                 </div>
                             </div>
-                        </Link>
+                        </div>
                     ))}
                 </div>
             )}
