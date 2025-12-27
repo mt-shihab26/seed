@@ -1,5 +1,3 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-
 import type { TFolder } from '@/types/models';
 
 import { useUser } from '@/hooks/use-user';
@@ -7,11 +5,11 @@ import { getColorClasses } from '@/lib/colors';
 import { router } from '@inertiajs/react';
 import { useState } from 'react';
 
-import { Button } from '@/components/ui/button';
-import { FolderIcon, PencilIcon, PlusIcon, TrashIcon } from 'lucide-react';
-
 import { FolderForm } from '@/components/forms/folder-form';
 import { SettingLayout } from '@/components/layouts/setting-layout';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { FolderIcon, PencilIcon, PlusIcon, TrashIcon } from 'lucide-react';
 
 const Folders = () => {
     const { user } = useUser();
@@ -105,7 +103,7 @@ const Folders = () => {
                         <DialogTitle>Edit The Note</DialogTitle>
                     </DialogHeader>
                     {editOpen && (
-                        <FolderForm folder={editOpen} onSuccess={() => setEditOpen(false)} />
+                        <FolderForm folder={editOpen} onSuccess={() => setEditOpen(null)} />
                     )}
                 </DialogContent>
             </Dialog>
