@@ -28,11 +28,11 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('todo_tag', function (Blueprint $table) {
-            $table->foreignUuid('todo_id')->constrained('todos')->cascadeOnDelete()->cascadeOnUpdate();
+        Schema::create('tag_todo', function (Blueprint $table) {
             $table->foreignUuid('tag_id')->constrained('tags')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid('todo_id')->constrained('todos')->cascadeOnDelete()->cascadeOnUpdate();
 
-            $table->primary(['todo_id', 'tag_id']);
+            $table->primary(['tag_id', 'todo_id']);
 
             $table->timestamps();
         });
@@ -43,7 +43,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('todo_tag');
+        Schema::dropIfExists('tag_todo');
         Schema::dropIfExists('todos');
     }
 };

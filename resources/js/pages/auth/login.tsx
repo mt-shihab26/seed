@@ -54,7 +54,7 @@ const Login = ({
                                     <Label htmlFor="password">Password</Label>
                                     {canResetPassword && (
                                         <TextLink
-                                            href={route('request')}
+                                            href={route('password.request')}
                                             className="ml-auto text-sm"
                                             tabIndex={5}
                                         >
@@ -94,7 +94,7 @@ const Login = ({
                         {canRegister && (
                             <div className="text-center text-sm text-muted-foreground">
                                 Don't have an account?{' '}
-                                <TextLink href={route('password.request')} tabIndex={5}>
+                                <TextLink href={route('register')} tabIndex={5}>
                                     Sign up
                                 </TextLink>
                             </div>
