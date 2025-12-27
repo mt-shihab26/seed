@@ -4,17 +4,14 @@ import { formatDateTime } from '@/lib/format';
 import { useForm } from '@inertiajs/react';
 
 import { CancelButton } from '@/components/elements/cancel-button';
-import { ColoredBadge } from '@/components/elements/colored-badge';
 import { InputError } from '@/components/elements/input-error';
 import { NoteActionLink } from '@/components/elements/note-action-link';
 import { SubmitButton } from '@/components/elements/submit-button';
 import { ContentInput } from '@/components/inputs/content-input';
 import { FolderSelect } from '@/components/inputs/folder-select';
+import { TagsInput } from '@/components/inputs/tags-input';
 import { TitleInput } from '@/components/inputs/title-input';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@/components/ui/label';
 import { ArchiveIcon, StarIcon, TrashIcon } from 'lucide-react';
-import { TagForm } from './tag-form';
 
 export const NoteForm = ({
     note,
@@ -71,15 +68,17 @@ export const NoteForm = ({
                 autoFocus={true}
             />
             <div className="flex flex-wrap items-center justify-between gap-2 text-sm text-muted-foreground">
-                {note?.tags && note.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
-                        {note.tags.map((tag) => (
-                            <ColoredBadge type="tag" key={tag.id} color={tag.color}>
-                                {tag.name}
-                            </ColoredBadge>
-                        ))}
-                    </div>
-                )}
+                <TagsInput
+                    value={data.tags.map((tag) => tags.find((t) => t.id === tag) as TTag)}
+                    onChange={(tags) =>
+                        setData(
+                            'tags',
+                            tags.map((t) => t.id),
+                        )
+                    }
+                    tags={tags}
+                />
+
                 {note && (
                     <div className="flex gap-1">
                         <NoteActionLink
@@ -109,36 +108,6 @@ export const NoteForm = ({
                 value={data.content}
                 onChange={(value) => setData('content', value)}
             />
-            <div className="space-y-3 border border-border bg-muted/30 p-4">
-                <Label>Select tags to organize your note</Label>
-                <div className="grid grid-cols-4 gap-2">
-                    {tags.map((tag) => (
-                        <div key={tag.id} className="flex items-center space-x-2">
-                            <Checkbox
-                                id={`tag-${tag.id}`}
-                                checked={data.tags.includes(tag.id)}
-                                onCheckedChange={(checked) => {
-                                    setData(
-                                        'tags',
-                                        checked
-                                            ? [...data.tags, tag.id]
-                                            : data.tags.filter((id) => id !== tag.id),
-                                    );
-                                }}
-                            />
-                            <Label
-                                htmlFor={`tag-${tag.id}`}
-                                className="flex flex-1 cursor-pointer items-center gap-2 font-normal"
-                            >
-                                <ColoredBadge type="tag" color={tag.color} className="text-xs">
-                                    {tag.name}
-                                </ColoredBadge>
-                            </Label>
-                        </div>
-                    ))}
-                </div>
-                <TagForm />
-            </div>
             <div className="flex flex-row items-center justify-end gap-4">
                 {onCancel && <CancelButton onClick={onCancel} />}
                 <SubmitButton onClick={handleSubmit} editing={!!note} processing={processing} />

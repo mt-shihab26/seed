@@ -4,7 +4,15 @@ import { ColoredBadge } from '@/components/elements/colored-badge';
 import { Button } from '@/components/ui/button';
 import { PlusIcon } from 'lucide-react';
 
-export const TagsInput = ({ value, tags }: { value?: TTag[]; tags: TTag[] }) => {
+export const TagsInput = ({
+    value,
+    tags,
+    onChange,
+}: {
+    value?: TTag[];
+    tags: TTag[];
+    onChange: (tags: TTag[]) => void;
+}) => {
     return (
         <div className="flex flex-wrap items-center justify-between gap-2 text-sm text-muted-foreground">
             {value && value.length > 0 && (
