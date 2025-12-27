@@ -20,6 +20,18 @@ export const toolsLinks: TLink[] = [
         icon: StickyNote,
         shortcut: ['n'],
     },
+    {
+        title: 'Todos',
+        route: 'notes.favorites',
+        icon: StickyNote,
+        shortcut: ['n'],
+    },
+    {
+        title: 'Timer',
+        route: 'notes.archived',
+        icon: StickyNote,
+        shortcut: ['n'],
+    },
 ];
 
 export const collectionsLinks: TLink[] = [
