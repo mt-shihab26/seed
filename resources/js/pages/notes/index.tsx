@@ -1,26 +1,17 @@
-import {
-    ArchiveIcon,
-    EditIcon,
-    FolderIcon,
-    PlusIcon,
-    SproutIcon,
-    StarIcon,
-    TrashIcon,
-} from 'lucide-react';
-
 import type { TNote } from '@/types/models';
 
-import { formatDateTime } from '@/lib/format';
 import { router } from '@inertiajs/react';
 
-import { ActionLink } from '@/components/elements/action-link';
 import { BackButton } from '@/components/elements/back-button';
-import { ColoredBadge } from '@/components/elements/colored-badge';
 import { IconLink } from '@/components/elements/icon-link';
+import { RenderDateTime } from '@/components/elements/render-date-time';
 import { ContentInput } from '@/components/inputs/content-input';
+import { FolderInput } from '@/components/inputs/folder-input';
 import { TagsInput } from '@/components/inputs/tags-input';
 import { TitleInput } from '@/components/inputs/title-input';
 import { NoteLayout } from '@/components/layouts/note-layout';
+import { NoteActions } from '@/components/screens/notes/note-actions';
+import { PlusIcon, SproutIcon } from 'lucide-react';
 
 const Index = ({
     notes,
@@ -72,47 +63,15 @@ const Index = ({
                             onClick={() => router.visit(route('notes.show', note))}
                             className="group relative flex cursor-pointer flex-col gap-3 rounded-xl border border-border bg-background p-6 text-foreground shadow-none transition-all hover:shadow-xs"
                         >
-                            {note.folder && (
-                                <ColoredBadge
-                                    type="folder"
-                                    color={note.folder.color}
-                                    className="flex items-center gap-1.5 text-xs"
-                                >
-                                    <FolderIcon className="size-3.5" />
-                                    <span>{note.folder.name}</span>
-                                </ColoredBadge>
-                            )}
+                            {note.folder && <FolderInput value={note.folder} readOnly />}
                             <TitleInput value={note.title} readOnly />
                             <div className="flex-1">
                                 <ContentInput value={note.content} readOnly excerpt />
                             </div>
                             <TagsInput value={note.tags} readOnly />
                             <div className="flex items-center justify-between">
-                                <span className="text-xs text-muted-foreground">
-                                    {formatDateTime(note.created_at)}
-                                </span>
-                                <div className="flex gap-1" onClick={(e) => e.stopPropagation()}>
-                                    <ActionLink
-                                        icon={StarIcon}
-                                        href={route('notes.toggle-favorite', note)}
-                                        method="patch"
-                                        active={!!note.favorited_at}
-                                    />
-                                    <ActionLink
-                                        icon={ArchiveIcon}
-                                        href={route('notes.toggle-archive', note)}
-                                        method="patch"
-                                        active={!!note.archived_at}
-                                    />
-                                    <ActionLink
-                                        icon={TrashIcon}
-                                        href={route('notes.destroy', note)}
-                                        method="delete"
-                                        active={!!note.deleted_at}
-                                        variant="destructive"
-                                    />
-                                    <ActionLink icon={EditIcon} href={route('notes.edit', note)} />
-                                </div>
+                                <RenderDateTime value={note.created_at} />
+                                <NoteActions note={note} />
                             </div>
                         </div>
                     ))}

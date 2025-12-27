@@ -3,7 +3,6 @@ import type { TFolder, TNote, TTag } from '@/types/models';
 import { formatDateTime } from '@/lib/format';
 import { useForm } from '@inertiajs/react';
 
-import { ActionLink } from '@/components/elements/action-link';
 import { CancelButton } from '@/components/elements/cancel-button';
 import { InputError } from '@/components/elements/input-error';
 import { SubmitButton } from '@/components/elements/submit-button';
@@ -11,7 +10,7 @@ import { ContentInput } from '@/components/inputs/content-input';
 import { FolderInput } from '@/components/inputs/folder-input';
 import { TagsInput } from '@/components/inputs/tags-input';
 import { TitleInput } from '@/components/inputs/title-input';
-import { ArchiveIcon, StarIcon, TrashIcon } from 'lucide-react';
+import { NoteActions } from '@/components/screens/notes/note-actions';
 
 export const NoteForm = ({
     note,
@@ -73,29 +72,7 @@ export const NoteForm = ({
                     tags={tags}
                     readOnly={readOnly}
                 />
-                {note && (
-                    <div className="flex gap-1">
-                        <ActionLink
-                            icon={StarIcon}
-                            href={route('notes.toggle-favorite', note)}
-                            method="patch"
-                            active={!!note.favorited_at}
-                        />
-                        <ActionLink
-                            icon={ArchiveIcon}
-                            href={route('notes.toggle-archive', note)}
-                            method="patch"
-                            active={!!note.archived_at}
-                        />
-                        <ActionLink
-                            icon={TrashIcon}
-                            href={route('notes.destroy', note)}
-                            method="delete"
-                            active={!!note.deleted_at}
-                            variant="destructive"
-                        />
-                    </div>
-                )}
+                {note && <NoteActions note={note} hideEdit />}
             </div>
             <ContentInput
                 placeholder="Write your note content here..."
