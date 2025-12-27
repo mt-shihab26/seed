@@ -8,7 +8,7 @@ import type { TShared } from '@/types/props';
 
 import { useFoldersLinks, useTagsLinks } from '@/hooks/use-shared-auth';
 import { APP_NAME } from '@/lib/env';
-import { pagesLinks, settingsLinks } from '@/lib/links';
+import { collectionsLinks, settingsLinks, toolsLinks } from '@/lib/links';
 import { useShortcuts } from '@/providers/shortcuts';
 import { useApplicationStore } from '@/stores/use-application-store';
 import { usePage } from '@inertiajs/react';
@@ -48,7 +48,8 @@ export const Menu = () => {
             keys: [menuKey],
             handler: () => setOpen((prev) => !prev),
         });
-        registerLinks(pagesLinks);
+        registerLinks(toolsLinks);
+        registerLinks(collectionsLinks);
         registerLinks(foldersLinks);
     }, [registerLinks, registerShortcut, foldersLinks]);
 
@@ -74,14 +75,17 @@ export const Menu = () => {
         },
     ];
 
-    const filteredPagesLinks = getFilterLinks(search, pagesLinks);
+    const filteredToolsLinks = getFilterLinks(search, toolsLinks);
+    const filteredCollectionsLinks = getFilterLinks(search, collectionsLinks);
 
     const filteredAccordionLinks = links
         .map((a) => ({ ...a, links: getFilterLinks(search, a.links) }))
         .filter((accordionLink) => accordionLink.links.length > 0);
 
     const hasResults =
-        filteredPagesLinks.length > 0 || filteredAccordionLinks.some((l) => l.links.length > 0);
+        filteredToolsLinks.length > 0 ||
+        filteredCollectionsLinks.length > 0 ||
+        filteredAccordionLinks.some((l) => l.links.length > 0);
 
     const handleOpenChange = (isOpen: boolean) => {
         setOpen(isOpen);
@@ -142,10 +146,16 @@ export const Menu = () => {
                         </div>
                     ) : (
                         <>
-                            {filteredPagesLinks.length > 0 && (
+                            {filteredToolsLinks.length > 0 && (
+                                <>
+                                    <MenuGroup links={filteredToolsLinks} />
+                                    <DropdownMenuSeparator />
+                                </>
+                            )}
+                            {filteredCollectionsLinks.length > 0 && (
                                 <>
                                     <MenuGroup
-                                        links={filteredPagesLinks.map((link) => ({
+                                        links={filteredCollectionsLinks.map((link) => ({
                                             ...link,
                                             title: `${link.title} (${props.auth.counts[link.route || ''] || 0})`,
                                         }))}

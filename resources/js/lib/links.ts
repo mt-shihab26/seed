@@ -13,13 +13,16 @@ import {
 
 import type { TLink } from '@/types/utils';
 
-export const pagesLinks = [
+export const toolsLinks: TLink[] = [
     {
         title: 'Notes',
         route: 'notes.index',
         icon: StickyNote,
         shortcut: ['n'],
     },
+];
+
+export const collectionsLinks: TLink[] = [
     {
         title: 'Favorites',
         route: 'notes.favorites',
