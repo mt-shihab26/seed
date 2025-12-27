@@ -83,7 +83,7 @@ const Index = ({
                                 </ColoredBadge>
                             )}
                             <TitleInput value={note.title} readOnly />
-                            <ContentInput value={note.content} readOnly />
+                            <ContentInput value={note.content} readOnly excerpt />
                             <TagsInput value={note.tags} readOnly />
                             <div className="flex items-center justify-between">
                                 <span className="text-xs text-muted-foreground">

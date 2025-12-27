@@ -32,6 +32,14 @@ const Toolbar = () => {
     );
 };
 
+const truncateContent = (content: string, maxLength: number = 150): string => {
+    if (content.length <= maxLength) {
+        return content;
+    }
+
+    return content.slice(0, maxLength).trimEnd() + '...';
+};
+
 export const ContentInput = ({
     value,
     onChange,
@@ -39,6 +47,7 @@ export const ContentInput = ({
     className,
     readOnly,
     autoFocus,
+    excerpt,
 }: {
     value: string;
     onChange?: (value: string) => void;
@@ -46,6 +55,7 @@ export const ContentInput = ({
     className?: string;
     readOnly?: boolean;
     autoFocus?: boolean;
+    excerpt?: boolean;
 }) => {
     const plugins = [];
 
@@ -55,7 +65,7 @@ export const ContentInput = ({
 
     return (
         <Markdown
-            value={value}
+            value={excerpt ? truncateContent(value) : value}
             onChange={onChange}
             placeholder={placeholder}
             className={className}
