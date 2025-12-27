@@ -93,8 +93,8 @@ class NoteController extends Controller
     {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'content' => ['required', 'string'],
-            'folder_id' => ['required', 'exists:folders,id'],
+            'content' => ['nullable', 'string'],
+            'folder_id' => ['nullable', 'exists:folders,id'],
             'tags' => ['nullable', 'array'],
             'tags.*' => ['exists:tags,id'],
         ]);
@@ -135,8 +135,8 @@ class NoteController extends Controller
 
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'content' => ['required', 'string'],
-            'folder_id' => ['required', 'exists:folders,id'],
+            'content' => ['nullable', 'string'],
+            'folder_id' => ['nullable', 'exists:folders,id'],
             'tags' => ['nullable', 'array'],
             'tags.*' => ['exists:tags,id'],
         ]);

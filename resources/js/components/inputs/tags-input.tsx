@@ -60,7 +60,8 @@ export const TagsInput = ({
                             className="h-auto gap-1 border-0 bg-transparent p-0 hover:bg-transparent"
                         >
                             <span className="flex items-center gap-1 text-sm text-muted-foreground">
-                                <PlusIcon className="size-4" />
+                                <PlusIcon className="size-4" />{' '}
+                                {value.length === 0 && <span>Add Tag</span>}
                             </span>
                         </Button>
                     </PopoverTrigger>

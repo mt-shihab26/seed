@@ -1,10 +1,12 @@
-import type { TFolder, TTag } from '@/types/models';
+import { useUser } from '@/hooks/use-user';
 
 import { BackButton } from '@/components/elements/back-button';
 import { NoteForm } from '@/components/forms/note-form';
 import { NoteLayout } from '@/components/layouts/note-layout';
 
-const Create = ({ folders, tags }: { folders: TFolder[]; tags: TTag[] }) => {
+const Create = () => {
+    const { user } = useUser();
+
     return (
         <NoteLayout
             title="Create New Note"
@@ -15,7 +17,7 @@ const Create = ({ folders, tags }: { folders: TFolder[]; tags: TTag[] }) => {
                 </div>
             }
         >
-            <NoteForm folders={folders} tags={tags} />
+            <NoteForm folders={user.folders} tags={user.tags} />
         </NoteLayout>
     );
 };

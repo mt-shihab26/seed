@@ -1,10 +1,14 @@
-import type { TFolder, TNote, TTag } from '@/types/models';
+import type { TNote } from '@/types/models';
+
+import { useUser } from '@/hooks/use-user';
 
 import { BackButton } from '@/components/elements/back-button';
 import { NoteForm } from '@/components/forms/note-form';
 import { NoteLayout } from '@/components/layouts/note-layout';
 
-const Edit = ({ note, folders, tags }: { note: TNote; folders: TFolder[]; tags: TTag[] }) => {
+const Edit = ({ note }: { note: TNote }) => {
+    const { user } = useUser();
+
     return (
         <NoteLayout
             title={`Edit: ${note.title}`}
@@ -15,7 +19,7 @@ const Edit = ({ note, folders, tags }: { note: TNote; folders: TFolder[]; tags: 
                 </div>
             }
         >
-            <NoteForm note={note} folders={folders} tags={tags} />
+            <NoteForm note={note} folders={user.folders} tags={user.tags} />
         </NoteLayout>
     );
 };

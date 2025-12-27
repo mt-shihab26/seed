@@ -21,12 +21,7 @@ const Show = ({ note }: { note: TNote }) => {
                 </div>
             }
         >
-            <NoteForm
-                note={note}
-                folders={user?.folders || []}
-                tags={user?.tags || []}
-                readOnly={true}
-            />
+            <NoteForm note={note} folders={user.folders} tags={user.tags} readOnly={true} />
         </NoteLayout>
     );
 };

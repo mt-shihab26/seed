@@ -15,10 +15,10 @@ return new class extends Migration
             $table->uuid('id')->primary();
 
             $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignUuid('folder_id')->constrained('folders')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid('folder_id')->nullable()->constrained('folders')->cascadeOnDelete()->cascadeOnUpdate();
 
             $table->string('title');
-            $table->text('content');
+            $table->text('content')->nullable();
 
             $table->timestamp('favorited_at')->nullable();
             $table->timestamp('archived_at')->nullable();
