@@ -22,15 +22,6 @@ return new class extends Migration
 
             $table->timestamps();
         });
-
-        Schema::create('note_tag', function (Blueprint $table) {
-            $table->foreignUuid('note_id')->constrained('notes')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignUuid('tag_id')->constrained('tags')->cascadeOnDelete()->cascadeOnUpdate();
-
-            $table->primary(['note_id', 'tag_id']);
-
-            $table->timestamps();
-        });
     }
 
     /**
@@ -38,7 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('note_tag');
         Schema::dropIfExists('tags');
     }
 };
