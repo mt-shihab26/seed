@@ -40,9 +40,7 @@
     --admonitionNoteBg: var(--muted);
     --admonitionNoteBorder: var(--border);
 
-    --font-mono:
-        ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
-        monospace;
+    --font-mono: 'JetBrains Mono Variable', monospace;
     --basePageBg: var(--background);
 
     color: var(--baseText);
