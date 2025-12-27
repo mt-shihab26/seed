@@ -12,6 +12,7 @@ import { TitleInput } from '@/components/inputs/title-input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { FolderSelect } from '../inputs/folder-select';
+import { TagForm } from './tag-form';
 
 export const NoteForm = ({
     note,
@@ -36,27 +37,23 @@ export const NoteForm = ({
         tags: note?.tags?.map((tag) => tag.id) || [],
     });
 
-    return (
-        <form
-            onSubmit={(e) => {
-                e.preventDefault();
+    const handleSubmit = () => {
+        if (note) {
+            patch(route('notes.update', note), {
+                preserveScroll: true,
+            });
+        } else {
+            post(route('notes.store'), {
+                preserveScroll: true,
+            });
+        }
+    };
 
-                if (note) {
-                    patch(route('notes.update', note), {
-                        preserveScroll: true,
-                    });
-                } else {
-                    post(route('notes.store'), {
-                        preserveScroll: true,
-                    });
-                }
-            }}
-            className="space-y-4"
-        >
+    return (
+        <div className="space-y-4">
             <InputError
                 message={errors.title || errors.content || errors.folder_id || errors.tags}
             />
-
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <FolderSelect
                     value={folders.find((f) => f.id === data.folder_id) || null}
@@ -65,21 +62,18 @@ export const NoteForm = ({
                 />
                 {note && <span>{formatDateTime(note.created_at)}</span>}
             </div>
-
             <TitleInput
                 placeholder="Enter note title"
                 value={data.title}
                 onChange={(value) => setData('title', value)}
                 autoFocus={true}
             />
-
             <ContentInput
                 placeholder="Write your note content here..."
                 value={data.content}
                 onChange={(value) => setData('content', value)}
                 className="min-h-80"
             />
-
             <div className="space-y-3 border border-border bg-muted/30 p-4">
                 <Label>Select tags to organize your note</Label>
                 <div className="grid grid-cols-4 gap-2">
@@ -108,11 +102,12 @@ export const NoteForm = ({
                         </div>
                     ))}
                 </div>
+                <TagForm />
             </div>
             <div className="flex flex-row items-center justify-end gap-4">
                 {onCancel && <CancelButton onClick={onCancel} />}
-                <SubmitButton editing={!!note} processing={processing} />
+                <SubmitButton onClick={handleSubmit} editing={!!note} processing={processing} />
             </div>
-        </form>
+        </div>
     );
 };

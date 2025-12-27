@@ -5,12 +5,14 @@ import { PlusIcon, SaveIcon } from 'lucide-react';
 export const SubmitButton = ({
     editing = false,
     processing = false,
+    onClick,
 }: {
     editing: boolean;
     processing: boolean;
+    onClick?: () => void;
 }) => {
     return (
-        <Button type="submit" disabled={processing}>
+        <Button type="submit" disabled={processing} onClick={onClick}>
             {processing ? (
                 <Spinner className="size-4" />
             ) : editing ? (
