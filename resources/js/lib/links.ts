@@ -2,11 +2,13 @@ import {
     Archive,
     Folder,
     KeyRound,
+    ListTodo,
     Palette,
     ShieldCheck,
     Star,
     StickyNote,
     Tag,
+    Timer,
     Trash2,
     UserCircle,
 } from 'lucide-react';
@@ -23,14 +25,14 @@ export const toolsLinks: TLink[] = [
     {
         title: 'Todos',
         route: 'notes.favorites',
-        icon: StickyNote,
-        shortcut: ['n'],
+        icon: ListTodo,
+        shortcut: ['t'],
     },
     {
         title: 'Timer',
         route: 'notes.archived',
-        icon: StickyNote,
-        shortcut: ['n'],
+        icon: Timer,
+        shortcut: ['t'],
     },
 ];
 
