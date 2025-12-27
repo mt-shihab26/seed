@@ -7,6 +7,7 @@ import { ColoredBadge } from '@/components/elements/colored-badge';
 import { EditButton } from '@/components/elements/edit-button';
 import { NoteActionLink } from '@/components/elements/note-action-link';
 import { ContentInput } from '@/components/inputs/content-input';
+import { TagsInput } from '@/components/inputs/tags-input';
 import { TitleInput } from '@/components/inputs/title-input';
 import { NoteLayout } from '@/components/layouts/note-layout';
 import { Separator } from '@/components/ui/separator';
@@ -39,15 +40,8 @@ const Show = ({ note }: { note: TNote }) => {
                     </div>
                     <TitleInput value={note.title} readOnly />
                     <div className="flex flex-wrap items-center justify-between gap-2 text-sm text-muted-foreground">
-                        {note.tags.length > 0 && (
-                            <div className="flex flex-wrap gap-2">
-                                {note.tags.map((tag) => (
-                                    <ColoredBadge type="tag" key={tag.id} color={tag.color}>
-                                        {tag.name}
-                                    </ColoredBadge>
-                                ))}
-                            </div>
-                        )}
+                        <TagsInput value={note.tags} readOnly />
+
                         <div className="flex gap-1">
                             <NoteActionLink
                                 icon={StarIcon}

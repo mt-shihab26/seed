@@ -14,9 +14,9 @@ export const TagsInput = ({
     tags,
     onChange,
 }: {
-    value?: TTag[];
-    tags: TTag[];
-    onChange: (tags: TTag[]) => void;
+    value: TTag[];
+    tags?: TTag[];
+    onChange?: (tags: TTag[]) => void;
 }) => {
     const [open, setOpen] = useState(false);
 
