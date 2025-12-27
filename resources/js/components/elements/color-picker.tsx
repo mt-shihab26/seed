@@ -36,7 +36,10 @@ export const ColorPicker = ({
                             <button
                                 key={color.name}
                                 type="button"
-                                onClick={() => onChange(color.name)}
+                                onClick={() => {
+                                    onChange(color.name);
+                                    setOpen(false);
+                                }}
                                 className={cn(
                                     'relative flex size-10 items-center justify-center rounded-md border-2 transition-all',
                                     colorClasses.bg,

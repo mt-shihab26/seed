@@ -6,13 +6,19 @@ export const SubmitButton = ({
     editing = false,
     processing = false,
     onClick,
+    createLabel = 'Create Now',
+    editingLabel = 'Save Changes',
+    size = 'default',
 }: {
     editing: boolean;
     processing: boolean;
     onClick?: () => void;
+    createLabel?: string;
+    editingLabel?: string;
+    size?: 'default' | 'sm';
 }) => {
     return (
-        <Button type="submit" disabled={processing} onClick={onClick}>
+        <Button size={size} type="submit" disabled={processing} onClick={onClick}>
             {processing ? (
                 <Spinner className="size-4" />
             ) : editing ? (
@@ -20,7 +26,7 @@ export const SubmitButton = ({
             ) : (
                 <PlusIcon className="size-4" />
             )}
-            {editing ? 'Save Changes' : 'Create Now'}
+            {editing ? editingLabel : createLabel}
         </Button>
     );
 };

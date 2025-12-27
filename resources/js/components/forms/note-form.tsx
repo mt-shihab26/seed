@@ -93,6 +93,7 @@ export const NoteForm = ({
                         }}
                         editing={!!note}
                         processing={processing}
+                        createLabel="Create Note"
                     />
                 </div>
             )}

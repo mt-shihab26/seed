@@ -5,11 +5,10 @@ import { useForm } from '@inertiajs/react';
 
 import { ColorPicker } from '@/components/elements/color-picker';
 import { InputError } from '@/components/elements/input-error';
-import { Button } from '@/components/ui/button';
+import { SubmitButton } from '@/components/elements/submit-button';
 import { Input } from '@/components/ui/input';
-import { PlusIcon, SaveIcon } from 'lucide-react';
 
-export const FolderForm = ({ folder }: { folder?: TFolder }) => {
+export const FolderForm = ({ folder, onSuccess }: { folder?: TFolder; onSuccess?: () => void }) => {
     const { data, setData, post, patch, processing, errors, reset } = useForm({
         name: folder?.name || '',
         color: (folder?.color || 'gray') as TColor,
@@ -25,6 +24,7 @@ export const FolderForm = ({ folder }: { folder?: TFolder }) => {
                         preserveScroll: true,
                         onSuccess: () => {
                             reset();
+                            onSuccess?.();
                         },
                     });
                 } else {
@@ -32,6 +32,7 @@ export const FolderForm = ({ folder }: { folder?: TFolder }) => {
                         preserveScroll: true,
                         onSuccess: () => {
                             reset();
+                            onSuccess?.();
                         },
                     });
                 }
@@ -45,19 +46,13 @@ export const FolderForm = ({ folder }: { folder?: TFolder }) => {
                     className="h-7"
                 />
                 <ColorPicker value={data.color} onChange={(color) => setData('color', color)} />
-                <Button variant="outline" type="submit" disabled={processing} size="sm">
-                    {folder ? (
-                        <>
-                            <SaveIcon className="mr-2 size-4" />
-                            {processing ? 'Saving...' : 'Save'}
-                        </>
-                    ) : (
-                        <>
-                            <PlusIcon className="mr-2 size-4" />
-                            {processing ? 'Adding...' : 'Add'}
-                        </>
-                    )}
-                </Button>
+                <SubmitButton
+                    editing={!!folder}
+                    processing={processing}
+                    size="sm"
+                    editingLabel="Save"
+                    createLabel="Add"
+                />
             </div>
             <InputError message={errors.name || errors.color} />
         </form>
