@@ -12,7 +12,7 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { Form, Link } from '@inertiajs/react';
-import { MapPin, Save } from 'lucide-react';
+import { CalendarIcon, MapPin, Save } from 'lucide-react';
 
 import { DeleteUser } from '@/components/elements/delete-user';
 import { HeadingSmall } from '@/components/elements/heading-small';
@@ -171,6 +171,14 @@ const Profile = ({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status
                         <Save className="mr-2 h-4 w-4" />
                         Save Changes
                     </Button>
+                </div>
+            </div>
+
+            <div className="space-y-3 rounded-lg border border-border p-4">
+                <div className="flex items-center gap-3 text-sm">
+                    <CalendarIcon className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-muted-foreground">Joined:</span>
+                    <span className="text-foreground">January 2024</span>
                 </div>
             </div>
 

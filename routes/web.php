@@ -10,11 +10,10 @@ Route::redirect('/', '/notes')->name('home');
 Route::redirect('/dashboard', '/notes')->name('dashboard');
 
 Route::prefix('/settings')->middleware('auth')->group(function () {
-    Route::redirect('/', '/settings/notes')->name('settings.redirect');
+    Route::get('/', fn () => redirect()->route('settings.profile.edit'))->name('settings.redirect');
 
-    Route::get('/notes', [SettingController::class, 'editNotes'])->name('settings.notes.show');
     Route::get('/folders', [SettingController::class, 'folders'])->name('settings.folders.show');
-    Route::get('/tags', [SettingController::class, 'editTags'])->name('settings.tags.show');
+    Route::get('/tags', [SettingController::class, 'tags'])->name('settings.tags.show');
 
     Route::get('/profile', [SettingController::class, 'editProfile'])->name('settings.profile.edit');
     Route::patch('/profile', [SettingController::class, 'updateProfile'])->name('settings.profile.update');
@@ -23,9 +22,9 @@ Route::prefix('/settings')->middleware('auth')->group(function () {
     Route::get('/password', [SettingController::class, 'editPassword'])->name('settings.password.edit');
     Route::patch('/password', [SettingController::class, 'updatePassword'])->middleware('throttle:6,1')->name('settings.password.update');
 
-    Route::get('/two-factor', [SettingController::class, 'twoFactorShow'])->middleware('two-factor.password.confirm')->name('settings.two-factor.show');
+    Route::get('/two-factor', [SettingController::class, 'twoFactor'])->middleware('two-factor.password.confirm')->name('settings.two-factor.show');
 
-    Route::get('/appearance', [SettingController::class, 'editAppearance'])->name('settings.appearance.edit');
+    Route::get('/appearance', [SettingController::class, 'appearance'])->name('settings.appearance.edit');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {

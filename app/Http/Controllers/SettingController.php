@@ -14,17 +14,6 @@ use Laravel\Fortify\Features;
 class SettingController extends Controller
 {
     /**
-     * Show the user's statistics settings page.
-     */
-    public function editNotes(Request $request)
-    {
-        return inertia('settings/notes', [
-            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
-            'status' => $request->session()->get('status'),
-        ]);
-    }
-
-    /**
      * Show the user's folders management page.
      */
     public function folders()
@@ -35,7 +24,7 @@ class SettingController extends Controller
     /**
      * Show the user's tags management page.
      */
-    public function editTags(Request $request)
+    public function tags(Request $request)
     {
         $tags = $request->user()->tags()->withCount('notes')->orderBy('name')->get();
 
@@ -120,7 +109,7 @@ class SettingController extends Controller
     /**
      * Show the user's two-factor authentication settings page.
      */
-    public function twoFactorShow(TwoFactorAuthenticationRequest $request)
+    public function twoFactor(TwoFactorAuthenticationRequest $request)
     {
         $request->ensureStateIsValid();
 
@@ -133,7 +122,7 @@ class SettingController extends Controller
     /**
      * Show appearance settings page
      */
-    public function editAppearance()
+    public function appearance()
     {
         return inertia('settings/appearance');
     }

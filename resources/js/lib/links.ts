@@ -1,6 +1,5 @@
 import {
     Archive,
-    ChartBar,
     Folder,
     KeyRound,
     Palette,
@@ -42,11 +41,6 @@ export const pagesLinks = [
 ];
 
 export const settingsLinks: TLink[] = [
-    {
-        title: 'Notes',
-        route: 'settings.notes.show',
-        icon: ChartBar,
-    },
     {
         title: 'Folders',
         route: 'settings.folders.show',
