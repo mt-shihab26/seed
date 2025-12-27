@@ -69,7 +69,7 @@
         @apply [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:bg-border [&::-webkit-scrollbar-track]:bg-muted;
     }
 
-    .folder-selector-scrollbar {
+    .selector-scrollbar {
         @apply [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-border [&::-webkit-scrollbar-track]:bg-muted;
     }
 }
