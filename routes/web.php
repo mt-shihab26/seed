@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\ArchiveController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\FolderController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TodoController;
+use App\Http\Controllers\TrashController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/notes')->name('home');
@@ -29,11 +32,9 @@ Route::prefix('/settings')->middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
+
     Route::prefix('/notes')->group(function () {
         Route::get('/', [NoteController::class, 'index'])->name('notes.index');
-        Route::get('/favorites', [NoteController::class, 'favorites'])->name('notes.favorites');
-        Route::get('/archived', [NoteController::class, 'archived'])->name('notes.archived');
-        Route::get('/trashed', [NoteController::class, 'trashed'])->name('notes.trashed');
 
         Route::get('/create', [NoteController::class, 'create'])->name('notes.create');
         Route::post('/', [NoteController::class, 'store'])->name('notes.store');
@@ -50,10 +51,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::prefix('/todos')->group(function () {
         Route::get('/', [TodoController::class, 'index'])->name('todos.index');
-        Route::get('/favorites', [TodoController::class, 'favorites'])->name('todos.favorites');
-        Route::get('/archived', [TodoController::class, 'archived'])->name('todos.archived');
         Route::get('/completed', [TodoController::class, 'completed'])->name('todos.completed');
-        Route::get('/trashed', [TodoController::class, 'trashed'])->name('todos.trashed');
 
         Route::get('/create', [TodoController::class, 'create'])->name('todos.create');
         Route::post('/', [TodoController::class, 'store'])->name('todos.store');
@@ -67,6 +65,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::patch('/{todo}/toggle-archive', [TodoController::class, 'toggleArchive'])->name('todos.toggle-archive');
 
         Route::delete('/{todo}', [TodoController::class, 'destroy'])->name('todos.destroy');
+    });
+
+    Route::prefix('/favorites')->group(function () {
+        Route::get('/', [FavoriteController::class, 'index'])->name('favorites.index');
+    });
+
+    Route::prefix('/archives')->group(function () {
+        Route::get('/', [ArchiveController::class, 'index'])->name('archives.index');
+    });
+
+    Route::prefix('/trashs')->group(function () {
+        Route::get('/', [TrashController::class, 'index'])->name('trashs.index');
     });
 
     Route::prefix('/folders')->group(function () {

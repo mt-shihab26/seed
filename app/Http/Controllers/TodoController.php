@@ -23,34 +23,6 @@ class TodoController extends Controller
     }
 
     /**
-     * Display a listing of the favorites todos.
-     */
-    public function favorites(Request $request)
-    {
-        $todos = $request->user()->todos()->withRelations()->onlyFavorited()->latest()->get();
-
-        return inertia('todos/index', [
-            'title' => 'Favorites Todos',
-            'todos' => $todos,
-            'back' => route('todos.index'),
-        ]);
-    }
-
-    /**
-     * Display a listing of the archived todos.
-     */
-    public function archived(Request $request)
-    {
-        $todos = $request->user()->todos()->withRelations()->onlyArchived()->latest()->get();
-
-        return inertia('todos/index', [
-            'title' => 'Archived Todos',
-            'todos' => $todos,
-            'back' => route('todos.index'),
-        ]);
-    }
-
-    /**
      * Display a listing of the completed todos.
      */
     public function completed(Request $request)
@@ -59,20 +31,6 @@ class TodoController extends Controller
 
         return inertia('todos/index', [
             'title' => 'Completed Todos',
-            'todos' => $todos,
-            'back' => route('todos.index'),
-        ]);
-    }
-
-    /**
-     * Display a listing of the trashed todos.
-     */
-    public function trashed(Request $request)
-    {
-        $todos = $request->user()->todos()->withRelations()->onlyTrashed()->latest()->get();
-
-        return inertia('todos/index', [
-            'title' => 'Trashed Todos',
             'todos' => $todos,
             'back' => route('todos.index'),
         ]);

@@ -24,7 +24,7 @@ export const toolsLinks: TLink[] = [
     },
     {
         title: 'Todos',
-        route: 'notes.favorites',
+        route: 'todos.index',
         icon: ListTodo,
         shortcut: ['o'],
     },
@@ -39,19 +39,19 @@ export const toolsLinks: TLink[] = [
 export const collectionsLinks: TLink[] = [
     {
         title: 'Favorites',
-        route: 'notes.favorites',
+        route: 'favorites.index',
         icon: Star,
         shortcut: ['f'],
     },
     {
         title: 'Archived',
-        route: 'notes.archived',
+        route: 'archives.index',
         icon: Archive,
         shortcut: ['a'],
     },
     {
         title: 'Trash',
-        route: 'notes.trashed',
+        route: 'trashs.index',
         icon: Trash2,
         shortcut: ['t'],
     },
