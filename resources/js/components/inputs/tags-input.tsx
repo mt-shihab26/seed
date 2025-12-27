@@ -17,7 +17,7 @@ export const TagsInput = ({
         <div className="flex flex-wrap items-center justify-between gap-2 text-sm text-muted-foreground">
             {value && value.length > 0 && (
                 <div className="flex flex-wrap gap-2">
-                    {tags.map((tag) => (
+                    {value.map((tag) => (
                         <ColoredBadge type="tag" key={tag.id} color={tag.color}>
                             {tag.name}
                         </ColoredBadge>
