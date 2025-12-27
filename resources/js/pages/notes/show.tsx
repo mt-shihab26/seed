@@ -1,18 +1,15 @@
 import type { TNote } from '@/types/models';
 
-import { formatDateTime } from '@/lib/format';
+import { useUser } from '@/hooks/use-user';
 
 import { BackButton } from '@/components/elements/back-button';
-import { ColoredBadge } from '@/components/elements/colored-badge';
 import { EditButton } from '@/components/elements/edit-button';
-import { ContentInput } from '@/components/inputs/content-input';
-import { TagsInput } from '@/components/inputs/tags-input';
-import { TitleInput } from '@/components/inputs/title-input';
+import { NoteForm } from '@/components/forms/note-form';
 import { NoteLayout } from '@/components/layouts/note-layout';
-import { NoteActions } from '@/components/screens/notes/note-actions';
-import { FolderIcon } from 'lucide-react';
 
 const Show = ({ note }: { note: TNote }) => {
+    const { user } = useUser();
+
     return (
         <NoteLayout
             title={note.title}
@@ -24,27 +21,12 @@ const Show = ({ note }: { note: TNote }) => {
                 </div>
             }
         >
-            <div className="space-y-4">
-                <div className="space-y-2">
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        {note.folder && (
-                            <>
-                                <ColoredBadge type="folder" color={note.folder.color}>
-                                    <FolderIcon className="size-3.5" />
-                                    <span>{note.folder.name}</span>
-                                </ColoredBadge>
-                            </>
-                        )}
-                        <span>{formatDateTime(note.created_at)}</span>
-                    </div>
-                    <TitleInput value={note.title} readOnly />
-                    <div className="flex flex-wrap items-center justify-between gap-2 text-sm text-muted-foreground">
-                        <TagsInput value={note.tags} readOnly />
-                        <NoteActions note={note} />
-                    </div>
-                </div>
-                <ContentInput value={note.content} readOnly={true} />
-            </div>
+            <NoteForm
+                note={note}
+                folders={user?.folders || []}
+                tags={user?.tags || []}
+                readOnly={true}
+            />
         </NoteLayout>
     );
 };

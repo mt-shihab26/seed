@@ -81,12 +81,9 @@ class NoteController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
+    public function create()
     {
-        return inertia('notes/create', [
-            'folders' => $request->user()->folders,
-            'tags' => $request->user()->tags,
-        ]);
+        return inertia('notes/create');
     }
 
     /**
@@ -118,7 +115,7 @@ class NoteController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request, Note $note)
+    public function edit(Note $note)
     {
         Gate::allowIf(fn (User $user) => $note->user_id === $user->id);
 
@@ -126,8 +123,6 @@ class NoteController extends Controller
 
         return inertia('notes/edit', [
             'note' => $note,
-            'folders' => $request->user()->folders,
-            'tags' => $request->user()->tags,
         ]);
     }
 

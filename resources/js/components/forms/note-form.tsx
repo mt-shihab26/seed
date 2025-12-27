@@ -65,6 +65,7 @@ export const NoteForm = ({
                 placeholder="Enter note title"
                 value={data.title}
                 onChange={(value) => setData('title', value)}
+                readOnly={readOnly}
                 autoFocus={true}
             />
             <div className="flex flex-wrap items-center justify-between gap-2 text-sm text-muted-foreground">
