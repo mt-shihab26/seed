@@ -70,9 +70,7 @@ export const FolderSelect = ({
                             ))}
                         </div>
                     </div>
-                    <div className="space-y-2">
-                        <FolderForm />
-                    </div>
+                    <FolderForm />
                 </div>
             </PopoverContent>
         </Popover>
