@@ -10,9 +10,7 @@ export const AppLayout = ({ children }: { children: ReactNode }) => {
                 <div className="flex flex-col items-center justify-center py-1">
                     <Menu />
                 </div>
-                <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-4">
-                    {children}
-                </main>
+                <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col">{children}</main>
             </div>
         </RootLayout>
     );

@@ -68,7 +68,7 @@ export const settingsLinks: TLink[] = [
         icon: KeyRound,
     },
     {
-        title: 'Two-Factor Auth',
+        title: 'Two-Factor',
         route: 'settings.two-factor.show',
         icon: ShieldCheck,
     },
