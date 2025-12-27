@@ -1,4 +1,3 @@
-/* MDXEditor Theming - Light Mode */
 .mdxeditor {
     /* Accent colors (primary tones for editor actions) */
     --accentBase: var(--background);
@@ -47,54 +46,6 @@
     background: var(--basePageBg);
 }
 
-/* MDXEditor Dark Mode */
-.dark .mdxeditor {
-    /* Accent colors inherit from theme (primary is already different in dark mode) */
-    --accentBase: var(--background);
-    --accentBgSubtle: var(--muted);
-    --accentBg: var(--muted);
-    --accentBgHover: var(--accent);
-    --accentBgActive: var(--accent);
-    --accentLine: var(--border);
-    --accentBorder: var(--border);
-    --accentBorderHover: var(--primary);
-    --accentSolid: var(--primary);
-    --accentSolidHover: var(--primary);
-    --accentText: var(--primary);
-    --accentTextContrast: var(--primary-foreground);
-
-    /* Base colors (from dark theme) */
-    --baseBase: var(--background);
-    --baseBgSubtle: var(--muted);
-    --baseBg: var(--muted);
-    --baseBgHover: var(--accent);
-    --baseBgActive: var(--accent);
-    --baseLine: var(--border);
-    --baseBorder: var(--border);
-    --baseBorderHover: var(--ring);
-    --baseSolid: var(--muted-foreground);
-    --baseSolidHover: var(--muted-foreground);
-    --baseText: var(--muted-foreground);
-    --baseTextContrast: var(--foreground);
-
-    /* Admonitions */
-    --admonitionTipBg: var(--muted);
-    --admonitionTipBorder: var(--border);
-    --admonitionInfoBg: var(--muted);
-    --admonitionInfoBorder: var(--border);
-    --admonitionCautionBg: var(--muted);
-    --admonitionCautionBorder: var(--border);
-    --admonitionDangerBg: var(--destructive);
-    --admonitionDangerBorder: var(--destructive);
-    --admonitionNoteBg: var(--muted);
-    --admonitionNoteBorder: var(--border);
-
-    --basePageBg: var(--background);
-
-    color: var(--baseText);
-    background: var(--basePageBg);
-}
-
 /* Toolbar styling */
 .mdxeditor-toolbar {
     background: var(--background) !important;
@@ -130,18 +81,16 @@
 }
 
 /* Popup dialogs */
-.mdxeditor-popup-container,
-.mdxeditor-popup-container * {
-    background: var(--muted) !important;
-    background-color: var(--muted) !important;
-    color: var(--foreground) !important;
+.mdxeditor-popup-container {
+    background: var(--card) !important;
+    background-color: var(--card) !important;
+    color: var(--card-foreground) !important;
 }
 
 /* Dropdown/Select styling */
-.mdxeditor-select-content,
-.mdxeditor-select-content > div {
-    background: var(--popover) !important;
-    color: var(--popover-foreground) !important;
+.mdxeditor-select-content {
+    background: var(--card) !important;
+    color: var(--card-foreground) !important;
 }
 
 .mdxeditor-select-content {
@@ -157,7 +106,7 @@
 .mdxeditor-select-content [role='option'],
 .mdxeditor-select-content button {
     background: transparent !important;
-    color: var(--popover-foreground) !important;
+    color: var(--card-foreground) !important;
 }
 
 .mdxeditor-select-content [role='option']:hover,
