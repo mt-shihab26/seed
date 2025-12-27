@@ -8,7 +8,6 @@ import {
     Star,
     StickyNote,
     Tag,
-    Timer,
     Trash2,
     UserCircle,
 } from 'lucide-react';
@@ -27,12 +26,6 @@ export const toolsLinks: TLink[] = [
         route: 'todos.index',
         icon: ListTodo,
         shortcut: ['o'],
-    },
-    {
-        title: 'Timer',
-        route: 'notes.archived',
-        icon: Timer,
-        shortcut: ['m'],
     },
 ];
 
