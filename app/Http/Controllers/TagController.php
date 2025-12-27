@@ -34,10 +34,12 @@ class TagController extends Controller
         Gate::allowIf(fn (User $user) => $tag->user_id === $user->id);
 
         $notes = $tag->notes()->with(['folder', 'tags'])->get();
+        $todos = $tag->todos()->with(['folder', 'tags'])->get();
 
         return inertia('notes/index', [
             'title' => "Notes filter by '{$tag->name}' tag",
             'notes' => $notes,
+            'todos' => $todos,
         ]);
 
     }
@@ -66,8 +68,8 @@ class TagController extends Controller
     {
         Gate::allowIf(fn (User $user) => $tag->user_id === $user->id);
 
-        if ($tag->notes()->count() > 0) {
-            return redirect()->back()->with('info', 'Cannot delete tag with existing notes. Please remove the tag from notes first.');
+        if ($tag->notes()->count() > 0 || $tag->todos()->count() > 0) {
+            return redirect()->back()->with('info', 'Cannot delete tag with existing notes or todos. Please remove the tag from them first.');
         }
 
         $tag->delete();

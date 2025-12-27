@@ -25,6 +25,7 @@ export type TFolder = {
     updated_at: string;
 
     notes_count?: number;
+    todos_count?: number;
 };
 
 export type TNote = {
@@ -33,6 +34,23 @@ export type TNote = {
     folder_id: string;
     title: string;
     content: string;
+    favorited_at: string | null;
+    archived_at: string | null;
+    deleted_at: string | null;
+    created_at: string;
+    updated_at: string;
+
+    folder?: TFolder;
+    tags: TTag[];
+};
+
+export type TTodo = {
+    id: string;
+    user_id: string;
+    folder_id: string;
+    title: string;
+    description: string;
+    completed_at: string | null;
     favorited_at: string | null;
     archived_at: string | null;
     deleted_at: string | null;
@@ -52,6 +70,7 @@ export type TTag = {
     updated_at: string;
 
     notes_count?: number;
+    todos_count?: number;
 
     pivot?: { note_id: string; tag_id: string }[];
 };

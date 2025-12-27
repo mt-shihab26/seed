@@ -34,10 +34,12 @@ class FolderController extends Controller
         Gate::allowIf(fn (User $user) => $folder->user_id === $user->id);
 
         $notes = $folder->notes()->with(['folder', 'tags'])->where('folder_id', $folder->id)->get();
+        $todos = $folder->todos()->with(['folder', 'tags'])->where('folder_id', $folder->id)->get();
 
         return inertia('notes/index', [
             'title' => "Notes filter by '{$folder->name}' folder",
             'notes' => $notes,
+            'todos' => $todos,
         ]);
     }
 
@@ -65,8 +67,8 @@ class FolderController extends Controller
     {
         Gate::allowIf(fn (User $user) => $folder->user_id === $user->id);
 
-        if ($folder->notes()->count() > 0) {
-            return redirect()->back()->with('info', 'Cannot delete folder with existing notes. Please move or delete the notes first.');
+        if ($folder->notes()->count() > 0 || $folder->todos()->count() > 0) {
+            return redirect()->back()->with('info', 'Cannot delete folder with existing notes or todos. Please move or delete them first.');
         }
 
         $folder->delete();

@@ -62,6 +62,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Get all of the tags for the user.
+     */
+    public function tags(): HasMany
+    {
+        return $this->hasMany(Tag::class);
+    }
+
+    /**
      * Get all of the notes for the user.
      */
     public function notes(): HasMany
@@ -70,10 +78,10 @@ class User extends Authenticatable
     }
 
     /**
-     * Get all of the tags for the user.
+     * Get all of the todos for the user.
      */
-    public function tags(): HasMany
+    public function todos(): HasMany
     {
-        return $this->hasMany(Tag::class);
+        return $this->hasMany(Todo::class);
     }
 }

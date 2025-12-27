@@ -51,4 +51,12 @@ class Tag extends Model
     {
         return $this->belongsToMany(Note::class);
     }
+
+    /**
+     * The todos that belong to the tag.
+     */
+    public function todos(): BelongsToMany
+    {
+        return $this->belongsToMany(Todo::class);
+    }
 }

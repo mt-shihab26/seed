@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             FolderSeeder::class,
             NoteSeeder::class,
             TagSeeder::class,
+            TodoSeeder::class,
         ]);
     }
 }

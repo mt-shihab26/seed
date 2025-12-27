@@ -4,6 +4,7 @@ use App\Http\Controllers\FolderController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\TodoController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/notes')->name('home');
@@ -45,6 +46,27 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::patch('/{note}/toggle-archive', [NoteController::class, 'toggleArchive'])->name('notes.toggle-archive');
 
         Route::delete('/{note}', [NoteController::class, 'destroy'])->name('notes.destroy');
+    });
+
+    Route::prefix('/todos')->group(function () {
+        Route::get('/', [TodoController::class, 'index'])->name('todos.index');
+        Route::get('/favorites', [TodoController::class, 'favorites'])->name('todos.favorites');
+        Route::get('/archived', [TodoController::class, 'archived'])->name('todos.archived');
+        Route::get('/completed', [TodoController::class, 'completed'])->name('todos.completed');
+        Route::get('/trashed', [TodoController::class, 'trashed'])->name('todos.trashed');
+
+        Route::get('/create', [TodoController::class, 'create'])->name('todos.create');
+        Route::post('/', [TodoController::class, 'store'])->name('todos.store');
+
+        Route::get('/{todo}', [TodoController::class, 'show'])->name('todos.show');
+        Route::get('/{todo}/edit', [TodoController::class, 'edit'])->name('todos.edit');
+        Route::patch('/{todo}', [TodoController::class, 'update'])->name('todos.update');
+
+        Route::patch('/{todo}/toggle-complete', [TodoController::class, 'toggleComplete'])->name('todos.toggle-complete');
+        Route::patch('/{todo}/toggle-favorite', [TodoController::class, 'toggleFavorite'])->name('todos.toggle-favorite');
+        Route::patch('/{todo}/toggle-archive', [TodoController::class, 'toggleArchive'])->name('todos.toggle-archive');
+
+        Route::delete('/{todo}', [TodoController::class, 'destroy'])->name('todos.destroy');
     });
 
     Route::prefix('/folders')->group(function () {

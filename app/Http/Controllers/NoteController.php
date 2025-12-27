@@ -23,43 +23,49 @@ class NoteController extends Controller
     }
 
     /**
-     * Display a listing of the favorites notes.
+     * Display a listing of the favorites notes and todos.
      */
     public function favorites(Request $request)
     {
         $notes = $request->user()->notes()->withRelations()->onlyFavorited()->latest()->get();
+        $todos = $request->user()->todos()->withRelations()->onlyFavorited()->latest()->get();
 
         return inertia('notes/index', [
-            'title' => 'Favorites Notes',
+            'title' => 'Favorites',
             'notes' => $notes,
+            'todos' => $todos,
             'back' => route('notes.index'),
         ]);
     }
 
     /**
-     * Display a listing of the archived notes.
+     * Display a listing of the archived notes and todos.
      */
     public function archived(Request $request)
     {
         $notes = $request->user()->notes()->withRelations()->onlyArchived()->latest()->get();
+        $todos = $request->user()->todos()->withRelations()->onlyArchived()->latest()->get();
 
         return inertia('notes/index', [
-            'title' => 'Archived Notes',
+            'title' => 'Archived',
             'notes' => $notes,
+            'todos' => $todos,
             'back' => route('notes.index'),
         ]);
     }
 
     /**
-     * Display a listing of the trashed notes.
+     * Display a listing of the trashed notes and todos.
      */
     public function trashed(Request $request)
     {
         $notes = $request->user()->notes()->withRelations()->onlyTrashed()->latest()->get();
+        $todos = $request->user()->todos()->withRelations()->onlyTrashed()->latest()->get();
 
         return inertia('notes/index', [
-            'title' => 'Trashed Notes',
+            'title' => 'Trashed',
             'notes' => $notes,
+            'todos' => $todos,
             'back' => route('notes.index'),
         ]);
     }

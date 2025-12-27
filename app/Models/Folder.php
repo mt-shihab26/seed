@@ -51,4 +51,12 @@ class Folder extends Model
     {
         return $this->hasMany(Note::class);
     }
+
+    /**
+     * Get all of the todos for the folder.
+     */
+    public function todos(): HasMany
+    {
+        return $this->hasMany(Todo::class);
+    }
 }
