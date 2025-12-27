@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { CheckIcon, ChevronDownIcon, FolderIcon } from 'lucide-react';
 
-export const FolderSelect = ({
+export const FolderInput = ({
     value,
     onChange,
     folders,

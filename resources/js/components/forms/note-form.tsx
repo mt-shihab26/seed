@@ -8,7 +8,7 @@ import { InputError } from '@/components/elements/input-error';
 import { NoteActionLink } from '@/components/elements/note-action-link';
 import { SubmitButton } from '@/components/elements/submit-button';
 import { ContentInput } from '@/components/inputs/content-input';
-import { FolderSelect } from '@/components/inputs/folder-select';
+import { FolderInput } from '@/components/inputs/folder-input';
 import { TagsInput } from '@/components/inputs/tags-input';
 import { TitleInput } from '@/components/inputs/title-input';
 import { ArchiveIcon, StarIcon, TrashIcon } from 'lucide-react';
@@ -54,7 +54,7 @@ export const NoteForm = ({
                 message={errors.title || errors.content || errors.folder_id || errors.tags}
             />
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <FolderSelect
+                <FolderInput
                     value={folders.find((f) => f.id === data.folder_id) || null}
                     onChange={(folder) => setData('folder_id', folder?.id || '')}
                     folders={folders}

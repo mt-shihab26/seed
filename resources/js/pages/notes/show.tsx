@@ -5,13 +5,12 @@ import { formatDateTime } from '@/lib/format';
 import { BackButton } from '@/components/elements/back-button';
 import { ColoredBadge } from '@/components/elements/colored-badge';
 import { EditButton } from '@/components/elements/edit-button';
-import { NoteActionLink } from '@/components/elements/note-action-link';
 import { ContentInput } from '@/components/inputs/content-input';
 import { TagsInput } from '@/components/inputs/tags-input';
 import { TitleInput } from '@/components/inputs/title-input';
 import { NoteLayout } from '@/components/layouts/note-layout';
-import { Separator } from '@/components/ui/separator';
-import { ArchiveIcon, FolderIcon, StarIcon, TrashIcon } from 'lucide-react';
+import { NoteActions } from '@/components/screens/notes/note-actions';
+import { FolderIcon } from 'lucide-react';
 
 const Show = ({ note }: { note: TNote }) => {
     return (
@@ -41,31 +40,9 @@ const Show = ({ note }: { note: TNote }) => {
                     <TitleInput value={note.title} readOnly />
                     <div className="flex flex-wrap items-center justify-between gap-2 text-sm text-muted-foreground">
                         <TagsInput value={note.tags} readOnly />
-
-                        <div className="flex gap-1">
-                            <NoteActionLink
-                                icon={StarIcon}
-                                href={route('notes.toggle-favorite', note)}
-                                method="patch"
-                                active={!!note.favorited_at}
-                            />
-                            <NoteActionLink
-                                icon={ArchiveIcon}
-                                href={route('notes.toggle-archive', note)}
-                                method="patch"
-                                active={!!note.archived_at}
-                            />
-                            <NoteActionLink
-                                icon={TrashIcon}
-                                href={route('notes.destroy', note)}
-                                method="delete"
-                                active={!!note.deleted_at}
-                                variant="destructive"
-                            />
-                        </div>
+                        <NoteActions note={note} />
                     </div>
                 </div>
-                <Separator />
                 <ContentInput value={note.content} readOnly={true} />
             </div>
         </NoteLayout>
