@@ -26,13 +26,13 @@ export const toolsLinks: TLink[] = [
         title: 'Todos',
         route: 'notes.favorites',
         icon: ListTodo,
-        shortcut: ['t'],
+        shortcut: ['o'],
     },
     {
         title: 'Timer',
         route: 'notes.archived',
         icon: Timer,
-        shortcut: ['t'],
+        shortcut: ['m'],
     },
 ];
 
